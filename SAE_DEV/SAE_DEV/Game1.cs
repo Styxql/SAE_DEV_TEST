@@ -28,7 +28,7 @@ namespace SAE_DEV
             // TODO: Add your initialization logic here
             _positionVoiturePolice = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferWidth = 1980;
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.ApplyChanges();
             base.Initialize();
@@ -37,7 +37,7 @@ namespace SAE_DEV
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _tiledMap = Content.Load<TiledMap>("newroute");
+            _tiledMap = Content.Load<TiledMap>("road");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);           
             _textureVoiturePolice  = Content.Load<Texture2D>("Police");
             // TODO: use this.Content to load your game content here
