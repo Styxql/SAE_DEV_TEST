@@ -42,7 +42,7 @@ namespace SAE_DEV
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Green);
+            GraphicsDevice.Clear(Color.BlueViolet);
 
             // TODO: Add your drawing code here
 
