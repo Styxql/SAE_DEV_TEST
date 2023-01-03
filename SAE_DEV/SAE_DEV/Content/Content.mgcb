@@ -10,6 +10,28 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\dll\MonoGame.Extended.Content.Pipeline.dll
+/reference:..\dll\MonoGame.Extended.dll
+/reference:..\dll\MonoGame.Extended.Graphics.dll
+/reference:..\dll\MonoGame.Extended.Tiled.dll
+/reference:..\dll\Newtonsoft.Json.dll
 
 #---------------------------------- Content ---------------------------------#
+
+#begin route.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:route.tmx
+
+#begin route_tuiles.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:route_tuiles.png
 
