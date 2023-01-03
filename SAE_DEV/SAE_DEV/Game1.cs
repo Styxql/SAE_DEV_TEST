@@ -12,12 +12,8 @@ namespace SAE_DEV
         private SpriteBatch _spriteBatch;
         private TiledMap _tiledMap;
         private TiledMapRenderer _tiledMapRenderer;
-        private Matrix _tiledMapMatrix;
         private Texture2D _textureVoiturePolice;
         private Vector2 _positionVoiturePolice;
-
-
-
 
 
         public Game1()
@@ -42,8 +38,7 @@ namespace SAE_DEV
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tiledMap = Content.Load<TiledMap>("newroute");
-            _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
-            //_tiledMapMatrix = Matrix.CreateTranslation(-650, -400, 0) * Matrix.CreateScale(3);
+            _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);           
             _textureVoiturePolice  = Content.Load<Texture2D>("Police");
             // TODO: use this.Content to load your game content here
         }
