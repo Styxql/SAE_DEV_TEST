@@ -12,6 +12,7 @@ namespace SAE_DEV
         private SpriteBatch _spriteBatch;
         private TiledMap _tiledMap;
         private TiledMapRenderer _tiledMapRenderer;
+        private Matrix _tiledMapMatrix;
 
         public Game1()
         {
@@ -24,14 +25,18 @@ namespace SAE_DEV
         {
             // TODO: Add your initialization logic here
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _tiledMap = Content.Load<TiledMap>("route");
+            _tiledMap = Content.Load<TiledMap>("newroute");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
+            //_tiledMapMatrix = Matrix.CreateTranslation(-650, -400, 0) * Matrix.CreateScale(3);
             // TODO: use this.Content to load your game content here
         }
 
@@ -49,6 +54,7 @@ namespace SAE_DEV
         {
             GraphicsDevice.Clear(Color.Yellow);
             _tiledMapRenderer.Draw();
+            
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
