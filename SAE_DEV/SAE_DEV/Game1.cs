@@ -12,6 +12,12 @@ namespace SAE_DEV
         private SpriteBatch _spriteBatch;
         private TiledMap _tiledMap;
         private TiledMapRenderer _tiledMapRenderer;
+        private Texture2D _textureVoiturePolice;
+        private Vector2 _positionVoiturePolice;
+
+
+
+
 
         public Game1()
         {
@@ -23,6 +29,7 @@ namespace SAE_DEV
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            _positionVoiturePolice = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             base.Initialize();
         }
@@ -32,6 +39,7 @@ namespace SAE_DEV
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tiledMap = Content.Load<TiledMap>("route");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
+            _textureVoiturePolice  = Content.Load<Texture2D>("Police");
             // TODO: use this.Content to load your game content here
         }
 
@@ -48,6 +56,12 @@ namespace SAE_DEV
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Yellow);
+            _spriteBatch.Begin();
+
+            _spriteBatch.Draw(_textureVoiturePolice,_positionVoiturePolice,Color.White);
+
+            _spriteBatch.End();
+
             _tiledMapRenderer.Draw();
             // TODO: Add your drawing code here
 
