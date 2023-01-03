@@ -61,13 +61,14 @@ namespace SAE_DEV
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Yellow);
+            _tiledMapRenderer.Draw();
             _spriteBatch.Begin();
 
             _spriteBatch.Draw(_textureVoiturePolice,_positionVoiturePolice,Color.White);
 
             _spriteBatch.End();
 
-            _tiledMapRenderer.Draw();
+            
             
             // TODO: Add your drawing code here
 
