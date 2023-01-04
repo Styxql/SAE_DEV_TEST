@@ -6,31 +6,19 @@
   },
   "cycles": {
     "idle": {
-      "animation0": {
-        "frames": [ 10, 5, 0 ],
+      "frames": [ 0 ],
+      "isLooping": false,
+      "frameDuration": 0
+    },
+      "gauche": {
+        "frames": [ 13, 8 ],
         "isLooping": false,
         "frameDuration": 0.2
       },
-      "animation1": {
-        "frames": [ 11, 6, 1 ],
-        "isLooping": false,
-        "frameDuration": 0.2
-      },
-      "animation2": {
-        "frames": [ 12, 7, 2 ],
-        "isLooping": false,
-        "frameDuration": 0.2
-      },
-      "animation3": {
-        "frames": [ 13, 8, 3 ],
-        "isLooping": false,
-        "frameDuration": 0.2
-      },
-      "animation4": {
-        "frames": [ 14, 9, 4 ],
+      "droite": {
+        "frames": [ 13, 3 ],
         "isLooping": false,
         "frameDuration": 0.2
       }
     }
   }
-}

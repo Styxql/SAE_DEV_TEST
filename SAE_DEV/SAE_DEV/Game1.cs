@@ -120,25 +120,15 @@ namespace SAE_DEV
             if (_keyboardState.IsKeyDown(Keys.Right))
             {
                 directionVoiture = 1;
-                _voitureJoueur.Play("animation0");
+                _voitureJoueur.Play("droite");
                 _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
-            else if (_keyboardState.IsKeyDown(Keys.Up))
-            {
-                directionVoiture = -1;
-                _voitureJoueur.Play("animation1");
-                _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Down))
-            {
-                directionVoiture = 1;
-                _voitureJoueur.Play("animation2");
-                _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
-            }
+            
+           
             else if (_keyboardState.IsKeyDown(Keys.Left))
             {
                 directionVoiture = -1;
-                _voitureJoueur.Play("animation3");
+                _voitureJoueur.Play("gauche");
                 _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else
