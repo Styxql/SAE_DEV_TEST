@@ -13,6 +13,8 @@ namespace SAE_DEV
 {
     public class Game1 : Game
     {
+        public const int HAUTEUR_VEHICULE_BASIQUE = 47;
+        public const int LARGEUR_VEHICULE = 85;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private TiledMap _tiledMap;
@@ -64,7 +66,7 @@ namespace SAE_DEV
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 1000;
             _graphics.ApplyChanges();
-            _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 45);
+            _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE);
             _positionInitialVoitureEnnemie=new Vector2(100,100);
             _directionVoiture = 1;
             _vitesseVehicule = 10;
@@ -82,8 +84,8 @@ namespace SAE_DEV
             _textureCar = Content.Load<Texture2D>("Car");
             _textureAmbulance = Content.Load<Texture2D>("Ambulance");
             _textureAudi = Content.Load<Texture2D>("Audi");
-            _textureMiniTruck = Content.Load<Texture2D>("Truck");
-            _textureTruck = Content.Load<Texture2D>("Minitruck");
+            _textureMiniTruck = Content.Load<Texture2D>("MiniTruck");
+            _textureTruck = Content.Load<Texture2D>("Truck");
             _textureMinivan = Content.Load<Texture2D>("Minivan");
             _textureVoitureBolide = Content.Load<Texture2D>("Blackviper");
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
@@ -101,7 +103,9 @@ namespace SAE_DEV
             minivan=new VoitureEnnemie("MiniVan",100,_positionInitialVoitureEnnemie,_textureMinivan);
             taxi = new VoitureEnnemie("Taxi", 100, _positionInitialVoitureEnnemie, _textureMinivan);
             truck = new VoitureEnnemie("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
-
+            
+            /////////////////////////////JOUEUR/////////////////////////////////////
+            
             joueur = new VoitureJoueur("Voiture Basique",100,_positionVoiture,_voitureJoueur,0);
 
 
