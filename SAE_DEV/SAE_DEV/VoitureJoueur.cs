@@ -3,23 +3,26 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
+using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Tiled.Serialization;
 
 namespace SAE_DEV
 {
-    internal class Voiture
+    internal class VoitureJoueur
     {
         private string nom;
         private double vitesse;
-        private Microsoft.Xna.Framework.Vector2 _positionInitialEnnemie;
-        private Texture2D _typeVehicule;
+        private Microsoft.Xna.Framework.Vector2 positionInitial;
+        private AnimatedSprite _typeVehicule;
+        private int prix;
 
-        public Voiture (string nom, double vitesse, Vector2 positionInitialEnnemie, Texture2D typeVehicule)
+        public VoitureJoueur(string nom, double vitesse, Vector2 positionInitial, AnimatedSprite typeVehicule, int prix)
         {
             this.Nom = nom;
             this.Vitesse = vitesse;
-            this.PositionInitialEnnemie = positionInitialEnnemie;
+            this.PositionInitialEnnemie = positionInitial;
             this.TypeVehicule = typeVehicule;
+            this.Prix = prix;
         }
 
         public string Nom
@@ -52,16 +55,16 @@ namespace SAE_DEV
         {
             get
             {
-                return this._positionInitialEnnemie;
+                return this.positionInitial;
             }
 
             set
             {
-                this._positionInitialEnnemie = value;
+                this.positionInitial = value;
             }
         }
 
-        public Texture2D TypeVehicule
+        public AnimatedSprite TypeVehicule
         {
             get
             {
@@ -73,5 +76,23 @@ namespace SAE_DEV
                 this._typeVehicule = value;
             }
         }
+
+        public int Prix
+        {
+            get
+            {
+                return this.prix;
+            }
+
+            set
+            {
+                this.prix = value;
+            }
+        }
     }
 }
+
+            
+
+
+

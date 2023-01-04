@@ -30,14 +30,15 @@ namespace SAE_DEV
         private KeyboardState _keyboardState;
 
         private Vector2 _positionVoiture;
-        private Voiture ambulance;
-        private Voiture miniTruck;
-        private Voiture audi;
-        private Voiture minivan;
-        private Voiture voitureBolide;
-        private Voiture car;
-        private Voiture truck;
-        private Voiture taxi;
+        private VoitureEnnemie ambulance;
+        private VoitureEnnemie miniTruck;
+        private VoitureEnnemie audi;
+        private VoitureEnnemie minivan;
+        private VoitureEnnemie voitureBolide;
+        private VoitureEnnemie car;
+        private VoitureEnnemie truck;
+        private VoitureEnnemie taxi;
+        private VoitureJoueur joueur;
         private Vector2 _positionInitialVoitureEnnemie;
 
         private float _mapYPosition = 0;
@@ -91,15 +92,17 @@ namespace SAE_DEV
             _voitureJoueur = new AnimatedSprite(spriteSheet);
 
 
+            
+            ambulance = new VoitureEnnemie("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
+            audi = new VoitureEnnemie("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
+            voitureBolide = new VoitureEnnemie("Voiture de Course", 100, _positionInitialVoitureEnnemie,_textureVoitureBolide);
+            car = new VoitureEnnemie("Car", 100, _positionInitialVoitureEnnemie, _textureCar);
+            miniTruck = new VoitureEnnemie("Car", 100, _positionInitialVoitureEnnemie, _textureMiniTruck);
+            minivan=new VoitureEnnemie("MiniVan",100,_positionInitialVoitureEnnemie,_textureMinivan);
+            taxi = new VoitureEnnemie("Taxi", 100, _positionInitialVoitureEnnemie, _textureMinivan);
+            truck = new VoitureEnnemie("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
 
-            ambulance = new Voiture("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
-            audi = new Voiture("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
-            voitureBolide = new Voiture("Voiture de Course", 100, _positionInitialVoitureEnnemie,_textureVoitureBolide);
-            car = new Voiture("Car", 100, _positionInitialVoitureEnnemie, _textureCar);
-            miniTruck = new Voiture("Car", 100, _positionInitialVoitureEnnemie, _textureMiniTruck);
-            minivan=new Voiture("MiniVan",100,_positionInitialVoitureEnnemie,_textureMinivan);
-            taxi = new Voiture("Taxi", 100, _positionInitialVoitureEnnemie, _textureMinivan);
-            truck = new Voiture("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
+            joueur = new VoitureJoueur("Voiture Basique",100,_positionVoiture,_voitureJoueur,0);
 
 
 
