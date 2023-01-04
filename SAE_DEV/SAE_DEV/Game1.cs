@@ -41,8 +41,6 @@ namespace SAE_DEV
         private Voiture truck;
         private Voiture taxi;
         private Vector2 _positionInitialVoitureEnnemie;
-        private Vector2 _positionVoiture;
-        private readonly ScreenManager _screenManager;
         public SpriteBatch SpriteBatch { get; set; }
 
 
@@ -144,7 +142,7 @@ namespace SAE_DEV
             {
                 directionVoiture = -1;
                 _voitureJoueur.Play("walkWest");
-                _voitureJoueur.X += directionVoiture * _vitesseVehicule * deltaSeconds;
+                _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else
             {
