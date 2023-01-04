@@ -47,7 +47,7 @@ namespace SAE_DEV
             // TODO: Add your initialization logic here
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             _graphics.PreferredBackBufferWidth = 1980;
-            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.PreferredBackBufferHeight = 820;
             _graphics.ApplyChanges();
 
             _positionInitialVoitureEnnemie=new Vector2(GraphicsDevice.Viewport.Width+100,GraphicsDevice.Viewport.Height+100);
