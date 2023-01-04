@@ -41,7 +41,6 @@ namespace SAE_DEV
         private Voiture truck;
         private Voiture taxi;
         private Vector2 _positionInitialVoitureEnnemie;
-        private Vector2 _positionVoiture;
         private readonly ScreenManager _screenManager;
         public SpriteBatch SpriteBatch { get; set; }
 
