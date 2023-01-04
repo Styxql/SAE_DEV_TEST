@@ -59,7 +59,16 @@ namespace SAE_DEV
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tiledMap = Content.Load<TiledMap>("road");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);           
-            _textureVoiturePolice  = Content.Load<Texture2D>("Police");
+            //_textureCar  = Content.Load<Texture2D>("Car");
+            //_textureAmbulance = Content.Load<Texture2D>("Ambulance");
+            //_textureAudi = Content.Load<Texture2D>("Audi");
+            //_textureMiniTruck = Content.Load<Texture2D>("Truck");
+            //_textureTruck = Content.Load<Texture2D>("Minitruck");
+            //_textureMinivan = Content.Load<Texture2D>("Minivan");
+            //_textureVoitureBolide = Content.Load<Texture2D>("Black_viper");
+            _textureVoiturePolice = Content.Load<Texture2D>("Police");
+
+
             ambulance = new Voiture("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
             audi = new Voiture("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
             voitureBolide = new Voiture("Voiture de Course", 100, _positionInitialVoitureEnnemie,_textureVoitureBolide);
