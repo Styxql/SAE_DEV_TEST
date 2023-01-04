@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
+using MonoGame.Extended.Tiled.Serialization;
 
 namespace SAE_DEV
 {
@@ -13,7 +14,23 @@ namespace SAE_DEV
         private TiledMap _tiledMap;
         private TiledMapRenderer _tiledMapRenderer;
         private Texture2D _textureVoiturePolice;
-        private Vector2 _positionVoiturePolice;
+        private Texture2D _textureAmbulance;
+        private Texture2D _textureMiniTruck;
+        private Texture2D _textureAudi;
+        private Texture2D _textureMinivan;
+        private Texture2D _textureVoitureBolide;
+        private Texture2D _textureCar;
+        private Texture2D _textureTruck;
+
+        private Voiture ambulance;
+        private Voiture miniTruck;
+        private Voiture audi;
+        private Voiture minivan;
+        private Voiture voitureBolide;
+        private Voiture car;
+        private Voiture truck;
+        private Voiture taxi;
+        private Vector2 _positionInitialVoitureEnnemie;
 
 
         public Game1()
@@ -26,11 +43,12 @@ namespace SAE_DEV
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _positionVoiturePolice = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2);
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             _graphics.PreferredBackBufferWidth = 1980;
             _graphics.PreferredBackBufferHeight = 820;
             _graphics.ApplyChanges();
+
+            _positionInitialVoitureEnnemie=new Vector2(GraphicsDevice.Viewport.Width+100,GraphicsDevice.Viewport.Height+100);
             base.Initialize();
         }
 
@@ -40,6 +58,19 @@ namespace SAE_DEV
             _tiledMap = Content.Load<TiledMap>("road");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);           
             _textureVoiturePolice  = Content.Load<Texture2D>("Police");
+            ambulance = new Voiture("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
+            audi = new Voiture("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
+            voitureBolide = new Voiture("Voiture de Course", 100, _positionInitialVoitureEnnemie,_textureVoitureBolide);
+            car = new Voiture("Car", 100, _positionInitialVoitureEnnemie, _textureCar);
+            miniTruck = new Voiture("Car", 100, _positionInitialVoitureEnnemie, _textureMiniTruck);
+            minivan=new Voiture("MiniVan",100,_positionInitialVoitureEnnemie,_textureMinivan);
+            taxi = new Voiture("Taxi", 100, _positionInitialVoitureEnnemie, _textureMinivan);
+            truck = new Voiture("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
+           
+
+
+
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -49,7 +80,6 @@ namespace SAE_DEV
                 Exit();
             _tiledMapRenderer.Update(gameTime);
             // TODO: Add your update logic here
-
             base.Update(gameTime);
         }
 
@@ -59,7 +89,7 @@ namespace SAE_DEV
             _tiledMapRenderer.Draw();
             _spriteBatch.Begin();
 
-            _spriteBatch.Draw(_textureVoiturePolice,_positionVoiturePolice,Color.White);
+            SpriteBatch  .Draw(_textureVoiturePolice,_positionVoiturePolice,Color.White);
 
             _spriteBatch.End();
 
