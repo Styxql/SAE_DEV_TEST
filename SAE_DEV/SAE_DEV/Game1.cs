@@ -137,6 +137,7 @@ namespace SAE_DEV
             else
             {
                 _directionVoiture = 0;
+                _voitureJoueur.Play("idle");
             }
 
             _mapYPosition += _vitesseYMap * deltaSeconds;
