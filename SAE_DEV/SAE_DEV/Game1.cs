@@ -25,7 +25,6 @@ namespace SAE_DEV
         private Texture2D _textureVoitureBolide;
         private Texture2D _textureCar;
         private Texture2D _textureTruck;
-        private Texture2D _textureVoitureJoueur;
         private AnimatedSprite _voitureJoueur;
 
         private KeyboardState _keyboardState;
@@ -86,7 +85,6 @@ namespace SAE_DEV
             _textureVoitureBolide = Content.Load<Texture2D>("Blackviper");
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
             _textureAudi = Content.Load<Texture2D>("Audi");
-            _textureVoitureJoueur = Content.Load<Texture2D>("VoitureJoueur");
             SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
             _voitureJoueur = new AnimatedSprite(spriteSheet);
 
@@ -122,25 +120,15 @@ namespace SAE_DEV
             if (_keyboardState.IsKeyDown(Keys.Right))
             {
                 directionVoiture = 1;
-                _voitureJoueur.Play("animation0");
+                _voitureJoueur.Play("droite");
                 _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
-            else if (_keyboardState.IsKeyDown(Keys.Up))
-            {
-                directionVoiture = -1;
-                _voitureJoueur.Play("animation1");
-                _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Down))
-            {
-                directionVoiture = 1;
-                _voitureJoueur.Play("animation2");
-                _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
-            }
+            
+           
             else if (_keyboardState.IsKeyDown(Keys.Left))
             {
                 directionVoiture = -1;
-                _voitureJoueur.Play("animation3");
+                _voitureJoueur.Play("gauche");
                 _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else
@@ -158,7 +146,7 @@ namespace SAE_DEV
             _spriteBatch.Begin();
             _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemie, Color.White);
             _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
-            _spriteBatch.Draw(_textureVoitureJoueur, _positionInitialVoitureEnnemie, Color.White);
+            _spriteBatch.Draw(_voitureJoueur,_positionVoiture);
 
 
 
