@@ -6,7 +6,6 @@
   },
   "cycles": {
     "idle": {
-
       "animation0": {
         "frames": [ 10, 5, 0 ],
         "isLooping": false,
