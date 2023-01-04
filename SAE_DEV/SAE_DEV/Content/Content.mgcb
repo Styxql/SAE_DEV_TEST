@@ -30,7 +30,7 @@
 /processorParam:TextureFormat=Color
 /build:Ambulance.png
 
-#begin Black_viper.png
+#begin Audi.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -40,7 +40,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Black_viper.png
+/build:Audi.png
+
+#begin Blackviper.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Blackviper.png
 
 #begin Car.png
 /importer:TextureImporter
@@ -66,7 +78,7 @@
 /processorParam:TextureFormat=Color
 /build:frameroute.png
 
-#begin Mini_truck.png
+#begin Minitruck.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -76,9 +88,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Mini_truck.png
+/build:Minitruck.png
 
-#begin Mini_van.png
+#begin Minivan.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -88,7 +100,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Mini_van.png
+/build:Minivan.png
 
 #begin Police.png
 /importer:TextureImporter
