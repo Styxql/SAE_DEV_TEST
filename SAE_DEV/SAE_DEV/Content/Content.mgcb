@@ -66,18 +66,6 @@
 /processorParam:TextureFormat=Color
 /build:Car.png
 
-#begin frameroute.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:frameroute.png
-
 #begin Minitruck.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -130,28 +118,6 @@
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
 /build:road.tmx
-
-#begin route.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:route.tmx
-
-#begin route_tuiles.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:route_tuiles.png
-
-#begin route_tuiles.tsx
-/importer:TiledMapTilesetImporter
-/processor:TiledMapTilesetProcessor
-/build:route_tuiles.tsx
 
 #begin taxi.png
 /importer:TextureImporter
