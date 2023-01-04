@@ -66,6 +66,11 @@
 /processorParam:TextureFormat=Color
 /build:Car.png
 
+#begin map.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:map.tmx
+
 #begin Minitruck.png
 /importer:TextureImporter
 /processor:TextureProcessor

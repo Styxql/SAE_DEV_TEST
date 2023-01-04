@@ -56,6 +56,7 @@ namespace SAE_DEV
 
         protected override void LoadContent()
         {
+            System.Console.WriteLine("un truc");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tiledMap = Content.Load<TiledMap>("map");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
@@ -68,6 +69,7 @@ namespace SAE_DEV
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
             _textureAudi = Content.Load<Texture2D>("Audi");
 
+            System.Console.WriteLine("milieu");
 
             ambulance = new Voiture("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
             audi = new Voiture("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
@@ -77,10 +79,10 @@ namespace SAE_DEV
             minivan=new Voiture("MiniVan",100,_positionInitialVoitureEnnemie,_textureMinivan);
             taxi = new Voiture("Taxi", 100, _positionInitialVoitureEnnemie, _textureMinivan);
             truck = new Voiture("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
-           
 
 
 
+            System.Console.WriteLine("un truc different ");
 
             // TODO: use this.Content to load your game content here
         }
