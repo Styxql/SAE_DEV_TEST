@@ -161,7 +161,6 @@ namespace SAE_DEV
             GraphicsDevice.Clear(Color.Yellow);
             _tiledMapRenderer.Draw();
             _spriteBatch.Begin();
-
             _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemie, Color.White);
             _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
             _spriteBatch.Draw(_textureVoitureJoueur, _positionInitialVoitureEnnemie, Color.White);
