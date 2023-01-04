@@ -74,7 +74,7 @@ namespace SAE_DEV
 
         protected override void LoadContent()
         {
-            System.Console.WriteLine("un truc");
+
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tiledMap = Content.Load<TiledMap>("map");
@@ -85,14 +85,14 @@ namespace SAE_DEV
             _textureMiniTruck = Content.Load<Texture2D>("Truck");
             _textureTruck = Content.Load<Texture2D>("Minitruck");
             _textureMinivan = Content.Load<Texture2D>("Minivan");
-            _textureVoitureBolide = Content.Load<Texture2D>("Black_viper");
+            _textureVoitureBolide = Content.Load<Texture2D>("Blackviper");
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
             _textureAudi = Content.Load<Texture2D>("Audi");
             _textureVoitureJoueur = Content.Load<Texture2D>("VoitureJoueur");
             SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
             _voitureJoueur = new AnimatedSprite(spriteSheet);
 
-            System.Console.WriteLine("milieu");
+
 
             ambulance = new Voiture("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
             audi = new Voiture("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
@@ -103,7 +103,7 @@ namespace SAE_DEV
             taxi = new Voiture("Taxi", 100, _positionInitialVoitureEnnemie, _textureMinivan);
             truck = new Voiture("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
 
-            System.Console.WriteLine("un truc different ");
+
 
             // TODO: use this.Content to load your game content here
         }
@@ -143,11 +143,11 @@ namespace SAE_DEV
             {
                 directionVoiture = -1;
                 _voitureJoueur.Play("walkWest");
-                _voitureJoueur.X += directionVoiture * _vitesseVehicule * deltaSeconds;
+                _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else
             {
-                _perso.Play("idle");
+                _voitureJoueur.Play("idle");
             }
 
             base.Update(gameTime);
