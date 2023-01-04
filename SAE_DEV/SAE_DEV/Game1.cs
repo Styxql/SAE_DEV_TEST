@@ -9,6 +9,7 @@ using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
 using Microsoft.Xna.Framework.Audio;
+using System.Threading;
 
 namespace SAE_DEV
 {
@@ -29,27 +30,29 @@ namespace SAE_DEV
         private Texture2D _textureCar;
         private Texture2D _textureTruck;
         private AnimatedSprite _voitureJoueur;
-        private SoundEffect _Radio
+        private SoundEffect _radio;
+        private SoundEffect _radioON;
+        private SoundEffect _radioOFF;
 
         private KeyboardState _keyboardState;
 
         private Vector2 _positionVoiture;
-        private VoitureEnnemie ambulance;
-        private VoitureEnnemie miniTruck;
-        private VoitureEnnemie audi;
-        private VoitureEnnemie minivan;
-        private VoitureEnnemie voitureBolide;
-        private VoitureEnnemie car;
-        private VoitureEnnemie truck;
-        private VoitureEnnemie taxi;
+        private VoitureEnnemi ambulance;
+        private VoitureEnnemi miniTruck;
+        private VoitureEnnemi audi;
+        private VoitureEnnemi minivan;
+        private VoitureEnnemi voitureBolide;
+        private VoitureEnnemi car;
+        private VoitureEnnemi truck;
+        private VoitureEnnemi taxi;
         private VoitureJoueur joueur;
-        private Vector2 _positionInitialVoitureEnnemie;
+        private Vector2 _positionInitialVoitureEnnemi;
 
         private float _mapYPosition = 0;
         private float _vitesseYMap = 300;
         private float _angleVehicule;
 
-        VoitureEnnemie[] tabVoitureEnnemies;
+        VoitureEnnemi[] tabVoitureEnnemies;
 
         private int _directionVoiture;
         private int _vitesseVehicule;
@@ -71,12 +74,12 @@ namespace SAE_DEV
             _graphics.PreferredBackBufferHeight = 1000;
             _graphics.ApplyChanges();
             _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE);
-            _positionInitialVoitureEnnemie=new Vector2(100,100);
+            _positionInitialVoitureEnnemi=new Vector2(100,100);
             _directionVoiture = 1;
             _vitesseVehicule = 10;
             _angleVehicule=0f;
 
-            VoitureEnnemie[] tabVoitureEnnemies = { ambulance, truck, audi, voitureBolide, car, miniTruck, minivan, taxi, truck };
+            VoitureEnnemi[] tabVoitureEnnemies = { ambulance, truck, audi, voitureBolide, car, miniTruck, minivan, taxi, truck };
 
             base.Initialize();
         }
@@ -97,19 +100,22 @@ namespace SAE_DEV
             _textureVoitureBolide = Content.Load<Texture2D>("Blackviper");
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
             _textureAudi = Content.Load<Texture2D>("Audi");
+            ////_radio = Content.Load<SoundEffect>("Son radio");
+            //_radioOFF = Content.Load<SoundEffect>("radioTurnOff");
+            //_radioON = Content.Load<SoundEffect>("radioTurnON");
             SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
             _voitureJoueur = new AnimatedSprite(spriteSheet);
 
 
-            
-            ambulance = new VoitureEnnemie("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
-            audi = new VoitureEnnemie("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
-            voitureBolide = new VoitureEnnemie("Voiture de Course", 100, _positionInitialVoitureEnnemie,_textureVoitureBolide);
-            car = new VoitureEnnemie("Car", 100, _positionInitialVoitureEnnemie, _textureCar);
-            miniTruck = new VoitureEnnemie("Car", 100, _positionInitialVoitureEnnemie, _textureMiniTruck);
-            minivan=new VoitureEnnemie("MiniVan",100,_positionInitialVoitureEnnemie,_textureMinivan);
-            taxi = new VoitureEnnemie("Taxi", 100, _positionInitialVoitureEnnemie, _textureMinivan);
-            truck = new VoitureEnnemie("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
+            //////////////ENNEMI///////////////////////////
+            ambulance = new VoitureEnnemi("Ambulance", 100, _positionInitialVoitureEnnemi, _textureAmbulance);
+            audi = new VoitureEnnemi("audi", 100,_positionInitialVoitureEnnemi, _textureAudi);
+            voitureBolide = new VoitureEnnemi("Voiture de Course", 100, _positionInitialVoitureEnnemi,_textureVoitureBolide);
+            car = new VoitureEnnemi("Car", 100, _positionInitialVoitureEnnemi, _textureCar);
+            miniTruck = new VoitureEnnemi("Car", 100, _positionInitialVoitureEnnemi, _textureMiniTruck);
+            minivan=new VoitureEnnemi("MiniVan",100,_positionInitialVoitureEnnemi,_textureMinivan);
+            taxi = new VoitureEnnemi("Taxi", 100, _positionInitialVoitureEnnemi, _textureMinivan);
+            truck = new VoitureEnnemi("Truck", 100, _positionInitialVoitureEnnemi, _textureMinivan);
             
             /////////////////////////////JOUEUR/////////////////////////////////////
             
@@ -154,13 +160,25 @@ namespace SAE_DEV
                 _voitureJoueur.Play("idle");
                 _angleVehicule= 0f;
             }
-            if (_keyboardState.IsKeyDown(Keys.Right))
-            {
 
-            }
+            /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
+            //if (_keyboardState.IsKeyDown(Keys.K))
+            //{
+            //    _radioON.Play();
+            //    Thread.Sleep(5000);
 
-                _mapYPosition += _vitesseYMap * deltaSeconds;
+
+            //    //_radio.Play();
+            //}
+            //else if (_keyboardState.IsKeyDown(Keys.L))
+            //{
+
+            //    _radioOFF.Play();
+            //}
+
+            _mapYPosition += _vitesseYMap * deltaSeconds;
             _mapYPosition %= 1000;
+
 
 
             //foreach(VoitureEnnemie voitureEnnemie in tabVoitureEnnemies )
@@ -176,8 +194,8 @@ namespace SAE_DEV
             GraphicsDevice.Clear(Color.Yellow);
             _tiledMapRenderer.Draw(viewMatrix: Matrix.CreateTranslation(0,_mapYPosition - 1000,0));
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemie, Color.White);
-            _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
+            _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemi, Color.White);
+            _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemi, Color.White);
             _spriteBatch.Draw(_voitureJoueur, _positionVoiture, _angleVehicule);
             
             _spriteBatch.End();
