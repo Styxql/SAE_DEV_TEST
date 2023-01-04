@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
-using MonoGame.Extended.Tiled.Serialization;
+using MonoGame.Extended.Content;
+using MonoGame.Extended.Sprites;
+using MonoGame.Extended.Serialization;
 
 namespace SAE_DEV
 {
@@ -89,7 +91,9 @@ namespace SAE_DEV
             _tiledMapRenderer.Draw();
             _spriteBatch.Begin();
 
-            SpriteBatch  .Draw(_textureVoiturePolice,_positionVoiturePolice,Color.White);
+            _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
+
+
 
             _spriteBatch.End();
 
