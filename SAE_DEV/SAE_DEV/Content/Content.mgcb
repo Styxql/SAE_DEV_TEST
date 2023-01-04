@@ -66,11 +66,10 @@
 /processorParam:TextureFormat=Color
 /build:Car.png
 
-#begin CarSprite2.sf
-/importer:SpriteFactoryContentImporter
-/processor:SpriteFactoryContentProcessor
-/processorParam:ContentType=MonoGame.Extended MonoGame.Extended.Animations.SpriteFactory.SpriteFactoryFileReader, MonoGame.Extended.Animations
-/build:CarSprite2.sf
+#begin map.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:map.tmx
 
 #begin Minitruck.png
 /importer:TextureImporter
@@ -119,11 +118,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:road.png
-
-#begin road.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:road.tmx
 
 #begin taxi.png
 /importer:TextureImporter

@@ -68,21 +68,24 @@ namespace SAE_DEV
 
         protected override void LoadContent()
         {
+            System.Console.WriteLine("un truc");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _tiledMap = Content.Load<TiledMap>("road");
+            _tiledMap = Content.Load<TiledMap>("map");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
             _textureCar = Content.Load<Texture2D>("Car");
             _textureAmbulance = Content.Load<Texture2D>("Ambulance");
+            _textureAudi = Content.Load<Texture2D>("Audi");
             _textureMiniTruck = Content.Load<Texture2D>("Truck");
             _textureTruck = Content.Load<Texture2D>("Minitruck");
             _textureMinivan = Content.Load<Texture2D>("Minivan");
-            _textureVoitureBolide = Content.Load<Texture2D>("Blackviper");
+            _textureVoitureBolide = Content.Load<Texture2D>("Black_viper");
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
             _textureAudi = Content.Load<Texture2D>("Audi");
             _textureVoitureJoueur = Content.Load<Texture2D>("VoitureJoueur");
             SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
             _voitureJoueur = new AnimatedSprite(spriteSheet);
 
+            System.Console.WriteLine("milieu");
 
 
 
@@ -95,10 +98,10 @@ namespace SAE_DEV
             minivan=new Voiture("MiniVan",100,_positionInitialVoitureEnnemie,_textureMinivan);
             taxi = new Voiture("Taxi", 100, _positionInitialVoitureEnnemie, _textureMinivan);
             truck = new Voiture("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
-           
 
 
 
+            System.Console.WriteLine("un truc different ");
 
             // TODO: use this.Content to load your game content here
         }

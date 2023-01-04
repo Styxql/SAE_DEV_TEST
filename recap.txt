@@ -1,0 +1,14 @@
+faire plusieurs map pour chaque niveau :
+faire un écran de chargement :
+faire un menu comportant les parametres :regle du jeu , touches , niveau , boutique , play 
+
+
+
+
+
+
+
+nom du jeu " no brake"
+bonus : lorsqu'on frole une voiture = bonus pièce 
+faire un klaxon ou une radio 
+faire un bouton pour mettre pause 
