@@ -50,7 +50,7 @@ namespace SAE_DEV
             _graphics.PreferredBackBufferHeight = 820;
             _graphics.ApplyChanges();
 
-            _positionInitialVoitureEnnemie=new Vector2(GraphicsDevice.Viewport.Width+100,GraphicsDevice.Viewport.Height+100);
+            _positionInitialVoitureEnnemie=new Vector2(100,100);
             base.Initialize();
         }
 
@@ -66,6 +66,7 @@ namespace SAE_DEV
             _textureMinivan = Content.Load<Texture2D>("Minivan");
             _textureVoitureBolide = Content.Load<Texture2D>("Blackviper");
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
+            _textureAudi = Content.Load<Texture2D>("Audi");
 
 
             ambulance = new Voiture("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
