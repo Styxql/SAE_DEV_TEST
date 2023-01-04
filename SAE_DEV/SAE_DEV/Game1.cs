@@ -14,7 +14,7 @@ namespace SAE_DEV
     public class Game1 : Game
     {
         public const int HAUTEUR_VEHICULE_BASIQUE = 47;
-        public const int LARGEUR_VEHICULE = 85;
+        public const int LARGEUR_VEHICULE_BASIQUE = 85;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private TiledMap _tiledMap;
@@ -45,6 +45,7 @@ namespace SAE_DEV
 
         private float _mapYPosition = 0;
         private float _vitesseYMap = 300;
+        private float _angleVehicule;
 
 
         private int _directionVoiture;
@@ -70,6 +71,8 @@ namespace SAE_DEV
             _positionInitialVoitureEnnemie=new Vector2(100,100);
             _directionVoiture = 1;
             _vitesseVehicule = 10;
+            _angleVehicule=0f;
+             
 
             base.Initialize();
         }
@@ -129,6 +132,8 @@ namespace SAE_DEV
             {
                 _directionVoiture = 25;
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+                _angleVehicule = 0.3f;
+
                 _voitureJoueur.Play("droite");
 
             }            
@@ -136,12 +141,14 @@ namespace SAE_DEV
             {
                 _directionVoiture = -25;
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+                _angleVehicule = -0.3f;
                 _voitureJoueur.Play("gauche");
             } 
             else
             {
                 _directionVoiture = 0;
                 _voitureJoueur.Play("idle");
+                _angleVehicule= 0f;
             }
 
             _mapYPosition += _vitesseYMap * deltaSeconds;
@@ -159,7 +166,7 @@ namespace SAE_DEV
             _spriteBatch.Begin();
             _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemie, Color.White);
             _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
-            _spriteBatch.Draw(_voitureJoueur,_positionVoiture);
+            _spriteBatch.Draw(_voitureJoueur, _positionVoiture, _angleVehicule);
             _spriteBatch.End();
 
             
