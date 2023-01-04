@@ -8,6 +8,7 @@ using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
+using Microsoft.Xna.Framework.Audio;
 
 namespace SAE_DEV
 {
@@ -28,6 +29,7 @@ namespace SAE_DEV
         private Texture2D _textureCar;
         private Texture2D _textureTruck;
         private AnimatedSprite _voitureJoueur;
+        private SoundEffect _Radio
 
         private KeyboardState _keyboardState;
 
@@ -47,6 +49,7 @@ namespace SAE_DEV
         private float _vitesseYMap = 300;
         private float _angleVehicule;
 
+        VoitureEnnemie[] tabVoitureEnnemies;
 
         private int _directionVoiture;
         private int _vitesseVehicule;
@@ -72,7 +75,8 @@ namespace SAE_DEV
             _directionVoiture = 1;
             _vitesseVehicule = 10;
             _angleVehicule=0f;
-             
+
+            VoitureEnnemie[] tabVoitureEnnemies = { ambulance, truck, audi, voitureBolide, car, miniTruck, minivan, taxi, truck };
 
             base.Initialize();
         }
@@ -128,7 +132,7 @@ namespace SAE_DEV
             _tiledMapRenderer.Update(gameTime);
             _voitureJoueur.Update(deltaSeconds);
 
-            if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
+            if (_keyboardState.IsKeyDown(Keys.Right))
             {
                 _directionVoiture = 25;
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
@@ -137,7 +141,7 @@ namespace SAE_DEV
                 _voitureJoueur.Play("droite");
 
             }            
-            else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
+            else if (_keyboardState.IsKeyDown(Keys.Left))
             {
                 _directionVoiture = -25;
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
@@ -150,11 +154,19 @@ namespace SAE_DEV
                 _voitureJoueur.Play("idle");
                 _angleVehicule= 0f;
             }
+            if (_keyboardState.IsKeyDown(Keys.Right))
+            {
 
-            _mapYPosition += _vitesseYMap * deltaSeconds;
+            }
+
+                _mapYPosition += _vitesseYMap * deltaSeconds;
             _mapYPosition %= 1000;
 
-            
+
+            //foreach(VoitureEnnemie voitureEnnemie in tabVoitureEnnemies )
+            //{
+              
+            //}
 
             base.Update(gameTime);
         }
@@ -167,6 +179,7 @@ namespace SAE_DEV
             _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemie, Color.White);
             _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
             _spriteBatch.Draw(_voitureJoueur, _positionVoiture, _angleVehicule);
+            
             _spriteBatch.End();
 
             
