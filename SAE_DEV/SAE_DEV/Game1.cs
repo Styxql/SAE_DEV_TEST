@@ -9,6 +9,7 @@ using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
 
+
 namespace SAE_DEV
 {
     public class Game1 : Game
@@ -25,6 +26,11 @@ namespace SAE_DEV
         private Texture2D _textureVoitureBolide;
         private Texture2D _textureCar;
         private Texture2D _textureTruck;
+        private Texture2D _textureVoitureJoueur;
+        private AnimatedSprite _voitureJoueur;
+
+        private KeyboardState _keyboardState;
+
 
         private Voiture ambulance;
         private Voiture miniTruck;
@@ -38,6 +44,9 @@ namespace SAE_DEV
         private readonly ScreenManager _screenManager;
         public SpriteBatch SpriteBatch { get; set; }
 
+
+        private int directionVoiture;
+        private int _vitesseVehicule;
 
         public Game1()
         {
@@ -53,8 +62,9 @@ namespace SAE_DEV
             _graphics.PreferredBackBufferWidth = 1980;
             _graphics.PreferredBackBufferHeight = 820;
             _graphics.ApplyChanges();
-
+            _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 45);
             _positionInitialVoitureEnnemie=new Vector2(100,100);
+             directionVoiture = 1;
             base.Initialize();
         }
 
@@ -73,8 +83,14 @@ namespace SAE_DEV
             _textureVoitureBolide = Content.Load<Texture2D>("Black_viper");
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
             _textureAudi = Content.Load<Texture2D>("Audi");
+            _textureVoitureJoueur = Content.Load<Texture2D>("VoitureJoueur");
+            SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
+            _voitureJoueur = new AnimatedSprite(spriteSheet);
 
             System.Console.WriteLine("milieu");
+
+
+
 
             ambulance = new Voiture("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
             audi = new Voiture("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
@@ -98,6 +114,34 @@ namespace SAE_DEV
                 Exit();
             _tiledMapRenderer.Update(gameTime);
             // TODO: Add your update logic here
+            float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _keyboardState = Keyboard.GetState();
+
+            _tiledMapRenderer.Update(gameTime);
+            _voitureJoueur.Play("idle");
+            _voitureJoueur.Update(deltaSeconds);
+
+            if (_keyboardState.IsKeyDown(Keys.Right))
+            {
+                directionVoiture = 1;
+                _voitureJoueur.Play("walkEast");
+            }
+            else if (_keyboardState.IsKeyDown(Keys.Up))
+            {
+                directionVoiture = -1;
+                _voitureJoueur.Play("walkNorth");
+            }
+            else if (_keyboardState.IsKeyDown(Keys.Down))
+            {
+                directionVoiture = 1;
+                _voitureJoueur.Play("walkSouth");
+            }
+            else if (_keyboardState.IsKeyDown(Keys.Left))
+            {
+                directionVoiture = -1;
+                _voitureJoueur.Play("walkWest");
+            }
+            _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             base.Update(gameTime);
         }
 
@@ -107,7 +151,10 @@ namespace SAE_DEV
             _tiledMapRenderer.Draw();
             _spriteBatch.Begin();
 
-          //  _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
+            _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemie, Color.White);
+            _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
+            _spriteBatch.Draw(_textureVoitureJoueur, _positionInitialVoitureEnnemie, Color.White);
+
 
 
 
