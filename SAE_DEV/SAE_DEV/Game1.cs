@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
-using MonoGame.Extended.Tiled.Serialization;
+using MonoGame.Extended.Content;
+using MonoGame.Extended.Sprites;
+using MonoGame.Extended.Serialization;
 
 namespace SAE_DEV
 {
@@ -57,7 +59,16 @@ namespace SAE_DEV
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tiledMap = Content.Load<TiledMap>("road");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);           
-            _textureVoiturePolice  = Content.Load<Texture2D>("Police");
+            //_textureCar  = Content.Load<Texture2D>("Car");
+            //_textureAmbulance = Content.Load<Texture2D>("Ambulance");
+            //_textureAudi = Content.Load<Texture2D>("Audi");
+            //_textureMiniTruck = Content.Load<Texture2D>("Truck");
+            //_textureTruck = Content.Load<Texture2D>("Minitruck");
+            //_textureMinivan = Content.Load<Texture2D>("Minivan");
+            //_textureVoitureBolide = Content.Load<Texture2D>("Black_viper");
+            _textureVoiturePolice = Content.Load<Texture2D>("Police");
+
+
             ambulance = new Voiture("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
             audi = new Voiture("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
             voitureBolide = new Voiture("Voiture de Course", 100, _positionInitialVoitureEnnemie,_textureVoitureBolide);
@@ -89,7 +100,9 @@ namespace SAE_DEV
             _tiledMapRenderer.Draw();
             _spriteBatch.Begin();
 
-            SpriteBatch  .Draw(_textureVoiturePolice,_positionVoiturePolice,Color.White);
+            _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
+
+
 
             _spriteBatch.End();
 
