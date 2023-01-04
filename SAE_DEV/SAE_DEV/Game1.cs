@@ -45,6 +45,7 @@ namespace SAE_DEV
 
         private int directionVoiture;
         private int _vitesseVehicule;
+        
 
         public Game1()
         {
@@ -63,6 +64,8 @@ namespace SAE_DEV
             _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 45);
             _positionInitialVoitureEnnemie=new Vector2(100,100);
              directionVoiture = 1;
+            _vitesseVehicule = 10;
+
             base.Initialize();
         }
 
@@ -123,23 +126,31 @@ namespace SAE_DEV
             {
                 directionVoiture = 1;
                 _voitureJoueur.Play("walkEast");
+                _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else if (_keyboardState.IsKeyDown(Keys.Up))
             {
                 directionVoiture = -1;
                 _voitureJoueur.Play("walkNorth");
+                _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else if (_keyboardState.IsKeyDown(Keys.Down))
             {
                 directionVoiture = 1;
                 _voitureJoueur.Play("walkSouth");
+                _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else if (_keyboardState.IsKeyDown(Keys.Left))
             {
                 directionVoiture = -1;
                 _voitureJoueur.Play("walkWest");
+                _voitureJoueur.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
-            _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
+            else
+            {
+                _perso.Play("idle");
+            }
+
             base.Update(gameTime);
         }
 

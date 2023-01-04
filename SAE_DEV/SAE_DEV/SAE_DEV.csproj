@@ -22,8 +22,8 @@
     <PackageReference Include="MonoGame.Extended" Version="3.8.0" />
     <PackageReference Include="MonoGame.Extended.Content.Pipeline" Version="3.8.0" />
     <PackageReference Include="MonoGame.Extended.Tiled" Version="3.8.0" />
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Content\Ambulance.png">
@@ -42,6 +42,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Content\CarSprite2.sf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\map.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Content\Mini_truck.png">
