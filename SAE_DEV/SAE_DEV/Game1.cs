@@ -31,7 +31,7 @@ namespace SAE_DEV
 
         private KeyboardState _keyboardState;
 
-
+        private Vector2 _positionVoiture;
         private Voiture ambulance;
         private Voiture miniTruck;
         private Voiture audi;
@@ -55,6 +55,7 @@ namespace SAE_DEV
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
         }
 
         protected override void Initialize()
@@ -75,6 +76,7 @@ namespace SAE_DEV
         protected override void LoadContent()
         {
             System.Console.WriteLine("un truc");
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tiledMap = Content.Load<TiledMap>("map");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
@@ -93,9 +95,6 @@ namespace SAE_DEV
 
             System.Console.WriteLine("milieu");
 
-
-
-
             ambulance = new Voiture("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
             audi = new Voiture("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
             voitureBolide = new Voiture("Voiture de Course", 100, _positionInitialVoitureEnnemie,_textureVoitureBolide);
@@ -104,8 +103,6 @@ namespace SAE_DEV
             minivan=new Voiture("MiniVan",100,_positionInitialVoitureEnnemie,_textureMinivan);
             taxi = new Voiture("Taxi", 100, _positionInitialVoitureEnnemie, _textureMinivan);
             truck = new Voiture("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
-
-
 
             System.Console.WriteLine("un truc different ");
 
