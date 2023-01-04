@@ -6,6 +6,8 @@ using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended.Content;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
+using MonoGame.Extended.Screens;
+using MonoGame.Extended.Screens.Transitions;
 
 namespace SAE_DEV
 {
@@ -33,6 +35,8 @@ namespace SAE_DEV
         private Voiture truck;
         private Voiture taxi;
         private Vector2 _positionInitialVoitureEnnemie;
+        private readonly ScreenManager _screenManager;
+        public SpriteBatch SpriteBatch { get; set; }
 
 
         public Game1()
