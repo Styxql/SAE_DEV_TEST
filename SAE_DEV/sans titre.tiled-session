@@ -1,0 +1,20 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+        ".",
+        "SAE_DEV"
+    ],
+    "fileStates": {
+    },
+    "map.tileHeight": 40,
+    "map.tileWidth": 50,
+    "openFiles": [
+    ],
+    "project": "sans titre.tiled-project",
+    "recentFiles": [
+    ]
+}
