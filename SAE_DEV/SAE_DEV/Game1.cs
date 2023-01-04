@@ -116,8 +116,7 @@ namespace SAE_DEV
             _keyboardState = Keyboard.GetState();
 
             _tiledMapRenderer.Update(gameTime);
-            _voitureJoueur.Play("idle");
-            _voitureJoueur.Update(deltaSeconds);            
+            _voitureJoueur.Update(deltaSeconds);
 
             if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
             {
