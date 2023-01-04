@@ -9,7 +9,6 @@ using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
 
-
 namespace SAE_DEV
 {
     public class Game1 : Game
@@ -31,7 +30,7 @@ namespace SAE_DEV
 
         private KeyboardState _keyboardState;
 
-
+        private Vector2 _positionVoiture;
         private Voiture ambulance;
         private Voiture miniTruck;
         private Voiture audi;
@@ -41,7 +40,6 @@ namespace SAE_DEV
         private Voiture truck;
         private Voiture taxi;
         private Vector2 _positionInitialVoitureEnnemie;
-        private readonly ScreenManager _screenManager;
         public SpriteBatch SpriteBatch { get; set; }
 
 
@@ -54,6 +52,7 @@ namespace SAE_DEV
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            
         }
 
         protected override void Initialize()
@@ -73,7 +72,8 @@ namespace SAE_DEV
 
         protected override void LoadContent()
         {
-            System.Console.WriteLine("un truc");
+
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tiledMap = Content.Load<TiledMap>("map");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
@@ -83,15 +83,12 @@ namespace SAE_DEV
             _textureMiniTruck = Content.Load<Texture2D>("Truck");
             _textureTruck = Content.Load<Texture2D>("Minitruck");
             _textureMinivan = Content.Load<Texture2D>("Minivan");
-            _textureVoitureBolide = Content.Load<Texture2D>("Black_viper");
+            _textureVoitureBolide = Content.Load<Texture2D>("Blackviper");
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
             _textureAudi = Content.Load<Texture2D>("Audi");
             _textureVoitureJoueur = Content.Load<Texture2D>("VoitureJoueur");
             SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
             _voitureJoueur = new AnimatedSprite(spriteSheet);
-
-            System.Console.WriteLine("milieu");
-
 
 
 
@@ -105,8 +102,6 @@ namespace SAE_DEV
             truck = new Voiture("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
 
 
-
-            System.Console.WriteLine("un truc different ");
 
             // TODO: use this.Content to load your game content here
         }
@@ -127,30 +122,30 @@ namespace SAE_DEV
             if (_keyboardState.IsKeyDown(Keys.Right))
             {
                 directionVoiture = 1;
-                _voitureJoueur.Play("walkEast");
+                _voitureJoueur.Play("animation0");
                 _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else if (_keyboardState.IsKeyDown(Keys.Up))
             {
                 directionVoiture = -1;
-                _voitureJoueur.Play("walkNorth");
+                _voitureJoueur.Play("animation1");
                 _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else if (_keyboardState.IsKeyDown(Keys.Down))
             {
                 directionVoiture = 1;
-                _voitureJoueur.Play("walkSouth");
+                _voitureJoueur.Play("animation2");
                 _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else if (_keyboardState.IsKeyDown(Keys.Left))
             {
                 directionVoiture = -1;
-                _voitureJoueur.Play("walkWest");
-                _voitureJoueur.X += directionVoiture * _vitesseVehicule * deltaSeconds;
+                _voitureJoueur.Play("animation3");
+                _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else
             {
-                _perso.Play("idle");
+                _voitureJoueur.Play("idle");
             }
 
             base.Update(gameTime);
