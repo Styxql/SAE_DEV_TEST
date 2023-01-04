@@ -57,7 +57,7 @@ namespace SAE_DEV
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _tiledMap = Content.Load<TiledMap>("road");
+            _tiledMap = Content.Load<TiledMap>("map");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
             _textureCar = Content.Load<Texture2D>("Car");
             _textureAmbulance = Content.Load<Texture2D>("Ambulance");

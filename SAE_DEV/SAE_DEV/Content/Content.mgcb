@@ -114,11 +114,6 @@
 /processorParam:TextureFormat=Color
 /build:road.png
 
-#begin road.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:road.tmx
-
 #begin taxi.png
 /importer:TextureImporter
 /processor:TextureProcessor
