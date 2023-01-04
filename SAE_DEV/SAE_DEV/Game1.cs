@@ -9,7 +9,6 @@ using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
 
-
 namespace SAE_DEV
 {
     public class Game1 : Game
@@ -123,25 +122,25 @@ namespace SAE_DEV
             if (_keyboardState.IsKeyDown(Keys.Right))
             {
                 directionVoiture = 1;
-                _voitureJoueur.Play("walkEast");
+                _voitureJoueur.Play("animation0");
                 _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else if (_keyboardState.IsKeyDown(Keys.Up))
             {
                 directionVoiture = -1;
-                _voitureJoueur.Play("walkNorth");
+                _voitureJoueur.Play("animation1");
                 _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else if (_keyboardState.IsKeyDown(Keys.Down))
             {
                 directionVoiture = 1;
-                _voitureJoueur.Play("walkSouth");
+                _voitureJoueur.Play("animation2");
                 _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else if (_keyboardState.IsKeyDown(Keys.Left))
             {
                 directionVoiture = -1;
-                _voitureJoueur.Play("walkWest");
+                _voitureJoueur.Play("animation3");
                 _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
             }
             else

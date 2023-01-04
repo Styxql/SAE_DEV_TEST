@@ -10,11 +10,11 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\dll\MonoGame.Extended.Content.Pipeline.dll
-/reference:..\dll\MonoGame.Extended.dll
-/reference:..\dll\MonoGame.Extended.Graphics.dll
-/reference:..\dll\MonoGame.Extended.Tiled.dll
-/reference:..\dll\Newtonsoft.Json.dll
+/reference:C:\Users\lavalq\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
+/reference:C:\Users\lavalq\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.dll
+/reference:C:\Users\lavalq\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Graphics.dll
+/reference:C:\Users\lavalq\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Tiled.dll
+/reference:C:\Users\lavalq\.nuget\packages\monogame.extended.content.pipeline\3.8.0\tools\Newtonsoft.Json.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -65,6 +65,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Car.png
+
+#begin CarSprite2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:CarSprite2.png
 
 #begin Ciel.png
 /importer:TextureImporter
