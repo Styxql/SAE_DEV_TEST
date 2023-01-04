@@ -42,7 +42,7 @@ namespace SAE_DEV
         public SpriteBatch SpriteBatch { get; set; }
 
 
-        private int directionVoiture;
+        private int _directionVoiture;
         private int _vitesseVehicule;
         
 
@@ -58,12 +58,12 @@ namespace SAE_DEV
         {
             // TODO: Add your initialization logic here
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            _graphics.PreferredBackBufferWidth = 1980;
-            _graphics.PreferredBackBufferHeight = 820;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1000;
             _graphics.ApplyChanges();
             _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 45);
             _positionInitialVoitureEnnemie=new Vector2(100,100);
-             directionVoiture = 1;
+            _directionVoiture = 1;
             _vitesseVehicule = 10;
 
             base.Initialize();
@@ -115,36 +115,25 @@ namespace SAE_DEV
 
             _tiledMapRenderer.Update(gameTime);
             _voitureJoueur.Play("idle");
-            _voitureJoueur.Update(deltaSeconds);
+            _voitureJoueur.Update(deltaSeconds);            
 
-            if (_keyboardState.IsKeyDown(Keys.Right))
+            if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
             {
-                directionVoiture = 1;
-                _voitureJoueur.Play("animation0");
-                _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Up))
+                _directionVoiture = 25;
+                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+                //_voitureJoueur.Play("animation0");
+
+            }            
+            else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
             {
-                directionVoiture = -1;
-                _voitureJoueur.Play("animation1");
-                _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Down))
-            {
-                directionVoiture = 1;
-                _voitureJoueur.Play("animation2");
-                _positionVoiture.Y += directionVoiture * _vitesseVehicule * deltaSeconds;
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Left))
-            {
-                directionVoiture = -1;
-                _voitureJoueur.Play("animation3");
-                _positionVoiture.X += directionVoiture * _vitesseVehicule * deltaSeconds;
-            }
+                _directionVoiture = -25;
+                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+            } 
             else
             {
-                _voitureJoueur.Play("idle");
+                _directionVoiture = 0;
             }
+            
 
             base.Update(gameTime);
         }
