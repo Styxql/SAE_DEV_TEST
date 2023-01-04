@@ -54,8 +54,7 @@ namespace SAE_DEV
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _screenManager = new ScreenManager();
-            Components.Add(_screenManager);
+            
         }
 
         protected override void Initialize()
