@@ -30,7 +30,7 @@
 /processorParam:TextureFormat=Color
 /build:Ambulance.png
 
-#begin Black_viper.png
+#begin Audi.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -40,7 +40,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Black_viper.png
+/build:Audi.png
+
+#begin Blackviper.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Blackviper.png
 
 #begin Car.png
 /importer:TextureImporter
@@ -54,7 +66,7 @@
 /processorParam:TextureFormat=Color
 /build:Car.png
 
-#begin frameroute.png
+#begin Minitruck.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -64,9 +76,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:frameroute.png
+/build:Minitruck.png
 
-#begin Mini_truck.png
+#begin Minivan.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -76,19 +88,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Mini_truck.png
-
-#begin Mini_van.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Mini_van.png
+/build:Minivan.png
 
 #begin Police.png
 /importer:TextureImporter
@@ -118,28 +118,6 @@
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
 /build:road.tmx
-
-#begin route.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:route.tmx
-
-#begin route_tuiles.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:route_tuiles.png
-
-#begin route_tuiles.tsx
-/importer:TiledMapTilesetImporter
-/processor:TiledMapTilesetProcessor
-/build:route_tuiles.tsx
 
 #begin taxi.png
 /importer:TextureImporter
