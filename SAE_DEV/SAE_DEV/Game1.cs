@@ -39,7 +39,9 @@ namespace SAE_DEV
         private Voiture truck;
         private Voiture taxi;
         private Vector2 _positionInitialVoitureEnnemie;
-        public SpriteBatch SpriteBatch { get; set; }
+
+        private float _mapYPosition = 0;
+        private float _vitesseYMap = 300;
 
 
         private int _directionVoiture;
@@ -121,18 +123,23 @@ namespace SAE_DEV
             {
                 _directionVoiture = 25;
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
-                //_voitureJoueur.Play("animation0");
+                _voitureJoueur.Play("droite");
 
             }            
             else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
             {
                 _directionVoiture = -25;
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+                _voitureJoueur.Play("gauche");
             } 
             else
             {
                 _directionVoiture = 0;
             }
+
+            _mapYPosition += _vitesseYMap * deltaSeconds;
+            _mapYPosition %= 1000;
+
             
 
             base.Update(gameTime);
@@ -141,17 +148,11 @@ namespace SAE_DEV
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Yellow);
-            _tiledMapRenderer.Draw();
+            _tiledMapRenderer.Draw(viewMatrix: Matrix.CreateTranslation(0,_mapYPosition - 1000,0));
             _spriteBatch.Begin();
-
             _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemie, Color.White);
             _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
             _spriteBatch.Draw(_voitureJoueur,_positionVoiture);
-
-
-
-
-
             _spriteBatch.End();
 
             

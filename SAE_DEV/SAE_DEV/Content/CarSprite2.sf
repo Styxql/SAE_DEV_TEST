@@ -1,29 +1,30 @@
 {
-  "textureAtlas": {
-    "texture": "CarSprite2.png",
-    "regionWidth": 78,
-    "regionHeight": 85
-  },
-  "cycles": {
-    "idle": {
-        "frames": [0],
+    "textureAtlas": 
+    {
+      "texture": "CarSprite2.png",
+      "regionWidth": 78,
+      "regionHeight": 85
+    },
+    "cycles": 
+    {
+      "idle": 
+      {
+        "frames": [ 0 ],
+        "isLooping": false,
+        "frameDuration": 0
+      },
+      "gauche": 
+      {
+        "frames": [ 13, 8 ],
         "isLooping": false,
         "frameDuration": 0.2
       },
-      "animation0": {
-        "frames": [ 10, 5, 0 ],
-        "isLooping": false,
-        "frameDuration": 0.2
-      },
-      "animation1": {
-        "frames": [ 11, 6, 1 ],
-        "isLooping": false,
-        "frameDuration": 0.2
-      },
-      "droite": {
+      "droite": 
+      {
         "frames": [ 13, 3 ],
         "isLooping": false,
         "frameDuration": 0.2
       }
     }
   }
+
