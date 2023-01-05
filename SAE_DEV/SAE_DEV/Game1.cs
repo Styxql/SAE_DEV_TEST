@@ -55,7 +55,8 @@ namespace SAE_DEV
 
 
         private int _directionVoiture;
-        private int _vitesseVehicule; 
+        private int _vitesseVehicule;
+        private int _maxPositionsX = 0;
 
 
         public Game1()
@@ -72,7 +73,7 @@ namespace SAE_DEV
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             _graphics.PreferredBackBufferWidth = 1920;
             _graphics.PreferredBackBufferHeight = 720;
-            _graphics.IsFullScreen = true;
+            //_graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
             _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width/3 , GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE);
             _positionInitialVoitureEnnemi=new Vector2(100,100);
@@ -141,6 +142,7 @@ namespace SAE_DEV
 
             if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
             {
+                System.Console.WriteLine(_positionVoiture.X);
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
 
                 _voitureJoueur.Play("droite");
@@ -150,28 +152,39 @@ namespace SAE_DEV
                 }
 
                 float nextX = _positionVoiture.X ;
-                if (nextX < _graphics.PreferredBackBufferWidth - 32 - 78 - 415) //32 : barriere , 78 : width voiture , 410 : decor.width
+                _maxPositionsX = _graphics.PreferredBackBufferWidth - 32 - 78 - 420;
+                if (nextX < _maxPositionsX) //32 : barriere , 78 : width voiture , 420 : decor.width pos barriere : 1390
                 {
-                    _positionVoiture.X = nextX;
-                   
+                    _positionVoiture.X = nextX;                   
+                }
+                else
+                {
+                    _positionVoiture.X = _maxPositionsX;
+                    _angleVehicule = 0f;
                 }
 
             }
             else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
             {
+                System.Console.WriteLine(_positionVoiture.X);
                 _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;
 
                 _voitureJoueur.Play("gauche");
-                if(_angleVehicule >= -0.3f)
+                if (_angleVehicule >= -0.3f)
                 {
                     _angleVehicule -= 0.02f;
                 }
 
-                float nextX = _positionVoiture.X; 
-                if (nextX > 32 + 390 + 78) //32 : barriere , 390 : decor , 78 :voiture.width
+                float nextX = _positionVoiture.X;
+                _maxPositionsX = 32 + 390 + 78;
+                if (nextX > _maxPositionsX) //32 : barriere , 390 : decor , 78 :voiture.width
                 {
-                    _positionVoiture.X = nextX;
-                    
+                    _positionVoiture.X = nextX;                   
+                }
+                else
+                {
+                    _positionVoiture.X = _maxPositionsX;
+                    _angleVehicule = 0;
                 }
             }
             
@@ -188,12 +201,14 @@ namespace SAE_DEV
                 }
             }
 
-            if (_positionVoiture.X < 480 || _positionVoiture.X > 1465)
+            if (_positionVoiture.X < 490 || _positionVoiture.X > 1390)
             {
-                _directionVoiture = -_directionVoiture;
+                //_directionVoiture = -_directionVoiture;
+                _vitesseVehicule = 0;
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
-                _angleVehicule = 0;
+                
             }
+
                 /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
                 //if (_keyboardState.IsKeyDown(Keys.K))
                 //{
