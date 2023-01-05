@@ -31,7 +31,6 @@ namespace SAE_DEV
 
         private KeyboardState _keyboardState;
 
-        private Vector2 _positionVoiture;
         private VoitureEnnemie ambulance;
         private VoitureEnnemie miniTruck;
         private VoitureEnnemie audi;
@@ -42,6 +41,8 @@ namespace SAE_DEV
         private VoitureEnnemie taxi;
         private VoitureJoueur joueur;
         private Vector2 _positionInitialVoitureEnnemie;
+        private Vector2 _positionVoiture;
+
 
         private float _mapYPosition = 0;
         private float _vitesseYMap = 300;
@@ -157,8 +158,10 @@ namespace SAE_DEV
             GraphicsDevice.Clear(Color.Yellow);
             _tiledMapRenderer.Draw(viewMatrix: Matrix.CreateTranslation(0,_mapYPosition - 1000,0));
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemie, Color.White);
             _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
+            _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
+
+
             _spriteBatch.Draw(_voitureJoueur,_positionVoiture);
             _spriteBatch.End();
 
