@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended.Sprites;
-using MonoGame.Extended.Tiled.Serialization;
 
 namespace SAE_DEV
 {
@@ -15,6 +11,15 @@ namespace SAE_DEV
         private Microsoft.Xna.Framework.Vector2 positionInitial;
         private AnimatedSprite _typeVehicule;
         private int prix;
+        private AnimatedSprite _voitureJoueur;
+        private KeyboardState _keyboardState;
+        private Vector2 _positionVoiture;
+        private int _directionVoiture;
+        private int _vitesseVehicule;
+        private float _angleVehicule;
+        private int _maxPositionsX = 0;
+        private GraphicsDeviceManager _graphics;
+        private VoitureJoueur joueur;
 
         public VoitureJoueur(string nom, double vitesse, Vector2 positionInitial, AnimatedSprite typeVehicule, int prix)
         {
@@ -87,6 +92,81 @@ namespace SAE_DEV
             set
             {
                 this.prix = value;
+            }
+        }
+
+        private void Deplacement(GameTime gameTime)
+        {
+            float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+
+            if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
+            {
+                System.Console.WriteLine(_positionVoiture.X);
+                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+
+                _voitureJoueur.Play("droite");
+                if (_angleVehicule <= 0.3f)
+                {
+                    _angleVehicule += 0.02f;
+                }
+
+                float nextX = _positionVoiture.X;
+                _maxPositionsX = _graphics.PreferredBackBufferWidth - 32 - 78 - 420;
+                if (nextX < _maxPositionsX) //32 : barriere , 78 : width voiture , 420 : decor.width pos barriere : 1390
+                {
+                    _positionVoiture.X = nextX;
+                }
+                else
+                {
+                    _positionVoiture.X = _maxPositionsX;
+                    _angleVehicule = 0f;
+                }
+
+            }
+            else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
+            {
+                System.Console.WriteLine(_positionVoiture.X);
+                _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;
+
+                _voitureJoueur.Play("gauche");
+                if (_angleVehicule >= -0.3f)
+                {
+                    _angleVehicule -= 0.02f;
+                }
+
+                float nextX = _positionVoiture.X;
+                _maxPositionsX = 32 + 390 + 78;
+                if (nextX > _maxPositionsX) //32 : barriere , 390 : decor , 78 :voiture.width
+                {
+                    _positionVoiture.X = nextX;
+                }
+                else
+                {
+                    _positionVoiture.X = _maxPositionsX;
+                    _angleVehicule = 0;
+                }
+            }
+
+            else
+            {
+                _voitureJoueur.Play("idle");
+                if (_angleVehicule > 0f)
+                {
+                    _angleVehicule -= 0.02f;
+                }
+                else if (_angleVehicule < 0f)
+                {
+                    _angleVehicule += 0.02f;
+                }
+            }
+
+            if (_positionVoiture.X < 490 || _positionVoiture.X > 1390)
+            {
+                //_directionVoiture = -_directionVoiture;
+                _vitesseVehicule = 0;
+                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+
             }
         }
     }
