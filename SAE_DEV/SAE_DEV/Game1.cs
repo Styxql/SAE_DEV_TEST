@@ -45,9 +45,24 @@ namespace SAE_DEV
 
 
         private int _directionVoiture;
-        private int _vitesseVehicule;
-        
+        private int _vitesseVehicule; 
 
+
+                                    //"donc une classe pour les voitures enemies et une autre pour le joueur "
+                                  //je le note là donc pour voiture je dois avoir position, deplacement ? je vais oas les controler ouiok
+                                  // les collisions ok joueur deplacement avec contraintes oui !
+                                  // une classe pour ma map ? avec la possibilité de changer les maps pour la suite
+                                  // une de jour et une nuit pour debuter et ca va draw des voitures au hasard ? j'ai 4 positions que je dois
+                                  // donc un tableau uni = 4 positions au hasard pour choisir la voie ok oui
+                                  // il y a une gestion de scene qui s'apparente à des classes 
+                                  // je vais devoir me documenter sur la creation du menu et des boutons monogame.extended oui bon on va pas céder à la tentation direct
+                                  // jeudi... de la semaine pro le 12 on va faire ca demain avec les collegues le fonctionnement change pas trop mais il est vite fait different qd meme
+                                  // avec les initialize les uploads les draw rien d'autre change apres si l'utilisation du "_" 
+                                 
+                                  // gauche : decor + barriere je vais y aller j'ai mes proprios qui vont passer mdrr
+                                  // demain soir je t'envoie un petit compte rendu de ce que j'ai pu oui les cs des classes 
+
+        
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -61,12 +76,14 @@ namespace SAE_DEV
             // TODO: Add your initialization logic here
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             _graphics.PreferredBackBufferWidth = 1920;
-            _graphics.PreferredBackBufferHeight = 1000;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
-            _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - 45);
+            _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height);
             _positionInitialVoitureEnnemie=new Vector2(100,100);
             _directionVoiture = 1;
-            _vitesseVehicule = 10;
+            _vitesseVehicule = 25;
+
 
             base.Initialize();
         }
@@ -117,30 +134,60 @@ namespace SAE_DEV
 
             _tiledMapRenderer.Update(gameTime);
             _voitureJoueur.Update(deltaSeconds);
-
+            // le calcul de ma barriere à droite c'est : taille fenetre.width - taille barriere - taille decor - taille voiture
             if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
             {
-                _directionVoiture = 25;
-                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
-                _voitureJoueur.Play("droite");
-
-            }            
+                _voitureJoueur.Play("droite"); 
+                _directionVoiture = _vitesseVehicule;
+                float nextX = _positionVoiture.X + _directionVoiture * _vitesseVehicule * deltaSeconds;
+                if (nextX < _graphics.PreferredBackBufferWidth - 32 - 78 - 415) //32 : barriere , 78 : width voiture , 410 : decor.width
+                {
+                    _positionVoiture.X = nextX;
+                    
+                }
+                
+            }
             else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
-            {
-                _directionVoiture = -25;
-                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+            {               
                 _voitureJoueur.Play("gauche");
-            } 
+                _directionVoiture = -_vitesseVehicule;
+                float nextX = _positionVoiture.X + _directionVoiture * _vitesseVehicule * deltaSeconds;
+                if(nextX > 32 + 390 + 78) //32 : barriere , 410 : decor
+                {
+                    _positionVoiture.X = nextX;
+                }               
+                
+                
+            }
+            else if (_keyboardState.IsKeyDown(Keys.Up) && !(_keyboardState.IsKeyDown(Keys.Down)))
+            {
+                _directionVoiture = -_vitesseVehicule;
+                float nextX = _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
+                if(nextX > _graphics.PreferredBackBufferHeight + 85)
+                {
+                    _positionVoiture.Y = nextX;
+                }
+            }
+            else if (_keyboardState.IsKeyDown(Keys.Down) && !(_keyboardState.IsKeyDown(Keys.Up)))
+            {
+                _directionVoiture = 10;
+                _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
+            }
             else
             {
                 _directionVoiture = 0;
                 _voitureJoueur.Play("idle");
             }
 
-            _mapYPosition += _vitesseYMap * deltaSeconds;
-            _mapYPosition %= 1000;
+            if(_positionVoiture.X < 480 || _positionVoiture.X > 1400)
+            {
+                System.Console.WriteLine("ici");
+                _directionVoiture = 0;
+                _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
+            }           
 
-            
+            _mapYPosition += _vitesseYMap * deltaSeconds;
+            _mapYPosition %= 1003;            
 
             base.Update(gameTime);
         }
