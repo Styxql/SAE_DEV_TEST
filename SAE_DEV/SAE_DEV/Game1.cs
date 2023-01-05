@@ -153,19 +153,18 @@ namespace SAE_DEV
                 {
                     _positionVoiture.Y -= _directionVoiture * _vitesseVehicule * deltaSeconds;
                     
+                    
                    
                 }
-               
 
-
-                float nextX = _positionVoiture.X ;
+                float nextX = _positionVoiture.X;
                 if (nextX < _graphics.PreferredBackBufferWidth - 32 - 78 - 415) //32 : barriere , 78 : width voiture , 410 : decor.width
                 {
                     _positionVoiture.X = nextX;
-                   
+
                 }
-                
-                
+
+
 
             }
 
@@ -227,6 +226,7 @@ namespace SAE_DEV
                 _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
                 _angleVehicule = 0;
             }
+            
                 /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
                 //if (_keyboardState.IsKeyDown(Keys.K))
                 //{
