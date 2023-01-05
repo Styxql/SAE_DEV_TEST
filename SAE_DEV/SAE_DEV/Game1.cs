@@ -139,7 +139,7 @@ namespace SAE_DEV
             _tiledMapRenderer.Update(gameTime);
             _voitureJoueur.Update(deltaSeconds);
 
-            if (_keyboardState.IsKeyDown(Keys.Right))
+            if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
             {
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
 
@@ -149,16 +149,16 @@ namespace SAE_DEV
                     _angleVehicule += 0.02f;
                 }
 
-                float nextX = _positionVoiture.X + _directionVoiture * _vitesseVehicule * deltaSeconds;
+                float nextX = _positionVoiture.X ;
                 if (nextX < _graphics.PreferredBackBufferWidth - 32 - 78 - 415) //32 : barriere , 78 : width voiture , 410 : decor.width
                 {
                     _positionVoiture.X = nextX;
-
+                   
                 }
 
 
             }
-            else if (_keyboardState.IsKeyDown(Keys.Left))
+            else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
             {
                 _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;
 
@@ -168,16 +168,18 @@ namespace SAE_DEV
                     _angleVehicule -= 0.02f;
                 }
 
-                float nextX = _positionVoiture.X ;
-                if (nextX > 32 + 390 + 78) //32 : barriere , 410 : decor
+                float nextX = _positionVoiture.X; 
+                if (nextX > 32 + 390 + 78) //32 : barriere , 390 : decor , 78 :voiture.width
                 {
                     _positionVoiture.X = nextX;
+                    
                 }
             }
             else if (_keyboardState.IsKeyDown(Keys.Up))
             {
-                _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;
-                float nextX = _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
+                _positionVoiture.Y -= _directionVoiture * _vitesseVehicule * deltaSeconds;
+
+                float nextX = _positionVoiture.Y ;
                 if (nextX > _graphics.PreferredBackBufferHeight + 85)
                 {
                     _positionVoiture.Y = nextX;
