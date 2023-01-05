@@ -53,7 +53,6 @@ namespace SAE_DEV
         private float _vitesseYMap = 300;
         private float _angleVehicule;
 
-        VoitureEnnemi[] tabVoitureEnnemies;
 
         private int _directionVoiture;
         private int _vitesseVehicule;
@@ -77,7 +76,7 @@ namespace SAE_DEV
             _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE);
             _positionInitialVoitureEnnemi=new Vector2(100,100);
             _directionVoiture = 1;
-            _vitesseVehicule = 10;
+            _vitesseVehicule = 100;
             _angleVehicule=0f;
 
             VoitureEnnemi[] tabVoitureEnnemies = { ambulance, truck, audi, voitureBolide, car, miniTruck, minivan, taxi, truck };
@@ -114,7 +113,7 @@ namespace SAE_DEV
             voitureBolide = new VoitureEnnemi("Voiture de Course", 100, _positionInitialVoitureEnnemi,_textureVoitureBolide);
             car = new VoitureEnnemi("Car", 100, _positionInitialVoitureEnnemi, _textureCar);
             miniTruck = new VoitureEnnemi("Car", 100, _positionInitialVoitureEnnemi, _textureMiniTruck);
-            minivan=new VoitureEnnemi("MiniVan",100,_positionInitialVoitureEnnemi,_textureMinivan);
+            minivan= new VoitureEnnemi("MiniVan",100,_positionInitialVoitureEnnemi,_textureMinivan);
             taxi = new VoitureEnnemi("Taxi", 100, _positionInitialVoitureEnnemi, _textureMinivan);
             truck = new VoitureEnnemi("Truck", 100, _positionInitialVoitureEnnemi, _textureMinivan);
             
@@ -141,25 +140,37 @@ namespace SAE_DEV
 
             if (_keyboardState.IsKeyDown(Keys.Right))
             {
-                _directionVoiture = 25;
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
-                _angleVehicule = 0.3f;
 
                 _voitureJoueur.Play("droite");
+                if (_angleVehicule <= 0.3f)
+                {
+                    _angleVehicule += 0.02f;
+                }
 
-            }            
+            }
             else if (_keyboardState.IsKeyDown(Keys.Left))
             {
-                _directionVoiture = -25;
-                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
-                _angleVehicule = -0.3f;
+                _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;
+
                 _voitureJoueur.Play("gauche");
-            } 
+                if(_angleVehicule >= -0.3f)
+                {
+                    _angleVehicule -= 0.02f;
+                }
+            }
+
             else
             {
-                _directionVoiture = 0;
                 _voitureJoueur.Play("idle");
-                _angleVehicule= 0f;
+                if (_angleVehicule > 0f)
+                {
+                    _angleVehicule -= 0.02f;
+                }
+                else if (_angleVehicule < 0f)
+                {
+                    _angleVehicule += 0.02f;
+                }
             }
 
             /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
@@ -176,7 +187,7 @@ namespace SAE_DEV
 
             //    _radioOFF.Play();
             //}
-
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             _mapYPosition += _vitesseYMap * deltaSeconds;
             _mapYPosition %= 1000;
 
