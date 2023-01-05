@@ -168,13 +168,13 @@ namespace SAE_DEV
                     _angleVehicule -= 0.02f;
                 }
 
-                float nextX = _positionVoiture.X + _directionVoiture * _vitesseVehicule * deltaSeconds;
+                float nextX = _positionVoiture.X ;
                 if (nextX > 32 + 390 + 78) //32 : barriere , 410 : decor
                 {
                     _positionVoiture.X = nextX;
                 }
             }
-            else if (_keyboardState.IsKeyDown(Keys.Up) && !(_keyboardState.IsKeyDown(Keys.Down)))
+            else if (_keyboardState.IsKeyDown(Keys.Up))
             {
                 _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;
                 float nextX = _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
@@ -183,7 +183,7 @@ namespace SAE_DEV
                     _positionVoiture.Y = nextX;
                 }
             }
-            else if (_keyboardState.IsKeyDown(Keys.Down) && !(_keyboardState.IsKeyDown(Keys.Up)))
+            else if (_keyboardState.IsKeyDown(Keys.Down))
             {
                 _positionVoiture.Y += 10;
             }
@@ -246,5 +246,6 @@ namespace SAE_DEV
 
             base.Draw(gameTime);
         }
+
     }
 }
