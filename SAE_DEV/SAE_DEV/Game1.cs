@@ -74,7 +74,7 @@ namespace SAE_DEV
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
-            _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE);
+            _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width/3 , GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE);
             _positionInitialVoitureEnnemi=new Vector2(100,100);
             _directionVoiture = 1;
             _vitesseVehicule = 100;
@@ -174,21 +174,7 @@ namespace SAE_DEV
                     
                 }
             }
-            else if (_keyboardState.IsKeyDown(Keys.Up) && !(_keyboardState.IsKeyDown(Keys.Down)))
-            {
-                _positionVoiture.Y -= _directionVoiture * _vitesseVehicule * deltaSeconds;
-
-                float nextX = _positionVoiture.Y ;
-                if (nextX > _graphics.PreferredBackBufferHeight + 85)
-                {
-                    _positionVoiture.Y = nextX;
-                }
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Down) && !(_keyboardState.IsKeyDown(Keys.Up)))
-            {
-                _positionVoiture.Y += 10;
-            }
-
+            
             else
             {
                 _voitureJoueur.Play("idle");
@@ -202,11 +188,10 @@ namespace SAE_DEV
                 }
             }
 
-            if (_positionVoiture.X < 32 + 390 + 78 || _positionVoiture.X > _graphics.PreferredBackBufferWidth - 32 - 78 - 415)
+            if (_positionVoiture.X < 480 || _positionVoiture.X > 1465)
             {
-                System.Console.WriteLine("ici");
-                _directionVoiture = 0;
-                _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
+                _directionVoiture = -_directionVoiture;
+                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
                 _angleVehicule = 0;
             }
                 /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
