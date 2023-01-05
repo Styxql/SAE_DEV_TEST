@@ -156,7 +156,6 @@ namespace SAE_DEV
                    
                 }
 
-
             }
             else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
             {
@@ -203,22 +202,29 @@ namespace SAE_DEV
                 }
             }
 
-            /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
-            //if (_keyboardState.IsKeyDown(Keys.K))
-            //{
-            //    _radioON.Play();
-            //    Thread.Sleep(5000);
+            if (_positionVoiture.X < 32 + 390 + 78 || _positionVoiture.X > _graphics.PreferredBackBufferWidth - 32 - 78 - 415)
+            {
+                System.Console.WriteLine("ici");
+                _directionVoiture = 0;
+                _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
+                _angleVehicule = 0;
+            }
+                /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
+                //if (_keyboardState.IsKeyDown(Keys.K))
+                //{
+                //    _radioON.Play();
+                //    Thread.Sleep(5000);
 
 
-            //    //_radio.Play();
-            //}
-            //else if (_keyboardState.IsKeyDown(Keys.L))
-            //{
+                //    //_radio.Play();
+                //}
+                //else if (_keyboardState.IsKeyDown(Keys.L))
+                //{
 
-            //    _radioOFF.Play();
-            //}
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            _mapYPosition += _vitesseYMap * deltaSeconds;
+                //    _radioOFF.Play();
+                //}
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                _mapYPosition += _vitesseYMap * deltaSeconds;
             _mapYPosition %= 1000;
 
 
