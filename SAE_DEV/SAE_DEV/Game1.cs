@@ -139,7 +139,7 @@ namespace SAE_DEV
             _tiledMapRenderer.Update(gameTime);
             _voitureJoueur.Update(deltaSeconds);
 
-            if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Right)))
+            if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
             {
                 _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
 
@@ -148,14 +148,9 @@ namespace SAE_DEV
                 if (_angleVehicule <= 0.3f)
                 {
                     _angleVehicule += 0.02f;
+
                 }
-                if (_keyboardState.IsKeyDown(Keys.Up))
-                {
-                    _positionVoiture.Y -= _directionVoiture * _vitesseVehicule * deltaSeconds;
-                    
-                    
-                   
-                }
+               
 
                 float nextX = _positionVoiture.X;
                 if (nextX < _graphics.PreferredBackBufferWidth - 32 - 78 - 415) //32 : barriere , 78 : width voiture , 410 : decor.width
@@ -177,11 +172,7 @@ namespace SAE_DEV
                 {
                     _angleVehicule -= 0.02f;
                 }
-                if (_keyboardState.IsKeyDown(Keys.Up))
-                {
-                    _positionVoiture.Y -= _directionVoiture * _vitesseVehicule * deltaSeconds;
-                   
-                }
+               
                
 
                 float nextX = _positionVoiture.X; 
@@ -191,20 +182,8 @@ namespace SAE_DEV
                     
                 }
             }
-            else if (_keyboardState.IsKeyDown(Keys.Up))
-            {
-                _positionVoiture.Y -= _directionVoiture * _vitesseVehicule * deltaSeconds;
-
-                float nextX = _positionVoiture.Y ;
-                if (nextX > _graphics.PreferredBackBufferHeight + 85)
-                {
-                    _positionVoiture.Y = nextX;
-                }
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Down))
-            {
-                _positionVoiture.Y += 10;
-            }
+            
+           
 
             else
             {
