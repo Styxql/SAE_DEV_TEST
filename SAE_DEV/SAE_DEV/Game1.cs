@@ -8,11 +8,15 @@ using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
+using Microsoft.Xna.Framework.Audio;
+using System.Threading;
 
 namespace SAE_DEV
 {
     public class Game1 : Game
     {
+        public const int HAUTEUR_VEHICULE_BASIQUE = 47;
+        public const int LARGEUR_VEHICULE_BASIQUE = 85;
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private TiledMap _tiledMap;
@@ -26,22 +30,28 @@ namespace SAE_DEV
         private Texture2D _textureCar;
         private Texture2D _textureTruck;
         private AnimatedSprite _voitureJoueur;
+        private SoundEffect _radio;
+        private SoundEffect _radioON;
+        private SoundEffect _radioOFF;
 
         private KeyboardState _keyboardState;
 
         private Vector2 _positionVoiture;
-        private Voiture ambulance;
-        private Voiture miniTruck;
-        private Voiture audi;
-        private Voiture minivan;
-        private Voiture voitureBolide;
-        private Voiture car;
-        private Voiture truck;
-        private Voiture taxi;
-        private Vector2 _positionInitialVoitureEnnemie;
+        private VoitureEnnemi ambulance;
+        private VoitureEnnemi miniTruck;
+        private VoitureEnnemi audi;
+        private VoitureEnnemi minivan;
+        private VoitureEnnemi voitureBolide;
+        private VoitureEnnemi car;
+        private VoitureEnnemi truck;
+        private VoitureEnnemi taxi;
+        private VoitureJoueur joueur;
+        private Vector2 _positionInitialVoitureEnnemi;
+
 
         private float _mapYPosition = 0;
         private float _vitesseYMap = 300;
+        private float _angleVehicule;
 
 
         private int _directionVoiture;
@@ -79,11 +89,20 @@ namespace SAE_DEV
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
+
             _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height);
             _positionInitialVoitureEnnemie=new Vector2(100,100);
             _directionVoiture = 1;
             _vitesseVehicule = 25;
 
+
+            _positionVoiture = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE);
+            _positionInitialVoitureEnnemi=new Vector2(100,100);
+            _directionVoiture = 1;
+            _vitesseVehicule = 100;
+            _angleVehicule=0f;
+
+            VoitureEnnemi[] tabVoitureEnnemies = { ambulance, truck, audi, voitureBolide, car, miniTruck, minivan, taxi, truck };
 
             base.Initialize();
         }
@@ -98,25 +117,32 @@ namespace SAE_DEV
             _textureCar = Content.Load<Texture2D>("Car");
             _textureAmbulance = Content.Load<Texture2D>("Ambulance");
             _textureAudi = Content.Load<Texture2D>("Audi");
-            _textureMiniTruck = Content.Load<Texture2D>("Truck");
-            _textureTruck = Content.Load<Texture2D>("Minitruck");
+            _textureMiniTruck = Content.Load<Texture2D>("MiniTruck");
+            _textureTruck = Content.Load<Texture2D>("Truck");
             _textureMinivan = Content.Load<Texture2D>("Minivan");
             _textureVoitureBolide = Content.Load<Texture2D>("Blackviper");
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
             _textureAudi = Content.Load<Texture2D>("Audi");
+            ////_radio = Content.Load<SoundEffect>("Son radio");
+            //_radioOFF = Content.Load<SoundEffect>("radioTurnOff");
+            //_radioON = Content.Load<SoundEffect>("radioTurnON");
             SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
             _voitureJoueur = new AnimatedSprite(spriteSheet);
 
 
-
-            ambulance = new Voiture("Ambulance", 100, _positionInitialVoitureEnnemie, _textureAmbulance);
-            audi = new Voiture("audi", 100,_positionInitialVoitureEnnemie, _textureAudi);
-            voitureBolide = new Voiture("Voiture de Course", 100, _positionInitialVoitureEnnemie,_textureVoitureBolide);
-            car = new Voiture("Car", 100, _positionInitialVoitureEnnemie, _textureCar);
-            miniTruck = new Voiture("Car", 100, _positionInitialVoitureEnnemie, _textureMiniTruck);
-            minivan=new Voiture("MiniVan",100,_positionInitialVoitureEnnemie,_textureMinivan);
-            taxi = new Voiture("Taxi", 100, _positionInitialVoitureEnnemie, _textureMinivan);
-            truck = new Voiture("Truck", 100, _positionInitialVoitureEnnemie, _textureMinivan);
+            //////////////ENNEMI///////////////////////////
+            ambulance = new VoitureEnnemi("Ambulance", 100, _positionInitialVoitureEnnemi, _textureAmbulance);
+            audi = new VoitureEnnemi("audi", 100,_positionInitialVoitureEnnemi, _textureAudi);
+            voitureBolide = new VoitureEnnemi("Voiture de Course", 100, _positionInitialVoitureEnnemi,_textureVoitureBolide);
+            car = new VoitureEnnemi("Car", 100, _positionInitialVoitureEnnemi, _textureCar);
+            miniTruck = new VoitureEnnemi("Car", 100, _positionInitialVoitureEnnemi, _textureMiniTruck);
+            minivan= new VoitureEnnemi("MiniVan",100,_positionInitialVoitureEnnemi,_textureMinivan);
+            taxi = new VoitureEnnemi("Taxi", 100, _positionInitialVoitureEnnemi, _textureMinivan);
+            truck = new VoitureEnnemi("Truck", 100, _positionInitialVoitureEnnemi, _textureMinivan);
+            
+            /////////////////////////////JOUEUR/////////////////////////////////////
+            
+            joueur = new VoitureJoueur("Voiture Basique",100,_positionVoiture,_voitureJoueur,0);
 
 
 
@@ -134,60 +160,70 @@ namespace SAE_DEV
 
             _tiledMapRenderer.Update(gameTime);
             _voitureJoueur.Update(deltaSeconds);
-            // le calcul de ma barriere à droite c'est : taille fenetre.width - taille barriere - taille decor - taille voiture
-            if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
-            {
-                _voitureJoueur.Play("droite"); 
-                _directionVoiture = _vitesseVehicule;
-                float nextX = _positionVoiture.X + _directionVoiture * _vitesseVehicule * deltaSeconds;
-                if (nextX < _graphics.PreferredBackBufferWidth - 32 - 78 - 415) //32 : barriere , 78 : width voiture , 410 : decor.width
-                {
-                    _positionVoiture.X = nextX;
-                    
-                }
-                
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
-            {               
-                _voitureJoueur.Play("gauche");
-                _directionVoiture = -_vitesseVehicule;
-                float nextX = _positionVoiture.X + _directionVoiture * _vitesseVehicule * deltaSeconds;
-                if(nextX > 32 + 390 + 78) //32 : barriere , 410 : decor
-                {
-                    _positionVoiture.X = nextX;
-                }               
-                
-                
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Up) && !(_keyboardState.IsKeyDown(Keys.Down)))
-            {
-                _directionVoiture = -_vitesseVehicule;
-                float nextX = _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
-                if(nextX > _graphics.PreferredBackBufferHeight + 85)
-                {
-                    _positionVoiture.Y = nextX;
-                }
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Down) && !(_keyboardState.IsKeyDown(Keys.Up)))
-            {
-                _directionVoiture = 10;
-                _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
-            }
-            else
-            {
-                _directionVoiture = 0;
-                _voitureJoueur.Play("idle");
-            }
-
-            if(_positionVoiture.X < 480 || _positionVoiture.X > 1400)
-            {
-                System.Console.WriteLine("ici");
-                _directionVoiture = 0;
-                _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
-            }           
+                      
 
             _mapYPosition += _vitesseYMap * deltaSeconds;
             _mapYPosition %= 1003;            
+
+            if (_keyboardState.IsKeyDown(Keys.Right))
+            {
+                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+
+                _voitureJoueur.Play("droite");
+                if (_angleVehicule <= 0.3f)
+                {
+                    _angleVehicule += 0.02f;
+                }
+
+            }
+            else if (_keyboardState.IsKeyDown(Keys.Left))
+            {
+                _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;
+
+                _voitureJoueur.Play("gauche");
+                if(_angleVehicule >= -0.3f)
+                {
+                    _angleVehicule -= 0.02f;
+                }
+            }
+
+            else
+            {
+                _voitureJoueur.Play("idle");
+                if (_angleVehicule > 0f)
+                {
+                    _angleVehicule -= 0.02f;
+                }
+                else if (_angleVehicule < 0f)
+                {
+                    _angleVehicule += 0.02f;
+                }
+            }
+
+            /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
+            //if (_keyboardState.IsKeyDown(Keys.K))
+            //{
+            //    _radioON.Play();
+            //    Thread.Sleep(5000);
+
+
+            //    //_radio.Play();
+            //}
+            //else if (_keyboardState.IsKeyDown(Keys.L))
+            //{
+
+            //    _radioOFF.Play();
+            //}
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            _mapYPosition += _vitesseYMap * deltaSeconds;
+            _mapYPosition %= 1000;
+
+
+
+            //foreach(VoitureEnnemie voitureEnnemie in tabVoitureEnnemies )
+            //{
+              
+            //}
 
             base.Update(gameTime);
         }
@@ -197,9 +233,10 @@ namespace SAE_DEV
             GraphicsDevice.Clear(Color.Yellow);
             _tiledMapRenderer.Draw(viewMatrix: Matrix.CreateTranslation(0,_mapYPosition - 1000,0));
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemie, Color.White);
-            _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemie, Color.White);
-            _spriteBatch.Draw(_voitureJoueur,_positionVoiture);
+            _spriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemi, Color.White);
+            _spriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemi, Color.White);
+            _spriteBatch.Draw(_voitureJoueur, _positionVoiture, _angleVehicule);
+            
             _spriteBatch.End();
 
             
