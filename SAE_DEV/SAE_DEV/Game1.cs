@@ -149,6 +149,14 @@ namespace SAE_DEV
                     _angleVehicule += 0.02f;
                 }
 
+                float nextX = _positionVoiture.X + _directionVoiture * _vitesseVehicule * deltaSeconds;
+                if (nextX < _graphics.PreferredBackBufferWidth - 32 - 78 - 415) //32 : barriere , 78 : width voiture , 410 : decor.width
+                {
+                    _positionVoiture.X = nextX;
+
+                }
+
+
             }
             else if (_keyboardState.IsKeyDown(Keys.Left))
             {
@@ -159,6 +167,25 @@ namespace SAE_DEV
                 {
                     _angleVehicule -= 0.02f;
                 }
+
+                float nextX = _positionVoiture.X + _directionVoiture * _vitesseVehicule * deltaSeconds;
+                if (nextX > 32 + 390 + 78) //32 : barriere , 410 : decor
+                {
+                    _positionVoiture.X = nextX;
+                }
+            }
+            else if (_keyboardState.IsKeyDown(Keys.Up) && !(_keyboardState.IsKeyDown(Keys.Down)))
+            {
+                _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;
+                float nextX = _positionVoiture.Y += _directionVoiture * _vitesseVehicule * deltaSeconds;
+                if (nextX > _graphics.PreferredBackBufferHeight + 85)
+                {
+                    _positionVoiture.Y = nextX;
+                }
+            }
+            else if (_keyboardState.IsKeyDown(Keys.Down) && !(_keyboardState.IsKeyDown(Keys.Up)))
+            {
+                _positionVoiture.Y += 10;
             }
 
             else
