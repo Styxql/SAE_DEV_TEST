@@ -58,6 +58,7 @@ namespace SAE_DEV
                 _screenManager.LoadScreen(_myScreenJeu, new FadeTransition(GraphicsDevice, Color.Black));
             }
             base.Update(gameTime);
+
         }
 
         protected override void Draw(GameTime gameTime)
