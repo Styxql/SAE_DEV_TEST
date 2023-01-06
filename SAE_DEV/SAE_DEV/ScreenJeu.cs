@@ -137,7 +137,7 @@ namespace SAE_DEV
 
             _joueur = new VoitureJoueur("Voiture Basique", 100, _positionVoiture, _voitureJoueur, 0);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _fond = Content.Load<Texture2D>("fond");
+            _fond = Content.Load<Texture2D>("fondmenu");
             _police = Content.Load<SpriteFont>("Font");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 

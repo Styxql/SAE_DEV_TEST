@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using MonoGame.Extended.Tiled.Serialization;
+using System.Collections.Generic;
 
 namespace SAE_DEV
 {
@@ -73,5 +74,15 @@ namespace SAE_DEV
                 this._typeVehicule = value;
             }
         }
+    }
+
+    public void PositionEnnemie(GameTime gameTime)
+    {
+        List<string> voituresEnnemies = new List<string>();
+        voituresEnnemies.Add("Tyrannosaurus");
+        voituresEnnemies.Add("Amargasaurus");
+        voituresEnnemies.Add("Mamenchisaurus");
+        voituresEnnemies.Add("Deinonychus");
+        voituresEnnemies.Add("Compsognathus");
     }
 }
