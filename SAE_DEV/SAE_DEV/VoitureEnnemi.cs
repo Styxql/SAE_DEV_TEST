@@ -11,7 +11,7 @@ namespace SAE_DEV
     {
         private string nom;
         private double vitesse;
-        private Microsoft.Xna.Framework.Vector2 _positionInitialEnnemie;
+        private Vector2 _positionInitialEnnemie;
         private Texture2D _typeVehicule;
 
         public VoitureEnnemi (string nom, double vitesse, Vector2 positionInitialEnnemie, Texture2D typeVehicule)
