@@ -33,14 +33,8 @@ namespace SAE_DEV
         private Texture2D _buttonSettingsOff;
         private Texture2D _background;
         private Texture2D _buttonPlayPressed;
-        Vector2 _positionBoutonPlay;
-        Vector2 _positionButtonExit;
-        Vector2 _positionButtonAudio;
-        Vector2 _positionSettingsButton;
-        Vector2 _positionInfoButton;
-        Vector2 _positionButtonAudioOff;
-
-        Vector2 _positionBackground;
+        private Texture2D _buttonMenu;
+       
 
         // contient les rectangles : position et taille des 3 boutons présents dans la texture 
         private Rectangle[] lesBoutons;
@@ -52,8 +46,9 @@ namespace SAE_DEV
             _myGame = game;
             lesBoutons = new Rectangle[4];
             lesBoutons[0] = new Rectangle(362, 90, 200, 70);
-            lesBoutons[1] = new Rectangle(362, 190, 200, 70);
-            lesBoutons[2] = new Rectangle(362, 290, 200, 70);
+            lesBoutons[2] = new Rectangle(362, 190, 200, 70);
+            lesBoutons[3] = new Rectangle(362, 290, 200, 70);
+            lesBoutons[1] = new Rectangle(362, 390, 200, 70);
             //lesBoutons[3] = new Rectangle(75, 528, 200, 70);
 
             //lesBoutons[4] = new Rectangle(75, 528, 640, 160);
@@ -81,6 +76,7 @@ namespace SAE_DEV
             _buttonAudio = Content.Load<Texture2D>("AudioSquareButton");
             _buttonSettings = Content.Load<Texture2D>("SettingsButton");
             _buttonPlayPressed = Content.Load<Texture2D>("PlayButton");
+            _buttonMenu = Content.Load<Texture2D>("MenuButton");
             _background = Content.Load<Texture2D>("fondmenu");
 
 
@@ -101,8 +97,10 @@ namespace SAE_DEV
                         if (i == 0)
                             _myGame.Etat = Game1.Etats.Play;
                         else if (i == 1)
-                            _myGame.Etat = Game1.Etats.Settings;
+                            _myGame.Etat = Game1.Etats.Menu;
                         else if (i == 2)
+                            _myGame.Etat = Game1.Etats.Settings;
+                        else if (i == 3)
                             _myGame.Etat = Game1.Etats.Exit;
                         break;
                     }
@@ -118,7 +116,9 @@ namespace SAE_DEV
             _myGame.SpriteBatch.Draw(_background, new Vector2(GraphicsDevice.Viewport.Width / 2 - (925 / 2), GraphicsDevice.Viewport.Height / 2 - (720 / 2)), Color.White);
             _myGame.SpriteBatch.Draw(_buttonPlay, new Vector2(362, 90), Color.Red);
             _myGame.SpriteBatch.Draw(_buttonSettings, new Vector2(362, 190), Color.Red);
-            _myGame.SpriteBatch.Draw(_buttonExit, new Vector2(362, 290), Color.Red);
+            _myGame.SpriteBatch.Draw(_buttonMenu, new Vector2(362, 290), Color.Red);
+
+            _myGame.SpriteBatch.Draw(_buttonExit, new Vector2(362, 390), Color.Red);
             //_myGame.SpriteBatch.Draw(_buttonPlayPressed,  
             //_myGame.SpriteBatch.Draw(_buttonInfo,new Vector2(0,0) , Color.Red);
             //_myGame.SpriteBatch.Draw(_buttonAudio,new Vector2(0,0) , Color.Red);

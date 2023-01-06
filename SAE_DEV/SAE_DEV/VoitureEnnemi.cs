@@ -76,13 +76,13 @@ namespace SAE_DEV
         }
     }
 
-    public void PositionEnnemie(GameTime gameTime)
-    {
-        List<string> voituresEnnemies = new List<string>();
-        voituresEnnemies.Add("Tyrannosaurus");
-        voituresEnnemies.Add("Amargasaurus");
-        voituresEnnemies.Add("Mamenchisaurus");
-        voituresEnnemies.Add("Deinonychus");
-        voituresEnnemies.Add("Compsognathus");
-    }
+    //public void PositionEnnemie(GameTime gameTime)
+    //{
+    //    List<string> voituresEnnemies = new List<string>();
+    //    voituresEnnemies.Add("Tyrannosaurus");
+    //    voituresEnnemies.Add("Amargasaurus");
+    //    voituresEnnemies.Add("Mamenchisaurus");
+    //    voituresEnnemies.Add("Deinonychus");
+    //    voituresEnnemies.Add("Compsognathus");
+    //}
 }

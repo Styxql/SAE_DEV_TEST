@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SAE_DEV
 {
-    public class Settings : GameScreen
+    public class ScreenSettings : GameScreen
     {
         private Game1 _myGame;
 
-        public Settings(Game1 game) : base(game)
+        public ScreenSettings(Game1 game) : base(game)
         {
             _myGame = game;
         }
@@ -21,7 +21,7 @@ namespace SAE_DEV
             base.LoadContent();
         }
         public override void Update(GameTime gameTime)
-        { 
+        {
         }
         public override void Draw(GameTime gameTime)
         {
@@ -31,4 +31,5 @@ namespace SAE_DEV
 
 
         }
+    }
 }
