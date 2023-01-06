@@ -5,10 +5,21 @@ faire un menu comportant les parametres :regle du jeu , touches , niveau , bouti
 
 
 
-
-
-
 nom du jeu " no brake"
 bonus : lorsqu'on frole une voiture = bonus pièce 
 faire un klaxon ou une radio 
 faire un bouton pour mettre pause 
+
+
+faire tomber les pieces , les voitures 
+faire les affichages des scores et le timer 
+faire les colisions avec les voitures et affficher un écran game over 
+faire changer le climat
+faire un menu pour les niveaux 
+faire monter la voiture de sport 
+faire l'histoire ( ) BONUS 
+
+scénario
+premiere map annecy voiture pt 
+deuxieme map miami buggati
+troisieme map annecy challenger 
