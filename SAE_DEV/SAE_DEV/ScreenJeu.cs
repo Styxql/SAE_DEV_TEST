@@ -58,6 +58,18 @@ namespace SAE_DEV
         private int _vitesseVehicule;
         private int _maxPositionsX = 0;
 
+
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private Texture2D _fond;
+        private SpriteFont _police;
+        private int _score;
+        private Vector2 _positionScore;
+        private float chrono;
+        private Vector2 _positionChrono;
+        private int _chrono;
+        private Texture2D _coins;
+
         private Game1 _myGame;
         // récup une ref à l'objet game qui permet d'accéder à ce qu'il y a dans Game1
 
@@ -81,6 +93,10 @@ namespace SAE_DEV
             _directionVoiture = 1;
             _vitesseVehicule = 100;
             _angleVehicule = 0f;
+            _positionScore = new Vector2(70, 0);
+            _positionChrono = new Vector2(610, 0);
+            _score = 0;
+            _chrono = 60;
 
             VoitureEnnemi[] tabVoitureEnnemies = { ambulance, truck, audi, voitureBolide, car, miniTruck, minivan, taxi, truck };
 
@@ -120,6 +136,10 @@ namespace SAE_DEV
             /////////////////////////////JOUEUR/////////////////////////////////////
 
             _joueur = new VoitureJoueur("Voiture Basique", 100, _positionVoiture, _voitureJoueur, 0);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _fond = Content.Load<Texture2D>("fond");
+            _police = Content.Load<SpriteFont>("Font");
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             base.LoadContent();
 
@@ -153,8 +173,9 @@ namespace SAE_DEV
              _myGame.SpriteBatch.Begin();
              _myGame.SpriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemi, Color.White);
              _myGame.SpriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemi, Color.White);
-             _myGame.SpriteBatch.Draw(_voitureJoueur, _positionVoiture, _angleVehicule);
-             _myGame.SpriteBatch.End();
+             _myGame.SpriteBatch.Draw(_voitureJoueur, _positionVoiture, _angleVehicule);            
+             
+            _myGame.SpriteBatch.End();
 
             // TODO: Add your drawing code here
         }

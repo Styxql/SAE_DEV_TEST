@@ -102,10 +102,7 @@ namespace SAE_DEV
 
 
         public void DeplacementDroite(GameTime gameTime)
-        {
-
-            
-
+        {            
 
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
