@@ -9,7 +9,7 @@ using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
 using Microsoft.Xna.Framework.Audio;
-using System.Threading;
+using System.Threading; 
 
 namespace SAE_DEV
 {
@@ -45,7 +45,7 @@ namespace SAE_DEV
         private VoitureEnnemi car;
         private VoitureEnnemi truck;
         private VoitureEnnemi taxi;
-        private VoitureJoueur joueur;
+        private VoitureJoueur _joueur;
         private Vector2 _positionInitialVoitureEnnemi;
 
 
@@ -119,7 +119,7 @@ namespace SAE_DEV
 
             /////////////////////////////JOUEUR/////////////////////////////////////
 
-            joueur = new VoitureJoueur("Voiture Basique", 100, _positionVoiture, _voitureJoueur, 0);
+            _joueur = new VoitureJoueur("Voiture Basique", 100, _positionVoiture, _voitureJoueur, 0);
 
             base.LoadContent();
 
@@ -129,7 +129,7 @@ namespace SAE_DEV
         public override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            //Exit();
+                _myGame.Exit();
             _tiledMapRenderer.Update(gameTime);
             // TODO: Add your update logic here
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -138,101 +138,13 @@ namespace SAE_DEV
             _tiledMapRenderer.Update(gameTime);
             _voitureJoueur.Update(deltaSeconds);
 
-            if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
-            {
-                System.Console.WriteLine(_positionVoiture.X);
-                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
-
-                _voitureJoueur.Play("droite");
-                if (_angleVehicule <= 0.3f)
-                {
-                    _angleVehicule += 0.02f;
-                }
-
-                float nextX = _positionVoiture.X;
-                _maxPositionsX = _myGame._graphics.PreferredBackBufferWidth - 32 - 78 - 420;//calculer avec la vélocité ?
-                if (nextX < _maxPositionsX) //32 : barriere , 78 : width voiture , 420 : decor.width pos barriere : 1390
-                {
-                    _positionVoiture.X = nextX;
-                }
-                else
-                {
-                    _positionVoiture.X = _maxPositionsX;
-                    _angleVehicule = 0f;
-                }
-
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
-            {
-                System.Console.WriteLine(_positionVoiture.X);
-                _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;
-
-                _voitureJoueur.Play("gauche");
-                if (_angleVehicule >= -0.3f)
-                {
-                    _angleVehicule -= 0.02f;
-                }
-
-                float nextX = _positionVoiture.X;
-                _maxPositionsX = 32 + 390 + 78;
-                if (nextX > _maxPositionsX) //32 : barriere , 390 : decor , 78 :voiture.width
-                {
-                    _positionVoiture.X = nextX;
-                }
-                else
-                {
-                    _positionVoiture.X = _maxPositionsX;
-                    _angleVehicule = 0;
-                }
-            }
-
-            else
-            {
-                _voitureJoueur.Play("idle");
-                if (_angleVehicule > 0f)
-                {
-                    _angleVehicule -= 0.02f;
-                }
-                else if (_angleVehicule < 0f)
-                {
-                    _angleVehicule += 0.02f;
-                }
-            }
-
-            if (_positionVoiture.X < 490 || _positionVoiture.X > 1390)
-            {
-                //_directionVoiture = -_directionVoiture;
-                _vitesseVehicule = 0;
-                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
-
-            }
-
-            /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
-            //if (_keyboardState.IsKeyDown(Keys.K))
-            //{
-            //    _radioON.Play();
-            //    Thread.Sleep(5000);
-
-
-            //    //_radio.Play();
-            //}
-            //else if (_keyboardState.IsKeyDown(Keys.L))
-            //{
-
-            //    _radioOFF.Play();
-            //}
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
+            _joueur.DeplacementDroite(gameTime);
+            _joueur.DeplacementGauche(gameTime);
+          
+            
             _mapYPosition += _vitesseYMap * deltaSeconds;
             _mapYPosition %= 1000;
-
-
-
-            //foreach(VoitureEnnemie voitureEnnemie in tabVoitureEnnemies )
-            //{
-
-            //}
-
-            //base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
@@ -245,8 +157,23 @@ namespace SAE_DEV
              _myGame.SpriteBatch.End();
 
             // TODO: Add your drawing code here
-
-            //base.Draw(gameTime);
         }
+
+        /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
+        //if (_keyboardState.IsKeyDown(Keys.K))
+        //{
+        //    _radioON.Play();
+        //    Thread.Sleep(5000);
+
+
+        //    //_radio.Play();
+        //}
+        //else if (_keyboardState.IsKeyDown(Keys.L))
+        //{
+
+        //    _radioOFF.Play();
+        //}
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     }
 }

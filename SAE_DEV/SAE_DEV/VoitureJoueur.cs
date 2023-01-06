@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
+using MonoGame.Extended.Content;
 
 namespace SAE_DEV
 {
@@ -8,7 +11,7 @@ namespace SAE_DEV
     {
         private string nom;
         private double vitesse;
-        private Microsoft.Xna.Framework.Vector2 positionInitial;
+        private Vector2 positionInitial;
         private AnimatedSprite _typeVehicule;
         private int prix;
         private AnimatedSprite _voitureJoueur;
@@ -19,14 +22,14 @@ namespace SAE_DEV
         private float _angleVehicule;
         private int _maxPositionsX = 0;
         private GraphicsDeviceManager _graphics;
-        private VoitureJoueur joueur;
+        public VoitureJoueur _joueur;
 
         public VoitureJoueur(string nom, double vitesse, Vector2 positionInitial, AnimatedSprite typeVehicule, int prix)
         {
             this.Nom = nom;
             this.Vitesse = vitesse;
-            this.PositionInitialEnnemie = positionInitial;
-            this.TypeVehicule = typeVehicule;
+            this._positionVoiture = positionInitial;
+            this._voitureJoueur = typeVehicule;
             this.Prix = prix;
         }
 
@@ -95,10 +98,16 @@ namespace SAE_DEV
             }
         }
 
-        private void Deplacement(GameTime gameTime)
-        {
-            float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        
 
+
+        public void DeplacementDroite(GameTime gameTime)
+        {
+
+            
+
+
+            float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
             {
@@ -123,8 +132,33 @@ namespace SAE_DEV
                     _angleVehicule = 0f;
                 }
 
+            }           
+            else
+            {
+                _voitureJoueur.Play("idle");
+                if (_angleVehicule > 0f)
+                {
+                    _angleVehicule -= 0.02f;
+                }
+                else if (_angleVehicule < 0f)
+                {
+                    _angleVehicule += 0.02f;
+                }
             }
-            else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
+
+            if (_positionVoiture.X < 490 || _positionVoiture.X > 1390)
+            {
+                //_directionVoiture = -_directionVoiture;
+                _vitesseVehicule = 0;
+                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+            }                   
+        }
+
+        public void DeplacementGauche(GameTime gameTime)
+        {
+            float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
             {
                 System.Console.WriteLine(_positionVoiture.X);
                 _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;

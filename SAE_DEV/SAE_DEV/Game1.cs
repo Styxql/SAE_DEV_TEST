@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
-using MonoGame.Extended.Content;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
@@ -33,7 +32,7 @@ namespace SAE_DEV
         {          
             // TODO: Add your initialization logic here
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferWidth = 720;
             _graphics.PreferredBackBufferHeight = 720;
             //_graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
@@ -63,7 +62,7 @@ namespace SAE_DEV
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Yellow);
+            GraphicsDevice.Clear(Color.Black);
 
             //SpriteBatch.Begin();
 
