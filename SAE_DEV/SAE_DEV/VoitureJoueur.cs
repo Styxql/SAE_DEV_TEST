@@ -14,6 +14,7 @@ namespace SAE_DEV
         private Vector2 positionInitial;
         private int prix;
         private AnimatedSprite _voitureJoueur;
+        private AnimatedSprite _typeVehicule;
         private KeyboardState _keyboardState;
         private Vector2 _positionVoiture;
         private int _directionVoiture;
@@ -23,12 +24,12 @@ namespace SAE_DEV
         private GraphicsDeviceManager _graphics;
         public VoitureJoueur _joueur;
 
-        public VoitureJoueur(string nom, double vitesse, Vector2 positionInitial, AnimatedSprite _voitureJoueur, int prix)
+        public VoitureJoueur(string nom, double vitesse, Vector2 positionInitial, AnimatedSprite typeVehicule, int prix)
         {
             this.Nom = nom;
             this.Vitesse = vitesse;
             this._positionVoiture = positionInitial;
-            this._voitureJoueur = _voitureJoueur;
+            this._voitureJoueur = typeVehicule;
             this.Prix = prix;
         }
 

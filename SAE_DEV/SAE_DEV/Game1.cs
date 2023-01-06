@@ -15,7 +15,7 @@ namespace SAE_DEV
     public class Game1 : Game
     {
         public GraphicsDeviceManager _graphics;
-        public SpriteBatch SpriteBatch {get;private set;}
+        public SpriteBatch SpriteBatch { get; private set; }
         public readonly ScreenManager _screenManager;
         private ScreenJeu _myScreenJeu;
 
@@ -47,16 +47,16 @@ namespace SAE_DEV
         }
 
         protected override void Initialize()
-        {          
+        {
             // TODO: Add your initialization logic here
             GraphicsDevice.BlendState = BlendState.AlphaBlend;
             _graphics.PreferredBackBufferWidth = 720;
             _graphics.PreferredBackBufferHeight = 720;
             //_graphics.IsFullScreen = true;
             _graphics.ApplyChanges();
-           
 
-         
+
+
             base.Initialize();
         }
 
@@ -94,7 +94,6 @@ namespace SAE_DEV
                     _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
             }
             base.Update(gameTime);
-
         }
 
         protected override void Draw(GameTime gameTime)
@@ -109,5 +108,6 @@ namespace SAE_DEV
 
             base.Draw(gameTime);
         }
+
     }
 }

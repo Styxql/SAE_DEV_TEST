@@ -9,7 +9,7 @@ using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
 using Microsoft.Xna.Framework.Audio;
-using System.Threading; 
+using System.Threading;
 
 namespace SAE_DEV
 {
@@ -74,10 +74,10 @@ namespace SAE_DEV
         // récup une ref à l'objet game qui permet d'accéder à ce qu'il y a dans Game1
 
         public ScreenJeu(Game1 game) : base(game)
-        {         
+        {
             Content.RootDirectory = "Content";
             game.IsMouseVisible = true;
-            _myGame = game;           
+            _myGame = game;
         }
 
         public override void Initialize()
@@ -104,7 +104,7 @@ namespace SAE_DEV
         }
         public override void LoadContent()
         {
-           // _spriteBatch = new SpriteBatch(GraphicsDevice);
+            // _spriteBatch = new SpriteBatch(GraphicsDevice);
             _tiledMap = Content.Load<TiledMap>("map");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
             _textureCar = Content.Load<Texture2D>("Car");
@@ -137,7 +137,7 @@ namespace SAE_DEV
 
             _joueur = new VoitureJoueur("Voiture Basique", 100, _positionVoiture, _voitureJoueur, 0);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _fond = Content.Load<Texture2D>("fond");
+            _fond = Content.Load<Texture2D>("fondmenu");
             _police = Content.Load<SpriteFont>("Font");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -158,11 +158,11 @@ namespace SAE_DEV
             _tiledMapRenderer.Update(gameTime);
             _voitureJoueur.Update(deltaSeconds);
 
-            
+
             _joueur.DeplacementDroite(gameTime);
             _joueur.DeplacementGauche(gameTime);
-          
-            
+
+
             _mapYPosition += _vitesseYMap * deltaSeconds;
             _mapYPosition %= 1000;
         }
@@ -170,11 +170,11 @@ namespace SAE_DEV
         public override void Draw(GameTime gameTime)
         {
             _tiledMapRenderer.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 1000, 0));
-             _myGame.SpriteBatch.Begin();
-             _myGame.SpriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemi, Color.White);
-             _myGame.SpriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemi, Color.White);
-             _myGame.SpriteBatch.Draw(_voitureJoueur, _positionVoiture, _angleVehicule);            
-             
+            _myGame.SpriteBatch.Begin();
+            _myGame.SpriteBatch.Draw(_textureVoiturePolice, _positionInitialVoitureEnnemi, Color.White);
+            _myGame.SpriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemi, Color.White);
+            _myGame.SpriteBatch.Draw(_voitureJoueur, _positionVoiture, _angleVehicule);
+
             _myGame.SpriteBatch.End();
 
             // TODO: Add your drawing code here
