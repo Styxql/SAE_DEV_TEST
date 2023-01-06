@@ -12,9 +12,9 @@ namespace SAE_DEV
         private string nom;
         private double vitesse;
         private Vector2 positionInitial;
-        private AnimatedSprite _typeVehicule;
         private int prix;
         private AnimatedSprite _voitureJoueur;
+        private AnimatedSprite _typeVehicule;
         private KeyboardState _keyboardState;
         private Vector2 _positionVoiture;
         private int _directionVoiture;
