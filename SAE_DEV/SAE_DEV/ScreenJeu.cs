@@ -11,6 +11,9 @@ using MonoGame.Extended.Screens.Transitions;
 using Microsoft.Xna.Framework.Audio;
 using System.Threading;
 using System.Runtime.CompilerServices;
+using System;
+using System.Timers;
+using MonoGame.Extended.Timers;
 
 namespace SAE_DEV
 {
@@ -18,6 +21,10 @@ namespace SAE_DEV
     {
         public const int HAUTEUR_VEHICULE_BASIQUE = 47;
         public const int LARGEUR_VEHICULE_BASIQUE = 85;
+        public const int SIZE_JERIKAN = 50;
+        public const int SIZE_HEART = 50;
+        public const int LARGEUR_BARRE = 300;
+        public const int HAUTEUR_BARRE = 30;
         //private GraphicsDeviceManager _graphics;
         //private SpriteBatch _spriteBatch;
         private TiledMap _tiledMap;
@@ -48,6 +55,7 @@ namespace SAE_DEV
         private VoitureEnnemi taxi;
         private VoitureJoueur _joueur;
         private Vector2 _positionInitialVoitureEnnemi;
+        private Texture2D _textureJerikan;
 
 
         private float _mapYPosition = 0;
@@ -65,20 +73,30 @@ namespace SAE_DEV
         private Texture2D _fond;
         private SpriteFont _police;
         private int _score;
+        private float _barreEssence;
         private Vector2 _positionScore;
-        private float chrono;
         private Vector2 _positionChrono;
         private int _chrono;
-        private Texture2D _coins;
+        private Texture2D _textureBarreEssence;
+        private Texture2D _textureJaugeEssence;
+        private Vector2 _positionJerikan;
+        private Texture2D _textureBarreVie;
+        private Texture2D _textureJaugeVie;
+        private Texture2D _textureCoeur;
+        Vector2 _positionCoeur;
+        private Vector2 _positionBarreVie;
+        private float _pointDeVie;
 
         private Game1 _myGame;
         // récup une ref à l'objet game qui permet d'accéder à ce qu'il y a dans Game1
 
         public ScreenJeu(Game1 game) : base(game)
         {
+
             Content.RootDirectory = "Content";
             game.IsMouseVisible = true;
             _myGame = game;
+
             
         }
 
@@ -99,8 +117,13 @@ namespace SAE_DEV
             _positionChrono = new Vector2(610, 0);
             _score = 0;
             _chrono = 60;
+            _positionJerikan = new Vector2(20, _myGame._graphics.PreferredBackBufferHeight -SIZE_JERIKAN-5);
+            //_positionBarreVie = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE);
+            _positionCoeur = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - SIZE_HEART - 20, _myGame._graphics.PreferredBackBufferHeight - SIZE_HEART - 5);
+            _barreEssence = 100;
+            _pointDeVie = 100;
 
-            VoitureEnnemi[] tabVoitureEnnemies = { ambulance, truck, audi, voitureBolide, car, miniTruck, minivan, taxi, truck };
+
 
             base.Initialize();
         }
@@ -118,6 +141,12 @@ namespace SAE_DEV
             _textureVoitureBolide = Content.Load<Texture2D>("Blackviper");
             _textureVoiturePolice = Content.Load<Texture2D>("Police");
             _textureAudi = Content.Load<Texture2D>("Audi");
+            _textureBarreEssence = Content.Load<Texture2D>("barreEssence");
+            _textureJaugeEssence = Content.Load<Texture2D>("JaugeEssence");
+            _textureJerikan = Content.Load <Texture2D>("Jerikan");
+            _textureBarreVie = Content.Load<Texture2D>("BarreVie");
+            _textureJaugeVie = Content.Load<Texture2D>("JaugeVie");
+            _textureCoeur = Content.Load<Texture2D>("heart");
             ////_radio = Content.Load<SoundEffect>("Son radio");
             //_radioOFF = Content.Load<SoundEffect>("radioTurnOff");
             //_radioON = Content.Load<SoundEffect>("radioTurnON");
@@ -152,9 +181,14 @@ namespace SAE_DEV
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 _myGame.Exit();
+
             _tiledMapRenderer.Update(gameTime);
             // TODO: Add your update logic here
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _barreEssence -= 1f * deltaSeconds;
+
+
+
             _keyboardState = Keyboard.GetState();
 
             _tiledMapRenderer.Update(gameTime);
@@ -177,6 +211,21 @@ namespace SAE_DEV
             _myGame.SpriteBatch.Draw(_textureCar, _positionInitialVoitureEnnemi, Color.White);
             _myGame.SpriteBatch.Draw(_voitureJoueur, _positionVoiture, _angleVehicule);
 
+            ///////BARRE ESSENCE///////
+            int largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
+
+            Rectangle rectangleBarreEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, largeurBarreEssence, HAUTEUR_BARRE);
+            Rectangle rectangleJaugeEssence = new Rectangle(SIZE_JERIKAN+50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE-SIZE_JERIKAN/3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _myGame.SpriteBatch.Draw(_textureBarreEssence, rectangleJaugeEssence, Color.White);        
+            _myGame.SpriteBatch.Draw(_textureJaugeEssence, rectangleBarreEssence, Color.White);
+            _myGame.SpriteBatch.Draw(_textureJerikan,_positionJerikan,Color.White);
+            ///////BARRE VIE///////
+             int largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeEssence.Width);
+            Rectangle rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE-10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, largeurBarreVie, HAUTEUR_BARRE);
+            Rectangle rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE-10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _myGame.SpriteBatch.Draw(_textureBarreVie, rectangleBarreVie, Color.White);
+            _myGame.SpriteBatch.Draw(_textureJaugeVie, rectangleJaugeVie, Color.White);
+            _myGame.SpriteBatch.Draw(_textureCoeur, _positionCoeur, Color.White);
             _myGame.SpriteBatch.End();
 
             // TODO: Add your drawing code here
@@ -199,4 +248,6 @@ namespace SAE_DEV
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     }
+
+
 }

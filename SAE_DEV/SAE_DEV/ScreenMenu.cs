@@ -112,21 +112,21 @@ namespace SAE_DEV
                             _myGame.Etat = Game1.Etats.Settings;
                         else if (i == 3)
                             _myGame.Etat = Game1.Etats.Exit;
-                     
-                        /////MARCHE PAS ;(/////
-                        //else if (i == 4 )
+
+                        ///MARCHE PAS ;(/////
+                        //else if (i == 4)
                         //{
                         //    _isSoundOn = !_isSoundOn;
-                            
-                        //     if(_isSoundOn)
-                        //     {
-                        //         _buttonAudio = _buttonAudio2;
-                        //     }
-                        //     else
+
+                        //    if (_isSoundOn)
+                        //    {
+                        //        _buttonAudio = _buttonAudio2;
+                        //    }
+                        //    else
                         //    {
                         //        _buttonAudio = _buttonAudioOff;
                         //    }
-                                                        
+
 
                         //}
 
