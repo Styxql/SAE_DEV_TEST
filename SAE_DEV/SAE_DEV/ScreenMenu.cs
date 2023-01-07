@@ -28,19 +28,23 @@ namespace SAE_DEV
 
         // texture du menu avec 3 boutons
         private Texture2D _buttonAudio;
-        private Texture2D _buttonAudio2;
 
-        private Texture2D _buttonAudioOff;
         private Texture2D _buttonExit;
         private Texture2D _buttonInfo;
         private Texture2D _buttonPlay;
         private Texture2D _buttonSettings;
-        private Texture2D _buttonSettingsOff;
         private Texture2D _background;
         private Texture2D _buttonPlayPressed;
         private Texture2D _buttonMenu;
-        private bool _isSoundOn;
-       
+        private Texture2D _buttonMenuPressed;
+        private Texture2D _buttonSettingsPressed;
+        private Texture2D _buttonExitPressed;
+        private Texture2D _buttonInfoPressed;
+        private Texture2D _buttonAudioPressed;
+        private Texture2D[] _buttons;
+        private Texture2D[] _buttonsPressed;
+
+        public bool _isButtonPlayPressed;
 
         // contient les rectangles : position et taille des 3 boutons présents dans la texture 
         private Rectangle[] lesBoutons;
@@ -57,6 +61,18 @@ namespace SAE_DEV
             lesBoutons[3] = new Rectangle(362, 350, 200, 70);
             lesBoutons[4] = new Rectangle(0, 0, 50, 50);
             //lesBoutons[4] = new Rectangle(865, 670, 640, 160);
+            _buttonsPressed = new Texture2D[5];
+            _buttonsPressed[0] = _buttonPlayPressed;
+            _buttonsPressed[1] = _buttonMenuPressed;
+            _buttonsPressed[2] = _buttonSettingsPressed;
+            _buttonsPressed[3] = _buttonAudioPressed;
+            //_buttons[4] = _buttonSettings;
+            //Bouton a l'état initial
+            _buttons = new Texture2D[5];
+            _buttons[0] = _buttonPlay;
+            _buttons[1] = _buttonMenu;
+            _buttons[2] = _buttonSettings;
+            _buttons[3] = _buttonAudio;
 
 
 
@@ -70,7 +86,6 @@ namespace SAE_DEV
             _myGame._graphics.PreferredBackBufferHeight = 720;
             _myGame._graphics.PreferredBackBufferWidth = 925;
             _myGame._graphics.ApplyChanges();
-            _isSoundOn = false;
             
 
         }
@@ -81,11 +96,13 @@ namespace SAE_DEV
             _buttonExit = Content.Load<Texture2D>("ExitButton");
             _buttonPlay = Content.Load<Texture2D>("PlayButton");
             _buttonAudio = Content.Load<Texture2D>("AudioSquareButton");
-            _buttonAudio2 = Content.Load<Texture2D>("AudioSquareButton");
+            _buttonMenuPressed = Content.Load<Texture2D>("ButtonMenuPressed");
+            _buttonSettingsPressed = Content.Load<Texture2D>("BoutonSettingsPressed");
+            
 
-            _buttonAudioOff = Content.Load<Texture2D>("AudioSquareButtonOff");
+            _buttonAudioPressed = Content.Load<Texture2D>("AudioSquareButtonOff");
             _buttonSettings = Content.Load<Texture2D>("SettingsButton");
-            _buttonPlayPressed = Content.Load<Texture2D>("PlayButton");
+            _buttonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
             _buttonMenu = Content.Load<Texture2D>("MenuButton");
             _background = Content.Load<Texture2D>("fondmenu");
 
@@ -96,6 +113,7 @@ namespace SAE_DEV
         {
 
             MouseState _mouseState = Mouse.GetState();
+//          
             if (_mouseState.LeftButton == ButtonState.Pressed)
             {
                 for (int i = 0; i < lesBoutons.Length; i++)
@@ -105,6 +123,7 @@ namespace SAE_DEV
                     {
                         // on change l'état défini dans Game1 en fonction du bouton cliqué
                         if (i == 0)
+                            
                             _myGame.Etat = Game1.Etats.Play;
                         else if (i == 1)
                             _myGame.Etat = Game1.Etats.Menu;
@@ -142,17 +161,38 @@ namespace SAE_DEV
             GraphicsDevice.Clear(Color.Black);
             _myGame.SpriteBatch.Begin();
             _myGame.SpriteBatch.Draw(_background, new Vector2(GraphicsDevice.Viewport.Width / 2 - (925 / 2), GraphicsDevice.Viewport.Height / 2 - (720 / 2)), Color.White);
-            _myGame.SpriteBatch.Draw(_buttonPlay, new Vector2(362, 50), Color.Red);
-            _myGame.SpriteBatch.Draw(_buttonSettings, new Vector2(362, 150), Color.Red);
-            _myGame.SpriteBatch.Draw(_buttonMenu, new Vector2(362, 250), Color.Red);
-
-            _myGame.SpriteBatch.Draw(_buttonExit, new Vector2(362, 350), Color.Red);
-            //_myGame.SpriteBatch.Draw(_buttonPlayPressed,  
-            //_myGame.SpriteBatch.Draw(_buttonInfo, new Vector2(0, 0), Color.Red);
-            
-            _myGame.SpriteBatch.Draw(_buttonAudio, new Vector2(0, 0), Color.Red);
 
 
+            //_myGame.SpriteBatch.Draw(_buttonPlayPressed,new Vector2(362,55),Color.White);
+
+
+            //_myGame.SpriteBatch.Draw(_buttonPlay, new Vector2(362, 50), Color.Red);
+
+            //_myGame.SpriteBatch.Draw(_buttonSettings, new Vector2(362, 150), Color.Red);
+            //_myGame.SpriteBatch.Draw(_buttonMenu, new Vector2(362, 250), Color.Red);
+
+            //_myGame.SpriteBatch.Draw(_buttonExit, new Vector2(362, 350), Color.Red);
+            ////_myGame.SpriteBatch.Draw(_buttonPlayPressed,  
+            ////_myGame.SpriteBatch.Draw(_buttonInfo, new Vector2(0, 0), Color.Red);
+
+            //_myGame.SpriteBatch.Draw(_buttonAudio, new Vector2(0, 0), Color.Red);
+            MouseState _mouseState1 = Mouse.GetState();
+            for (int i = 0; i < _buttons.Length; i++)
+            {
+                
+                    // Si la souris est au-dessus du bouton actuel
+                    if (lesBoutons[i].Contains(_mouseState1.X, _mouseState1.Y))
+                    {
+                        // Affiche le bouton pressé
+                        _myGame.SpriteBatch.Draw(_buttons[i], lesBoutons[i], Color.White);
+                    }
+                    else
+                    {
+                    // Affiche le bouton normal
+                    _myGame.SpriteBatch.Draw(_buttonsPressed[i], lesBoutons[i], Color.Red);
+                }
+                
+            }
             _myGame.SpriteBatch.End();
 
 
