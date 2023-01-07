@@ -84,19 +84,15 @@ namespace SAE_DEV
             if (_mouseState.LeftButton == ButtonState.Pressed)
             {
                 // Attention, l'état a été mis à jour directement par l'écran en question
-                if (this.Etat == Etats.Exit)
-                    Exit();
+                if (this.Etat == Etats.Play)
+                    _screenManager.LoadScreen(_screenJeu, new FadeTransition(GraphicsDevice, Color.Black));
 
                 else if (this.Etat == Etats.Play)
-                    _screenManager.LoadScreen(_screenJeu, new ExpandTransition(GraphicsDevice, Color.Black));
+                    Exit();
 
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Back))
-            {
-                if (this.Etat == Etats.Menu)
-                    _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
-            }
+         
             base.Update(gameTime);
         }
 

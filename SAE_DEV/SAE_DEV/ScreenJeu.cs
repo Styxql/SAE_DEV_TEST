@@ -10,6 +10,7 @@ using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
 using Microsoft.Xna.Framework.Audio;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
 namespace SAE_DEV
 {
@@ -78,6 +79,7 @@ namespace SAE_DEV
             Content.RootDirectory = "Content";
             game.IsMouseVisible = true;
             _myGame = game;
+            
         }
 
         public override void Initialize()
