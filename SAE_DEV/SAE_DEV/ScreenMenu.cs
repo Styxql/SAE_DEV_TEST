@@ -150,7 +150,6 @@ namespace SAE_DEV
                         //        _buttonAudio = _buttonAudioOff;
                         //    }
 
-
                         //}
 
                         break;
@@ -158,7 +157,6 @@ namespace SAE_DEV
 
                 }
             }
-
         }
         public override void Draw(GameTime gameTime)
         {
@@ -201,6 +199,7 @@ namespace SAE_DEV
 
 
         }
+        
 
     }
 
