@@ -255,7 +255,6 @@ namespace SAE_DEV
 
             ///////BARRE ESSENCE///////
             //int largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
-
             //Rectangle rectangleBarreEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, largeurBarreEssence, HAUTEUR_BARRE);
             //Rectangle rectangleJaugeEssence = new Rectangle(SIZE_JERIKAN+50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE-SIZE_JERIKAN/3, LARGEUR_BARRE, HAUTEUR_BARRE);
             //_myGame.SpriteBatch.Draw(_textureBarreEssence, rectangleJaugeEssence, Color.White);        
