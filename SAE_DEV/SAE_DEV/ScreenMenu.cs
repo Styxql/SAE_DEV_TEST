@@ -2,13 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Screens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace SAE_DEV
 {
@@ -64,8 +57,6 @@ namespace SAE_DEV
             
 
 
-
-
         }
         public override void Initialize()
         {
@@ -87,8 +78,6 @@ namespace SAE_DEV
             _buttonAudio = Content.Load<Texture2D>("AudioSquareButton");
             _buttonMenuPressed = Content.Load<Texture2D>("ButtonMenuPressed");
             _buttonSettingsPressed = Content.Load<Texture2D>("BoutonSettingsPressed");
-
-
             _buttonAudioPressed = Content.Load<Texture2D>("AudioSquareButtonOff");
             _buttonSettings = Content.Load<Texture2D>("SettingsButton");
             _buttonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
@@ -178,6 +167,8 @@ namespace SAE_DEV
             ////_myGame.SpriteBatch.Draw(_buttonInfo, new Vector2(0, 0), Color.Red);
 
             //_myGame.SpriteBatch.Draw(_buttonAudio, new Vector2(0, 0), Color.Red);
+
+
             MouseState _mouseState1 = Mouse.GetState();
             for (int i = 0; i < _buttons.Length; i++)
             {

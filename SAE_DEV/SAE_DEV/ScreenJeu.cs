@@ -7,12 +7,9 @@ using MonoGame.Extended.Content;
 using MonoGame.Extended.Sprites;
 using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
-using MonoGame.Extended.Screens.Transitions;
 using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using System;
-using System.Threading;
-using System.Runtime.CompilerServices;
 
 namespace SAE_DEV
 {
@@ -75,6 +72,11 @@ namespace SAE_DEV
         //timer de spawn ennemie
         private float _timerRespawnEnnemie;
 
+        //pause
+        private bool _estEntrainDeJouer = true;
+        private float _dureeEnPause;
+
+
         private Game1 _myGame;
         // récup une ref à l'objet game qui permet d'accéder à ce qu'il y a dans Game1
 
@@ -84,7 +86,6 @@ namespace SAE_DEV
             Content.RootDirectory = "Content";
             game.IsMouseVisible = true;
             _myGame = game;
-
             
         }
 
@@ -107,13 +108,11 @@ namespace SAE_DEV
             _score = 0;
             _chrono = 60;
 
-
             //_positionJerikan = new Vector2(20, _myGame._graphics.PreferredBackBufferHeight - SIZE_JERIKAN-5);
             ////_positionBarreVie = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE);
             //_positionCoeur = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - SIZE_HEART - 20, _myGame._graphics.PreferredBackBufferHeight - SIZE_HEART - 5);
             //_barreEssence = 100;
             //_pointDeVie = 100;
-
 
 
             base.Initialize();
@@ -157,64 +156,84 @@ namespace SAE_DEV
 
         public override void Update(GameTime gameTime)
         {
-
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                _myGame.Exit();
-            else if (_keyboardState.IsKeyDown(Keys.Space)) //pour debug
-            {
-                Console.WriteLine("position Joueur en X:" + _joueur.Position.X);
-            }
-
-            //autre
-            _tiledMapRenderer.Update(gameTime);
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _dureeEnPause += deltaSeconds;
+
             _keyboardState = Keyboard.GetState();
 
-
-            //diminution de l'essence
-            _barreEssence -= 1f * deltaSeconds;
-
-
-            //Mise à jour de la map et défilement 
-            _tiledMapRenderer.Update(gameTime);
-            _mapYPosition += _vitesseYMap * deltaSeconds;
-            _mapYPosition %= 1000;
-           
-
-            //Mise à jour du déplacememnt joueur
-            _joueur.Sprite.Update(deltaSeconds);
-
-            if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
+            if (_estEntrainDeJouer)
             {
-                _joueur.DeplacementDroite(deltaSeconds);
-            }
-            else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
-            {
-                _joueur.DeplacementGauche(deltaSeconds);
-            }
-            else
-            {
-                _joueur.Idle();
-            }
 
-            //Spawn d'un ennemie et timer          
-            _timerRespawnEnnemie += deltaSeconds;
-            
-            if(_timerRespawnEnnemie > INTERVALLE_RESPAWN)
-            {
-                this.SpawnEnnemie();
-                _timerRespawnEnnemie -= INTERVALLE_RESPAWN;
-            }
-
-            //Déplacement des ennemies
-            for (int i = 0; i < _lesVoituresEnnemies.Count; i++)
-            {
-                VoitureEnnemie voiture = _lesVoituresEnnemies[i];
-                voiture.Position = new Vector2(voiture.Position.X, voiture.Position.Y + voiture.Vitesse * deltaSeconds);
-                if(voiture.Position.Y >  GraphicsDevice.Viewport.Height + HAUTEUR_VEHICULE_BASIQUE)
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    _myGame.Exit();
+                else if (_keyboardState.IsKeyDown(Keys.Space)) //pour debug
                 {
-                    _lesVoituresEnnemies.Remove(voiture);
-                    i--;//permet de vérifier les voitures toujours existantes 
+                    Console.WriteLine("position Joueur en X:" + _joueur.Position.X);
+                }
+                else if (_keyboardState.IsKeyDown(Keys.P) && _dureeEnPause > 0.4)
+                {
+                    _estEntrainDeJouer = false;
+                    _dureeEnPause = 0;
+                }
+
+                //autre
+                _tiledMapRenderer.Update(gameTime);
+
+
+                //diminution de l'essence
+                _barreEssence -= 1 * deltaSeconds;
+
+
+                //Mise à jour de la map et défilement 
+                _tiledMapRenderer.Update(gameTime);
+                _mapYPosition += _vitesseYMap * deltaSeconds;
+                _mapYPosition %= 1000;
+
+
+                //Mise à jour du déplacememnt joueur
+                _joueur.Sprite.Update(deltaSeconds);
+
+                if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
+                {
+                    _joueur.DeplacementDroite(deltaSeconds);
+                }
+                else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
+                {
+                    _joueur.DeplacementGauche(deltaSeconds);
+                }
+                else
+                {
+                    _joueur.Idle();
+                }
+
+                //Spawn d'un ennemie et timer          
+                _timerRespawnEnnemie += deltaSeconds;
+
+                if (_timerRespawnEnnemie > INTERVALLE_RESPAWN)
+                {
+                    this.SpawnEnnemie();
+                    _timerRespawnEnnemie -= INTERVALLE_RESPAWN;
+                }
+
+                //Déplacement des ennemies
+                for (int i = 0; i < _lesVoituresEnnemies.Count; i++)
+                {
+                    VoitureEnnemie voiture = _lesVoituresEnnemies[i];
+                    voiture.Position = new Vector2(voiture.Position.X, voiture.Position.Y + voiture.Vitesse * deltaSeconds);
+                    if (voiture.Position.Y > GraphicsDevice.Viewport.Height + HAUTEUR_VEHICULE_BASIQUE)
+                    {
+                        _lesVoituresEnnemies.Remove(voiture);
+                        i--;//permet de vérifier les voitures toujours existantes 
+                    }
+                }
+            }
+
+            else
+            {              
+                if (_dureeEnPause > 0.4 && _keyboardState.IsKeyDown(Keys.P))
+                {                 
+                    _estEntrainDeJouer = true;
+                    _dureeEnPause = 0;                  
                 }
             }
      
@@ -242,6 +261,7 @@ namespace SAE_DEV
             //_myGame.SpriteBatch.Draw(_textureBarreEssence, rectangleJaugeEssence, Color.White);        
             //_myGame.SpriteBatch.Draw(_textureJaugeEssence, rectangleBarreEssence, Color.White);
             //_myGame.SpriteBatch.Draw(_textureJerikan,_positionJerikan,Color.White);
+
             /////////BARRE VIE///////
             // int largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeEssence.Width);
             //Rectangle rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE-10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, largeurBarreVie, HAUTEUR_BARRE);
