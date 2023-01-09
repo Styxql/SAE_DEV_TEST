@@ -78,6 +78,7 @@ namespace SAE_DEV
         private float _pointDeVie;
         private int _largeurBarreEssence;
         private int _largeurBarreVie;
+        private float _delaiCollision;
         Rectangle _rectangleBarreVie;
         Rectangle _rectangleJaugeVie;
         
@@ -125,7 +126,8 @@ namespace SAE_DEV
             _positionCoeur = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - SIZE_HEART - 20, _myGame._graphics.PreferredBackBufferHeight - SIZE_HEART - 5);
             _barreEssence = 100;
             _pointDeVie = 100;
-           
+            _delaiCollision = 1;
+            
             base.Initialize();
         }
         public override void LoadContent()
@@ -186,7 +188,8 @@ namespace SAE_DEV
             _fond = Content.Load<Texture2D>("fondmenu");
             _police = Content.Load<SpriteFont>("Font");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
+       
             base.LoadContent();
 
             // TODO: use this.Content to load your game content here
@@ -274,15 +277,20 @@ namespace SAE_DEV
                     _dureeEnPause = 0;                  
                 }
             }
+            _delaiCollision += deltaSeconds;
+            if (Collision())
+            {
+                _pointDeVie -= 20;
+                _delaiCollision = 0;            
+            }
             _largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
-            _largeurBarreVie = (int)(_pointDeVie / 100 * _textureBarreVie.Width);
+            _largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeVie.Width);
+
             _rectangleJaugeEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
             _rectangleBarreEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreEssence, HAUTEUR_BARRE);
-            _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreVie, HAUTEUR_BARRE);
-            _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-
-
-
+            _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreVie, HAUTEUR_BARRE);
+           
         }
 
         public override void Draw(GameTime gameTime)
@@ -326,8 +334,8 @@ namespace SAE_DEV
 
             int[] positionsX = new int[] { 500, 700, 900, 1100 };//
 
-            int i = rand.Next(0, nomEnnemies.Length - 1);//index du tableau
-            int voie = rand.Next(0, positionsX.Length - 1);//index de la voie
+            int i = rand.Next(0, nomEnnemies.Length);//index du tableau
+            int voie = rand.Next(0, positionsX.Length);//index de la voie
 
             int x = positionsX[voie];
             x += rand.Next(0, 150);//assigne une position aléatoire dans l'une des 4 voies
@@ -348,6 +356,7 @@ namespace SAE_DEV
             _lesVoituresEnnemies.Add(voiture);
 
         }
+        
 
         /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
         //if (_keyboardState.IsKeyDown(Keys.K))
@@ -361,8 +370,24 @@ namespace SAE_DEV
         //    _radioOFF.Play();
         //}
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+         bool Collision()
+        {
+            if (_delaiCollision > 1)
+            {
+                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE);
+                foreach (VoitureEnnemie voiture in _lesVoituresEnnemies)
+                {
+                    Rectangle rect2 = new Rectangle((int)voiture.Position.X, (int)voiture.Position.Y, LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE);
+                    if (rect1.Intersects(rect2))
+                    {
+                        return true;
+                    }
 
+                }
+            }
+             return false;
+        }
     }
-
+   
 
 }
