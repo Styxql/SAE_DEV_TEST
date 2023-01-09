@@ -23,7 +23,7 @@ namespace SAE_DEV
         public VoitureEnnemie(string nom, int vitesse, Vector2 position, float sens)
             : this(nom, vitesse, position, sens, null)
         {
-
+            
         }
 
         #region propriété
@@ -73,9 +73,9 @@ namespace SAE_DEV
                 return this.sens;
             }
 
-            set
-            {
-                this.sens = value;
+            set 
+            { 
+                this.sens = value; 
             }
 
         }

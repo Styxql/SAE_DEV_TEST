@@ -19,6 +19,10 @@ namespace SAE_DEV
         public const int HAUTEUR_VEHICULE_BASIQUE = 47;
         public const int LARGEUR_VEHICULE_BASIQUE = 85;
         private const int INTERVALLE_RESPAWN = 1;
+        private const int HAUTEUR_BARRE = 30;
+        private const int LARGEUR_BARRE = 300;
+        private const int SIZE_JERIKAN = 50;
+        private const int SIZE_HEART = 50;
 
         //Autre
         private GraphicsDeviceManager _graphics;
@@ -58,8 +62,12 @@ namespace SAE_DEV
         //barre d'essence
         private Texture2D _textureBarreEssence;
         private Texture2D _textureJaugeEssence;
+        private Texture2D _textureJerikan;
         private Vector2 _positionJerikan;
         private float _barreEssence;
+        Rectangle _rectangleBarreEssence;
+        Rectangle _rectangleJaugeEssence;
+
 
         //barre de vie
         private Texture2D _textureBarreVie;
@@ -68,7 +76,11 @@ namespace SAE_DEV
         private Vector2 _positionCoeur;
         private Vector2 _positionBarreVie;
         private float _pointDeVie;
-
+        private int _largeurBarreEssence;
+        private int _largeurBarreVie;
+        Rectangle _rectangleBarreVie;
+        Rectangle _rectangleJaugeVie;
+        
         //timer de spawn ennemie
         private float _timerRespawnEnnemie;
 
@@ -108,19 +120,48 @@ namespace SAE_DEV
             _score = 0;
             _chrono = 60;
 
-            //_positionJerikan = new Vector2(20, _myGame._graphics.PreferredBackBufferHeight - SIZE_JERIKAN-5);
-            ////_positionBarreVie = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE);
-            //_positionCoeur = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - SIZE_HEART - 20, _myGame._graphics.PreferredBackBufferHeight - SIZE_HEART - 5);
-            //_barreEssence = 100;
-            //_pointDeVie = 100;
-
-
+            _positionJerikan = new Vector2(20, _myGame._graphics.PreferredBackBufferHeight - SIZE_JERIKAN - 5);
+            _positionBarreVie = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE);
+            _positionCoeur = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - SIZE_HEART - 20, _myGame._graphics.PreferredBackBufferHeight - SIZE_HEART - 5);
+            _barreEssence = 100;
+            _pointDeVie = 100;
+           
             base.Initialize();
         }
         public override void LoadContent()
         {
             _tiledMap = Content.Load<TiledMap>("map");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
+            
+            //Chargement des textures pour les ennemies
+            _textureEnnemies = new List<Texture2D>();
+            foreach (string nom in nomEnnemies)
+            {
+                Texture2D texture = Content.Load<Texture2D>(nom);
+                _textureEnnemies.Add(texture);
+            }
+
+            //créaation de deux ennemies au démarrage
+            for(int i = 0;i < 2;i++)
+            {
+                this.SpawnEnnemie();
+            }
+
+            //_radio = Content.Load<SoundEffect>("Son radio");
+            //_radioOFF = Content.Load<SoundEffect>("radioTurnOff");
+            //_radioON = Content.Load<SoundEffect>("radioTurnON");
+
+            //Chargement du joueur
+            SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
+            _joueur.Sprite = new AnimatedSprite(spriteSheet);
+            //Barre de vie //Barre d'essence
+            _textureBarreEssence = Content.Load<Texture2D>("barreEssence");
+            _textureBarreVie = Content.Load<Texture2D>("BarreVie");
+            _textureJaugeVie = Content.Load<Texture2D>("JaugeVie");
+            _textureCoeur = Content.Load<Texture2D>("heart");
+            _textureJaugeEssence = Content.Load<Texture2D>("JaugeEssence");
+            _textureJerikan = Content.Load<Texture2D>("Jerikan");
+            //Autre
 
             //Chargement des textures pour les ennemies
             _textureEnnemies = new List<Texture2D>();
@@ -148,7 +189,7 @@ namespace SAE_DEV
             _fond = Content.Load<Texture2D>("fondmenu");
             _police = Content.Load<SpriteFont>("Font");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            
             base.LoadContent();
 
             // TODO: use this.Content to load your game content here
@@ -229,13 +270,21 @@ namespace SAE_DEV
             }
 
             else
-            {
+            {              
                 if (_dureeEnPause > 0.4 && _keyboardState.IsKeyDown(Keys.P))
-                {
+                {                 
                     _estEntrainDeJouer = true;
-                    _dureeEnPause = 0;
+                    _dureeEnPause = 0;                  
                 }
             }
+            _largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
+            _largeurBarreVie = (int)(_pointDeVie / 100 * _textureBarreVie.Width);
+            _rectangleJaugeEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleBarreEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreEssence, HAUTEUR_BARRE);
+            _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreVie, HAUTEUR_BARRE);
+            _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+
+
 
         }
 
@@ -244,30 +293,27 @@ namespace SAE_DEV
             _tiledMapRenderer.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 1000, 0));
 
             _myGame.SpriteBatch.Begin();
-
-            foreach (VoitureEnnemie voiture in _lesVoituresEnnemies)
-            {
+         
+            foreach(VoitureEnnemie voiture in _lesVoituresEnnemies)
+            {                
                 _myGame.SpriteBatch.Draw(voiture.Texture, voiture.Position, null, Color.White, voiture.Sens,
-                    new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE), 1.3f, SpriteEffects.None, 0);
+                    new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE),1.3f, SpriteEffects.None, 0);
             }
 
             _myGame.SpriteBatch.Draw(_joueur.Sprite, _joueur.Position, _joueur.Angle);
 
-            ///////BARRE ESSENCE///////
-            //int largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
-            //Rectangle rectangleBarreEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, largeurBarreEssence, HAUTEUR_BARRE);
-            //Rectangle rectangleJaugeEssence = new Rectangle(SIZE_JERIKAN+50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE-SIZE_JERIKAN/3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            //_myGame.SpriteBatch.Draw(_textureBarreEssence, rectangleJaugeEssence, Color.White);        
-            //_myGame.SpriteBatch.Draw(_textureJaugeEssence, rectangleBarreEssence, Color.White);
-            //_myGame.SpriteBatch.Draw(_textureJerikan,_positionJerikan,Color.White);
+            /////BARRE ESSENCE///////
+           
+           
+            _myGame.SpriteBatch.Draw(_textureBarreEssence, _rectangleJaugeEssence, Color.White);
+            _myGame.SpriteBatch.Draw(_textureJaugeEssence, _rectangleBarreEssence, Color.White);
+            _myGame.SpriteBatch.Draw(_textureJerikan, _positionJerikan, Color.White);
 
-            /////////BARRE VIE///////
-            // int largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeEssence.Width);
-            //Rectangle rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE-10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, largeurBarreVie, HAUTEUR_BARRE);
-            //Rectangle rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE-10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            //_myGame.SpriteBatch.Draw(_textureBarreVie, rectangleBarreVie, Color.White);
-            //_myGame.SpriteBatch.Draw(_textureJaugeVie, rectangleJaugeVie, Color.White);
-            //_myGame.SpriteBatch.Draw(_textureCoeur, _positionCoeur, Color.White);
+            ///////BARRE VIE///////
+            
+            _myGame.SpriteBatch.Draw(_textureBarreVie, _rectangleBarreVie, Color.White);
+            _myGame.SpriteBatch.Draw(_textureJaugeVie, _rectangleJaugeVie, Color.White);
+            _myGame.SpriteBatch.Draw(_textureCoeur, _positionCoeur, Color.White);
 
             _myGame.SpriteBatch.End();
 

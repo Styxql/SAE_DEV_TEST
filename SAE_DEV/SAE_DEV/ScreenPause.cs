@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace SAE_DEV
 {
-    public class Settings : GameScreen
+    public class ScreenPause : GameScreen
     {
         private Game1 _myGame;
 
-        public Settings(Game1 game) : base(game)
+        public ScreenPause(Game1 game) : base(game)
         {
             _myGame = game;
         }

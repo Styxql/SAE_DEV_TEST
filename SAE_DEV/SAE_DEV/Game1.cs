@@ -17,8 +17,8 @@ namespace SAE_DEV
         public GraphicsDeviceManager _graphics;
         public SpriteBatch SpriteBatch { get; private set; }
         public readonly ScreenManager _screenManager;
-        private ScreenJeu _myScreenJeu;
-
+      
+        
 
         // on définit les différents états possibles du jeu ( à compléter) 
         public enum Etats { Menu, Play, Settings, Exit };
@@ -29,6 +29,8 @@ namespace SAE_DEV
         // on définit  2 écrans ( à compléter )
         private ScreenMenu _screenMenu;
         private ScreenJeu _screenJeu;
+        private ScreenSettings _screenSettings;
+        private ScreenRemerciement _screenRemerciement;
 
         public Game1()
         {
@@ -44,6 +46,8 @@ namespace SAE_DEV
             // on charge les 2 écrans 
             _screenMenu = new ScreenMenu(this);
             _screenJeu = new ScreenJeu(this);
+            _screenSettings=new ScreenSettings(this);
+
         }
 
         protected override void Initialize()
@@ -62,7 +66,8 @@ namespace SAE_DEV
 
         protected override void LoadContent()
         {
-            _myScreenJeu = new ScreenJeu(this);
+           
+            
             SpriteBatch = new SpriteBatch(GraphicsDevice);
             _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black, 0));
             // TODO: use this.Content to load your game content here
@@ -80,19 +85,17 @@ namespace SAE_DEV
             if (_mouseState.LeftButton == ButtonState.Pressed)
             {
                 // Attention, l'état a été mis à jour directement par l'écran en question
-                if (this.Etat == Etats.Exit)
+                if (this.Etat == Etats.Play)
+                    _screenManager.LoadScreen(_screenJeu, new FadeTransition(GraphicsDevice, Color.Black));
+                else if (this.Etat == Etats.Settings)
+                    _screenManager.LoadScreen(_screenSettings, new FadeTransition(GraphicsDevice, Color.Black));
+
+                else if (this.Etat == Etats.Exit)
                     Exit();
 
-                else if (this.Etat == Etats.Play)
-                    _screenManager.LoadScreen(_screenJeu, new ExpandTransition(GraphicsDevice, Color.Black));
-
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Back))
-            {
-                if (this.Etat == Etats.Menu)
-                    _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
-            }
+         
             base.Update(gameTime);
         }
 

@@ -17,6 +17,8 @@ faire les colisions avec les voitures et affficher un écran game over
 faire changer le climat
 faire un menu pour les niveaux 
 faire monter la voiture de sport 
+BArre essence , se recharge avec des jerikan(a inclure dans les listes)
+Voiture en bas de l'écran qui peuvent rentrer dans celle qui parte du haut de l'écran (rare)
 faire l'histoire ( ) BONUS 
 
 scénario
