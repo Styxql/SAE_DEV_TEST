@@ -87,8 +87,13 @@ namespace SAE_DEV
                 // Attention, l'état a été mis à jour directement par l'écran en question
                 if (this.Etat == Etats.Play)
                     _screenManager.LoadScreen(_screenJeu, new FadeTransition(GraphicsDevice, Color.Black));
+
+                else if (this.Etat == Etats.Menu)
+                    _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
+
                 else if (this.Etat == Etats.Settings)
                     _screenManager.LoadScreen(_screenSettings, new FadeTransition(GraphicsDevice, Color.Black));
+
                 else if (this.Etat == Etats.Exit)
                     Exit();
                 else if (this.Etat == Etats.Menu)

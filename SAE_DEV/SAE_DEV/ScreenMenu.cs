@@ -124,21 +124,7 @@ namespace SAE_DEV
                         else if (i == 3)
                             _myGame.Etat = Game1.Etats.Exit;
 
-                        ///MARCHE PAS ;(/////
-                        //else if (i == 4)
-                        //{
-                        //    _isSoundOn = !_isSoundOn;
-
-                        //    if (_isSoundOn)
-                        //    {
-                        //        _buttonAudio = _buttonAudio2;
-                        //    }
-                        //    else
-                        //    {
-                        //        _buttonAudio = _buttonAudioOff;
-                        //    }
-
-                        //}
+                       
 
                         break;
                     }
@@ -152,20 +138,6 @@ namespace SAE_DEV
             _myGame.SpriteBatch.Begin();
             _myGame.SpriteBatch.Draw(_background, new Vector2(GraphicsDevice.Viewport.Width / 2 - (925 / 2), GraphicsDevice.Viewport.Height / 2 - (720 / 2)), Color.White);
 
-
-            //_myGame.SpriteBatch.Draw(_buttonPlayPressed,new Vector2(362,55),Color.White);
-
-
-            //_myGame.SpriteBatch.Draw(_buttonPlay, new Vector2(362, 50), Color.Red);
-
-            //_myGame.SpriteBatch.Draw(_buttonSettings, new Vector2(362, 150), Color.Red);
-            //_myGame.SpriteBatch.Draw(_buttonMenu, new Vector2(362, 250), Color.Red);
-
-            //_myGame.SpriteBatch.Draw(_buttonExit, new Vector2(362, 350), Color.Red);
-            ////_myGame.SpriteBatch.Draw(_buttonPlayPressed,  
-            ////_myGame.SpriteBatch.Draw(_buttonInfo, new Vector2(0, 0), Color.Red);
-
-            //_myGame.SpriteBatch.Draw(_buttonAudio, new Vector2(0, 0), Color.Red);
 
 
             MouseState _mouseState1 = Mouse.GetState();

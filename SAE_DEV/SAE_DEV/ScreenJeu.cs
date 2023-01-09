@@ -67,7 +67,16 @@ namespace SAE_DEV
         private float _barreEssence;
         Rectangle _rectangleBarreEssence;
         Rectangle _rectangleJaugeEssence;
-
+        //Menu pause
+       
+        private Texture2D _textureButtonPlay;
+        private Texture2D _textureButtonMenu;
+        private Texture2D _textureButtonExit;
+        private Texture2D _textureButtonSettings;  
+        private Texture2D _textureButtonPlayPressed;
+        private Texture2D _textureButtonExitPressed;
+        private Texture2D _textureButtonMenuPressed;
+        private Texture2D _textureButtonSettingsPressed;
 
         //barre de vie
         private Texture2D _textureBarreVie;
@@ -88,6 +97,9 @@ namespace SAE_DEV
         //pause
         private bool _estEntrainDeJouer = true;
         private float _dureeEnPause;
+        private Rectangle[] lesBoutonsMenu;
+        private Texture2D[] _buttons;
+        private Texture2D[] _buttonsPressed;
 
 
         private Game1 _myGame;
@@ -126,7 +138,12 @@ namespace SAE_DEV
             _barreEssence = 100;
             _pointDeVie = 100;
             _delaiCollision = 1;
-            
+            lesBoutonsMenu = new Rectangle[5];
+            lesBoutonsMenu[0] = new Rectangle(362, 50, 200, 70);
+            lesBoutonsMenu[1] = new Rectangle(362, 150, 200, 70);
+            lesBoutonsMenu[2] = new Rectangle(362, 250, 200, 70);
+            lesBoutonsMenu[3] = new Rectangle(362, 350, 200, 70);
+
             base.Initialize();
         }
         public override void LoadContent()
@@ -162,12 +179,30 @@ namespace SAE_DEV
             _textureCoeur = Content.Load<Texture2D>("heart");
             _textureJaugeEssence = Content.Load<Texture2D>("JaugeEssence");
             _textureJerikan = Content.Load<Texture2D>("Jerikan");
+            _textureButtonPlay = Content.Load<Texture2D>("PlayButton");
+            _textureButtonMenu = Content.Load<Texture2D>("MenuButton");
+            _textureButtonExit = Content.Load <Texture2D>("ExitButton");
+            _textureButtonSettings = Content.Load<Texture2D>("SettingsButton");
+            _textureButtonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
+            _textureButtonExitPressed = Content.Load<Texture2D>("ExitButtonPressed");
+            _textureButtonMenuPressed = Content.Load<Texture2D>("ButtonMenuPressed");
+            _textureButtonSettingsPressed = Content.Load<Texture2D>("BoutonSettingsPressed");
             //Autre
             _fond = Content.Load<Texture2D>("fondmenu");
             _police = Content.Load<SpriteFont>("Font");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _buttonsPressed = new Texture2D[4];
+            _buttonsPressed[0] = _textureButtonPlayPressed;
+            _buttonsPressed[1] = _textureButtonMenuPressed;
+            _buttonsPressed[2] = _textureButtonSettingsPressed;
+            _buttonsPressed[3] = _textureButtonExitPressed;
+            //Bouton a l'état initial
+            _buttons = new Texture2D[4];
+            _buttons[0] = _textureButtonPlay;
+            _buttons[1] = _textureButtonMenu;
+            _buttons[2] = _textureButtonSettings;
+            _buttons[3] = _textureButtonExit;
 
-       
             base.LoadContent();
 
             // TODO: use this.Content to load your game content here
@@ -252,7 +287,8 @@ namespace SAE_DEV
                 if (_dureeEnPause > 0.4 && _keyboardState.IsKeyDown(Keys.P))
                 {                 
                     _estEntrainDeJouer = true;
-                    _dureeEnPause = 0;                  
+                    _dureeEnPause = 0;
+
                 }
             }
             _delaiCollision += deltaSeconds;
@@ -268,7 +304,34 @@ namespace SAE_DEV
             _rectangleBarreEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreEssence, HAUTEUR_BARRE);
             _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
             _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreVie, HAUTEUR_BARRE);
-           
+            MouseState _mouseState = Mouse.GetState();
+            //          
+            if (_mouseState.LeftButton == ButtonState.Pressed)
+            {
+                for (int i = 0; i < lesBoutonsMenu.Length; i++)
+                {
+                    // si le clic correspond à un des 3 boutons
+                    if (lesBoutonsMenu[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                    {
+                        // on change l'état défini dans Game1 en fonction du bouton cliqué
+                        if (i == 0)
+                            _estEntrainDeJouer = true;
+                        
+
+                        else if (i == 1)
+                            _myGame.Etat = Game1.Etats.Menu;
+                        else if (i == 2)
+                            _myGame.Etat = Game1.Etats.Settings;
+                        else if (i == 3)
+                            _myGame.Etat = Game1.Etats.Exit;
+
+
+
+                        break;
+                    }
+
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -297,6 +360,26 @@ namespace SAE_DEV
             _myGame.SpriteBatch.Draw(_textureBarreVie, _rectangleBarreVie, Color.White);
             _myGame.SpriteBatch.Draw(_textureJaugeVie, _rectangleJaugeVie, Color.White);
             _myGame.SpriteBatch.Draw(_textureCoeur, _positionCoeur, Color.White);
+            if (!_estEntrainDeJouer)
+            {
+                MouseState _mouseState1 = Mouse.GetState();
+                for (int i = 0; i < _buttons.Length; i++)
+                {
+
+                    // Si la souris est au-dessus du bouton actuel
+                    if (lesBoutonsMenu[i].Contains(_mouseState1.X, _mouseState1.Y))
+                    {
+                        // Affiche le bouton pressé
+                        _myGame.SpriteBatch.Draw(_buttonsPressed[i], lesBoutonsMenu[i], Color.Red);
+                    }
+                    else
+                    {
+                        // Affiche le bouton normal
+                        _myGame.SpriteBatch.Draw(_buttons[i], lesBoutonsMenu[i], Color.White);
+                    }
+
+                }
+            }
 
             _myGame.SpriteBatch.End();
 
