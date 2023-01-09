@@ -106,12 +106,14 @@ namespace SAE_DEV
 
             MouseState _mouseState = Mouse.GetState();
             //          
-            if (_mouseState.LeftButton == ButtonState.Pressed)
+
+
+            for (int i = 0; i < lesBoutons.Length; i++)
             {
-                for (int i = 0; i < lesBoutons.Length; i++)
+                // si le clic correspond à un des 3 boutons
+                if (lesBoutons[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
                 {
-                    // si le clic correspond à un des 3 boutons
-                    if (lesBoutons[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                    if (_mouseState.LeftButton == ButtonState.Pressed)
                     {
                         // on change l'état défini dans Game1 en fonction du bouton cliqué
                         if (i == 0)
@@ -124,13 +126,14 @@ namespace SAE_DEV
                         else if (i == 3)
                             _myGame.Etat = Game1.Etats.Exit;
 
-                       
+
 
                         break;
                     }
 
                 }
             }
+            
         }
         public override void Draw(GameTime gameTime)
         {
