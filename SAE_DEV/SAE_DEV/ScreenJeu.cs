@@ -18,11 +18,15 @@ namespace SAE_DEV
         //constantes
         public const int HAUTEUR_VEHICULE_BASIQUE = 47;
         public const int LARGEUR_VEHICULE_BASIQUE = 85;
-        private const int INTERVALLE_RESPAWN = 1;
+        private const int ROUTE_INTERIEUR = 224;
+        private const int ROUTE_EXTERIEUR = 192;
+        private const float INTERVALLE_RESPAWN = 0.8f;
         private const int HAUTEUR_BARRE = 30;
         private const int LARGEUR_BARRE = 300;
         private const int SIZE_JERIKAN = 50;
         private const int SIZE_HEART = 50;
+        private const int DECOR_MAP = 288;// taille des tuiles ciel, herbe et barriere en px : x * 32 = taille px
+        private const int ESPACE_LIGNE = 25;  //petit espace entre la route et la ligne
 
         //Autre
         private GraphicsDeviceManager _graphics;
@@ -35,7 +39,7 @@ namespace SAE_DEV
 
         //Map
         private float _mapYPosition = 0;
-        private float _vitesseYMap = 300;
+        private float _vitesseYMap = 400;
 
         //Champs de listes et tableau
         private List<Texture2D> _textureEnnemies;
@@ -148,7 +152,7 @@ namespace SAE_DEV
         }
         public override void LoadContent()
         {
-            _tiledMap = Content.Load<TiledMap>("map");
+            _tiledMap = Content.Load<TiledMap>("mapJour");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
             
             //Chargement des textures pour les ennemies
@@ -172,6 +176,7 @@ namespace SAE_DEV
             //Chargement du joueur
             SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
             _joueur.Sprite = new AnimatedSprite(spriteSheet);
+
             //Barre de vie //Barre d'essence
             _textureBarreEssence = Content.Load<Texture2D>("barreEssence");
             _textureBarreVie = Content.Load<Texture2D>("BarreVie");
@@ -179,14 +184,6 @@ namespace SAE_DEV
             _textureCoeur = Content.Load<Texture2D>("heart");
             _textureJaugeEssence = Content.Load<Texture2D>("JaugeEssence");
             _textureJerikan = Content.Load<Texture2D>("Jerikan");
-            _textureButtonPlay = Content.Load<Texture2D>("PlayButton");
-            _textureButtonMenu = Content.Load<Texture2D>("MenuButton");
-            _textureButtonExit = Content.Load <Texture2D>("ExitButton");
-            _textureButtonSettings = Content.Load<Texture2D>("SettingsButton");
-            _textureButtonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
-            _textureButtonExitPressed = Content.Load<Texture2D>("ExitButtonPressed");
-            _textureButtonMenuPressed = Content.Load<Texture2D>("ButtonMenuPressed");
-            _textureButtonSettingsPressed = Content.Load<Texture2D>("BoutonSettingsPressed");
             //Autre
             _fond = Content.Load<Texture2D>("fondmenu");
             _police = Content.Load<SpriteFont>("Font");
@@ -241,7 +238,7 @@ namespace SAE_DEV
                 //Mise à jour de la map et défilement 
                 _tiledMapRenderer.Update(gameTime);
                 _mapYPosition += _vitesseYMap * deltaSeconds;
-                _mapYPosition %= 1000;
+                _mapYPosition %= 800;
 
 
                 //Mise à jour du déplacememnt joueur
@@ -297,11 +294,16 @@ namespace SAE_DEV
                 _pointDeVie -= 20;
                 _delaiCollision = 0;            
             }
+
+            //positions barre d'essence et barre de vie
             _largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
             _largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeVie.Width);
 
+            //aspect de la barre d'essence
             _rectangleJaugeEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
             _rectangleBarreEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreEssence, HAUTEUR_BARRE);
+           
+            //aspect de la barre de vie
             _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
             _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreVie, HAUTEUR_BARRE);
             MouseState _mouseState = Mouse.GetState();
@@ -343,7 +345,7 @@ namespace SAE_DEV
             foreach(VoitureEnnemie voiture in _lesVoituresEnnemies)
             {                
                 _myGame.SpriteBatch.Draw(voiture.Texture, voiture.Position, null, Color.White, voiture.Sens,
-                    new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE),1.3f, SpriteEffects.None, 0);
+                    new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE),1.5f, SpriteEffects.None, 0);
             }
 
             _myGame.SpriteBatch.Draw(_joueur.Sprite, _joueur.Position, _joueur.Angle);
@@ -393,25 +395,28 @@ namespace SAE_DEV
         {
             Random rand = new Random();
 
-            int[] positionsX = new int[] { 500, 700, 900, 1100 };//
+            int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE,
+                                           DECOR_MAP + ROUTE_EXTERIEUR + ESPACE_LIGNE*2,
+                                           _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ROUTE_EXTERIEUR - ESPACE_LIGNE*2,
+                                           _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ESPACE_LIGNE };
 
             int i = rand.Next(0, nomEnnemies.Length);//index du tableau
             int voie = rand.Next(0, positionsX.Length);//index de la voie
 
             int x = positionsX[voie];
-            x += rand.Next(0, 150);//assigne une position aléatoire dans l'une des 4 voies
+            x += rand.Next(0,100);//assigne une position aléatoire dans l'une des 4 voies
 
             float sens = 0;
-            int vitesse = 250;
+            int vitesse = 400;
 
             if (x < GraphicsDevice.Viewport.Width / 2)
             {
-                sens = (float)Math.PI;//rotation de 180 degrés
-                vitesse = 300;//vitesse de déplacement si voie de gauche
+                sens = (float)Math.PI;  //rotation de 180 degrés
+                vitesse = 550;  //vitesse de déplacement si voie de gauche
             }
             //else de le remettre à 0 ne sert à rien
 
-            vitesse += rand.Next(0, 60);//variation de la vitesse
+            vitesse += rand.Next(0, 60);  //variation de la vitesse
 
             VoitureEnnemie voiture = new VoitureEnnemie(nomEnnemies[i], vitesse, new Vector2(x, 0), sens, _textureEnnemies[i]);
             _lesVoituresEnnemies.Add(voiture);
