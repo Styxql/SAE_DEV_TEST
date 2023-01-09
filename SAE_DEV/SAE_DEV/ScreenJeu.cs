@@ -139,9 +139,11 @@ namespace SAE_DEV
             _positionJerikan = new Vector2(20, _myGame._graphics.PreferredBackBufferHeight - SIZE_JERIKAN - 5);
             _positionBarreVie = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE);
             _positionCoeur = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - SIZE_HEART - 20, _myGame._graphics.PreferredBackBufferHeight - SIZE_HEART - 5);
+
             _barreEssence = 100;
             _pointDeVie = 100;
             _delaiCollision = 1;
+
             lesBoutonsMenu = new Rectangle[5];
             lesBoutonsMenu[0] = new Rectangle(362, 50, 200, 70);
             lesBoutonsMenu[1] = new Rectangle(362, 150, 200, 70);
@@ -184,6 +186,7 @@ namespace SAE_DEV
             _textureCoeur = Content.Load<Texture2D>("heart");
             _textureJaugeEssence = Content.Load<Texture2D>("JaugeEssence");
             _textureJerikan = Content.Load<Texture2D>("Jerikan");
+
             //Autre
             _fond = Content.Load<Texture2D>("fondmenu");
             _police = Content.Load<SpriteFont>("Font");
@@ -193,6 +196,7 @@ namespace SAE_DEV
             _buttonsPressed[1] = _textureButtonMenuPressed;
             _buttonsPressed[2] = _textureButtonSettingsPressed;
             _buttonsPressed[3] = _textureButtonExitPressed;
+
             //Bouton a l'état initial
             _buttons = new Texture2D[4];
             _buttons[0] = _textureButtonPlay;
