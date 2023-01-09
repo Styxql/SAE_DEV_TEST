@@ -41,6 +41,7 @@ namespace SAE_DEV
         private Song _song;
 
         public bool _isButtonPlayPressed;
+        private bool _estActif = true;
 
         // contient les rectangles : position et taille des 3 boutons présents dans la texture 
         private Rectangle[] lesBoutons;
@@ -103,56 +104,67 @@ namespace SAE_DEV
             _buttons[3] = _buttonExit;
             _buttons[4] = _buttonAudio;
 
-            _song = Content.Load<Song>("sonmenu");
-            MediaPlayer.Play(_song);
-            
 
+            _song = Content.Load<Song>("sonmenu");
+
+
+            if (_estActif)
+            {
+                MediaPlayer.Play(_song);
+            }
+                    
             base.LoadContent();
         }
         public override void Update(GameTime gameTime)
         {
 
-            MouseState _mouseState = Mouse.GetState();
-            //          
-            if (_mouseState.LeftButton == ButtonState.Pressed)
-            {
-                for (int i = 0; i < lesBoutons.Length; i++)
+            MouseState _mouseState = Mouse.GetState();         
+
+                if (_mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    // si le clic correspond à un des 3 boutons
-                    if (lesBoutons[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                    for (int i = 0; i < lesBoutons.Length; i++)
                     {
-                        // on change l'état défini dans Game1 en fonction du bouton cliqué
-                        if (i == 0)
+                        // si le clic correspond à un des 3 boutons
+                        if (lesBoutons[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                        {
+                            // on change l'état défini dans Game1 en fonction du bouton cliqué
+                            if (i == 0)
+                            {
+                                _myGame.Etat = Game1.Etats.Play;
+                                _estActif = false;
+                            }
+                            else if (i == 1)
+                                _myGame.Etat = Game1.Etats.Menu;
+                            else if (i == 2)
+                                _myGame.Etat = Game1.Etats.Settings;
+                            else if (i == 3)
+                                _myGame.Etat = Game1.Etats.Exit;
 
-                            _myGame.Etat = Game1.Etats.Play;
-                        else if (i == 1)
-                            _myGame.Etat = Game1.Etats.Menu;
-                        else if (i == 2)
-                            _myGame.Etat = Game1.Etats.Settings;
-                        else if (i == 3)
-                            _myGame.Etat = Game1.Etats.Exit;
+                            ///MARCHE PAS ;(/////
+                            //else if (i == 4)
+                            //{
+                            //    _isSoundOn = !_isSoundOn;
 
-                        ///MARCHE PAS ;(/////
-                        //else if (i == 4)
-                        //{
-                        //    _isSoundOn = !_isSoundOn;
+                            //    if (_isSoundOn)
+                            //    {
+                            //        _buttonAudio = _buttonAudio2;
+                            //    }
+                            //    else
+                            //    {
+                            //        _buttonAudio = _buttonAudioOff;
+                            //    }
 
-                        //    if (_isSoundOn)
-                        //    {
-                        //        _buttonAudio = _buttonAudio2;
-                        //    }
-                        //    else
-                        //    {
-                        //        _buttonAudio = _buttonAudioOff;
-                        //    }
+                            //}
 
-                        //}
+                            break;
+                        }
 
-                        break;
                     }
-
                 }
-            }
+                if(!_estActif)
+                {
+                    MediaPlayer.Stop();
+                }
         }
         public override void Draw(GameTime gameTime)
         {
