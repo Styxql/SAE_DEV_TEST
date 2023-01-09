@@ -11,7 +11,7 @@ namespace SAE_DEV
     public class ScreenPause : GameScreen
     {
         private Game1 _myGame;
-
+         
         public ScreenPause(Game1 game) : base(game)
         {
             _myGame = game;
