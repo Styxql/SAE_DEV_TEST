@@ -1,28 +1,32 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
-using MonoGame.Extended.Tiled.Serialization;
-using System.Collections.Generic;
+using System;
 
 namespace SAE_DEV
 {
-    internal class VoitureEnnemi
+    internal class VoitureEnnemie
     {
         private string nom;
-        private double vitesse;
-        private Vector2 _positionInitialEnnemie;
-        private Texture2D _typeVehicule;
+        private int vitesse;
+        private Vector2 position;
+        private Texture2D texture;
+        private float sens;
 
-        public VoitureEnnemi (string nom, double vitesse, Vector2 positionInitialEnnemie, Texture2D typeVehicule)
+        public VoitureEnnemie(string nom, int vitesse, Vector2 position, float sens, Texture2D texture)
         {
             this.Nom = nom;
             this.Vitesse = vitesse;
-            this.PositionInitialEnnemie = positionInitialEnnemie;
-            this.TypeVehicule = typeVehicule;
+            this.Position = position;
+            this.Texture = texture;
+            this.Sens = sens;
+        }
+        public VoitureEnnemie(string nom, int vitesse, Vector2 position, float sens)
+            : this(nom, vitesse, position, sens, null)
+        {
+
         }
 
+        #region propriété
         public string Nom
         {
             get
@@ -36,7 +40,7 @@ namespace SAE_DEV
             }
         }
 
-        public double Vitesse
+        public int Vitesse
         {
             get
             {
@@ -49,40 +53,47 @@ namespace SAE_DEV
             }
         }
 
-        public Vector2 PositionInitialEnnemie
+        public Vector2 Position
         {
             get
             {
-                return this._positionInitialEnnemie;
+                return this.position;
             }
 
             set
             {
-                this._positionInitialEnnemie = value;
+                this.position = value;
             }
         }
 
-        public Texture2D TypeVehicule
+        public float Sens
         {
             get
             {
-                return this._typeVehicule;
+                return this.sens;
             }
 
             set
             {
-                this._typeVehicule = value;
+                this.sens = value;
+            }
+
+        }
+
+        public Texture2D Texture
+        {
+            get
+            {
+                return this.texture;
+            }
+
+            set
+            {
+                this.texture = value;
             }
         }
+        #endregion
+
     }
 
-    public void PositionEnnemie(GameTime gameTime)
-    {
-        List<string> voituresEnnemies = new List<string>();
-        voituresEnnemies.Add("Tyrannosaurus");
-        voituresEnnemies.Add("Amargasaurus");
-        voituresEnnemies.Add("Mamenchisaurus");
-        voituresEnnemies.Add("Deinonychus");
-        voituresEnnemies.Add("Compsognathus");
-    }
 }

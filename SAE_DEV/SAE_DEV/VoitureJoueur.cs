@@ -1,38 +1,35 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Sprites;
-using MonoGame.Extended.Content;
+using MonoGame.Extended;
 
 namespace SAE_DEV
 {
     internal class VoitureJoueur
     {
         private string nom;
-        private double vitesse;
-        private Vector2 positionInitial;
-        private int prix;
-        private AnimatedSprite _voitureJoueur;
-        private AnimatedSprite _typeVehicule;
-        private KeyboardState _keyboardState;
-        private Vector2 _positionVoiture;
-        private int _directionVoiture;
-        private int _vitesseVehicule;
-        private float _angleVehicule;
-        private int _maxPositionsX = 0;
-        private GraphicsDeviceManager _graphics;
-        public VoitureJoueur _joueur;
+        private int vitesse;
+        private Vector2 position;
+        private AnimatedSprite sprite;
+        private int direction;
+        private float angle;
 
-        public VoitureJoueur(string nom, double vitesse, Vector2 positionInitial, AnimatedSprite typeVehicule, int prix)
+        public VoitureJoueur(string nom, int vitesse, Vector2 position, AnimatedSprite typeVehicule)
         {
             this.Nom = nom;
             this.Vitesse = vitesse;
-            this._positionVoiture = positionInitial;
-            this._voitureJoueur = typeVehicule;
-            this.Prix = prix;
+            this.Position = position;
+            this.Sprite = typeVehicule;
+            this.Angle = 0f;
+            this.Direction = 1;
         }
 
+        public VoitureJoueur(string nom, int vitesse, Vector2 position)
+            : this(nom, vitesse, position, null)
+        {
+
+        }
+
+        #region propriété
         public string Nom
         {
             get
@@ -46,7 +43,7 @@ namespace SAE_DEV
             }
         }
 
-        public double Vitesse
+        public int Vitesse
         {
             get
             {
@@ -59,151 +56,118 @@ namespace SAE_DEV
             }
         }
 
-        public Vector2 PositionInitialEnnemie
+        public Vector2 Position
         {
             get
             {
-                return this.positionInitial;
+                return this.position;
             }
 
             set
             {
-                this.positionInitial = value;
+                this.position = value;
             }
         }
 
-        public AnimatedSprite TypeVehicule
+        public AnimatedSprite Sprite
         {
             get
             {
-                return this._typeVehicule;
+                return this.sprite;
             }
 
             set
             {
-                this._typeVehicule = value;
+                this.sprite = value;
             }
         }
 
-        public int Prix
+        public int Direction
         {
             get
             {
-                return this.prix;
+                return this.direction;
             }
 
             set
             {
-                this.prix = value;
+                this.direction = value;
             }
         }
 
-        
-
-
-        public void DeplacementDroite(GameTime gameTime)
-        {            
-
-            float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
+        public float Angle
+        {
+            get
             {
-                System.Console.WriteLine(_positionVoiture.X);
-                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+                return this.angle;
+            }
 
-                _voitureJoueur.Play("droite");
-                if (_angleVehicule <= 0.3f)
-                {
-                    _angleVehicule += 0.02f;
-                }
+            set
+            {
+                this.angle = value;
+            }
+        }
+        #endregion
+        public void DeplacementDroite(float deltaSeconds)
+        {
+            Sprite.Play("droite");
+            if (Angle <= 0.3f)
+            {
+                Angle += 0.02f;
+            }
 
-                float nextX = _positionVoiture.X;
-                _maxPositionsX = _graphics.PreferredBackBufferWidth - 32 - 78 - 420;
-                if (nextX < _maxPositionsX) //32 : barriere , 78 : width voiture , 420 : decor.width pos barriere : 1390
-                {
-                    _positionVoiture.X = nextX;
-                }
-                else
-                {
-                    _positionVoiture.X = _maxPositionsX;
-                    _angleVehicule = 0f;
-                }
-
-            }           
+            float nextX = Position.X + Direction * Vitesse * deltaSeconds;
+            float maxPositionX = 1920 - 32 - 78 - 420;
+            if (nextX < maxPositionX) //32 : barriere , 78 : width voiture , 420 : decor.width pos barriere : 1390
+            {
+                Position = new Vector2(nextX, Position.Y);
+            }
             else
             {
-                _voitureJoueur.Play("idle");
-                if (_angleVehicule > 0f)
-                {
-                    _angleVehicule -= 0.02f;
-                }
-                else if (_angleVehicule < 0f)
-                {
-                    _angleVehicule += 0.02f;
-                }
+                Position = new Vector2(maxPositionX, Position.Y);
+                Angle = 0f;
             }
-
-            if (_positionVoiture.X < 490 || _positionVoiture.X > 1390)
-            {
-                //_directionVoiture = -_directionVoiture;
-                _vitesseVehicule = 0;
-                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
-            }                   
         }
 
-        public void DeplacementGauche(GameTime gameTime)
+        public void DeplacementGauche(float deltaSeconds)
         {
-            float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
+            Sprite.Play("gauche");
+            if (Angle >= -0.3f)
             {
-                System.Console.WriteLine(_positionVoiture.X);
-                _positionVoiture.X -= _directionVoiture * _vitesseVehicule * deltaSeconds;
-
-                _voitureJoueur.Play("gauche");
-                if (_angleVehicule >= -0.3f)
-                {
-                    _angleVehicule -= 0.02f;
-                }
-
-                float nextX = _positionVoiture.X;
-                _maxPositionsX = 32 + 390 + 78;
-                if (nextX > _maxPositionsX) //32 : barriere , 390 : decor , 78 :voiture.width
-                {
-                    _positionVoiture.X = nextX;
-                }
-                else
-                {
-                    _positionVoiture.X = _maxPositionsX;
-                    _angleVehicule = 0;
-                }
+                Angle -= 0.02f;
             }
 
+            float nextX = Position.X - Direction * Vitesse * deltaSeconds;
+            float maxPositionX = 32 + 390 + 78;
+            if (nextX > maxPositionX) //32 : barriere , 390 : decor , 78 :voiture.width
+            {
+                Position = new Vector2(nextX, Position.Y);
+            }
             else
             {
-                _voitureJoueur.Play("idle");
-                if (_angleVehicule > 0f)
-                {
-                    _angleVehicule -= 0.02f;
-                }
-                else if (_angleVehicule < 0f)
-                {
-                    _angleVehicule += 0.02f;
-                }
+                Position = new Vector2(maxPositionX, Position.Y);
+                Angle = 0;
             }
 
-            if (_positionVoiture.X < 490 || _positionVoiture.X > 1390)
-            {
-                //_directionVoiture = -_directionVoiture;
-                _vitesseVehicule = 0;
-                _positionVoiture.X += _directionVoiture * _vitesseVehicule * deltaSeconds;
+        }
 
+        public void Idle()
+        {
+            Sprite.Play("idle");
+            if (Angle > 0f)
+            {
+                Angle -= 0.02f;
+            }
+            else if (Angle < 0f)
+            {
+                Angle += 0.02f;
             }
         }
     }
 }
 
-            
+
 
 
 

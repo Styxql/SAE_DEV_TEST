@@ -21,7 +21,7 @@ namespace SAE_DEV
             base.LoadContent();
         }
         public override void Update(GameTime gameTime)
-        { 
+        {
         }
         public override void Draw(GameTime gameTime)
         {
@@ -31,4 +31,5 @@ namespace SAE_DEV
 
 
         }
+    }
 }
