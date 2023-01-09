@@ -36,7 +36,7 @@ namespace SAE_DEV
         private Texture2D _buttonAudioPressed;
         private Texture2D[] _buttons;
         private Texture2D[] _buttonsPressed;
-
+        
         public bool _isButtonPlayPressed;
 
         // contient les rectangles : position et taille des 3 boutons présents dans la texture 
@@ -190,8 +190,8 @@ namespace SAE_DEV
 
 
         }
-        
 
+       
     }
 
 }
