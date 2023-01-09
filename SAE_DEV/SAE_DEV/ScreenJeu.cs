@@ -154,6 +154,7 @@ namespace SAE_DEV
             //Chargement du joueur
             SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
             _joueur.Sprite = new AnimatedSprite(spriteSheet);
+
             //Barre de vie //Barre d'essence
             _textureBarreEssence = Content.Load<Texture2D>("barreEssence");
             _textureBarreVie = Content.Load<Texture2D>("BarreVie");
@@ -180,10 +181,6 @@ namespace SAE_DEV
             //_radio = Content.Load<SoundEffect>("Son radio");
             //_radioOFF = Content.Load<SoundEffect>("radioTurnOff");
             //_radioON = Content.Load<SoundEffect>("radioTurnON");
-
-            //Chargement du joueur
-            SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
-            _joueur.Sprite = new AnimatedSprite(spriteSheet);
 
             //Autre
             _fond = Content.Load<Texture2D>("fondmenu");

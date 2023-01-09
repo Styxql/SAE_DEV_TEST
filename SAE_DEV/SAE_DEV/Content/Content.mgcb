@@ -378,6 +378,11 @@
 /processorParam:TextureFormat=Color
 /build:SettingsButton.png
 
+#begin sonmenu.aup3
+/importer:
+/processor:
+/build:sonmenu.aup3
+
 #begin taxi.png
 /importer:TextureImporter
 /processor:TextureProcessor

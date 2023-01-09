@@ -25,3 +25,11 @@ scénario
 premiere map annecy voiture pt 
 deuxieme map miami buggati
 troisieme map annecy challenger 
+
+
+nouvelle map (david)
+colisions 
+faire tomber piece jerricane 
+faire compteur de coins 
+mettre les sons
+faire un boutons retour en arrière dans le menu 

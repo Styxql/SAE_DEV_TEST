@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Screens;
 
 namespace SAE_DEV
@@ -36,6 +38,7 @@ namespace SAE_DEV
         private Texture2D _buttonAudioPressed;
         private Texture2D[] _buttons;
         private Texture2D[] _buttonsPressed;
+        private Song _song;
 
         public bool _isButtonPlayPressed;
 
@@ -99,6 +102,10 @@ namespace SAE_DEV
             _buttons[2] = _buttonSettings;
             _buttons[3] = _buttonExit;
             _buttons[4] = _buttonAudio;
+
+            _song = Content.Load<Song>("sonmenu");
+            MediaPlayer.Play(_song);
+            
 
             base.LoadContent();
         }
