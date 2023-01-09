@@ -113,8 +113,7 @@ namespace SAE_DEV
             _lesVoituresEnnemies = new List<VoitureEnnemie>();//création d'une liste sans ennemies
             _timerRespawnEnnemie = 0;
 
-            _joueur = new VoitureJoueur("joueur", 250, new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 3,
-                GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE));
+            _joueur = new VoitureJoueur("joueur", 250, new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 3,GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE));
 
             _positionScore = new Vector2(70, 0);
             _positionChrono = new Vector2(610, 0);

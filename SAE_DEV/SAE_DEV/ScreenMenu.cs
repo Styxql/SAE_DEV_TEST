@@ -17,7 +17,6 @@ namespace SAE_DEV
         // pour récupérer une référence à l’objet game pour avoir accès à tout ce qui est 
         // défini dans Game1
         private Game1 _myGame;
-        Color _colorButtonAudio;
 
         // texture du menu avec 3 boutons
         private Texture2D _buttonAudio;

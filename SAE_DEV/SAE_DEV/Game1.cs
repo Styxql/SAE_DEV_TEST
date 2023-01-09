@@ -91,6 +91,8 @@ namespace SAE_DEV
                     _screenManager.LoadScreen(_screenSettings, new FadeTransition(GraphicsDevice, Color.Black));
                 else if (this.Etat == Etats.Exit)
                     Exit();
+                else if (this.Etat == Etats.Menu)
+                    _screenManager.LoadScreen(_screenSettings, new FadeTransition(GraphicsDevice, Color.Black));
             }
 
          
