@@ -26,10 +26,6 @@ namespace SAE_DEV
         public override void Draw(GameTime gameTime)
         {
             _myGame.GraphicsDevice.Clear(Color.Black);
-
-
-
-
         }
     }
 }
