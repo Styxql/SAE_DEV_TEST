@@ -26,6 +26,7 @@ namespace SAE_DEV
         private ScreenSettings _screenSettings;
         private ScreenRemerciement _screenRemerciement;
         private ScreenGameOver _screenGameOver;
+        private ScreenChargement _screenChargement;
 
         public Game1()
         {
@@ -43,6 +44,7 @@ namespace SAE_DEV
             _screenJeu = new ScreenJeu(this);
             _screenSettings=new ScreenSettings(this);
             _screenGameOver = new ScreenGameOver(this);
+            _screenChargement= new ScreenChargement(this);
         }
 
         protected override void Initialize()
@@ -64,7 +66,7 @@ namespace SAE_DEV
            
             
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-            _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black, 0));
+            _screenManager.LoadScreen(_screenChargement, new FadeTransition(GraphicsDevice, Color.Black, 0));
             // TODO: use this.Content to load your game content here
         }
 
@@ -100,6 +102,8 @@ namespace SAE_DEV
             }
             else if (this.Etat == Etats.Lose)
                 _screenManager.LoadScreen(_screenGameOver, new FadeTransition(GraphicsDevice, Color.Black,10));
+            if (this.Etat == Etats.Menu)
+                _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
 
             base.Update(gameTime);
         }

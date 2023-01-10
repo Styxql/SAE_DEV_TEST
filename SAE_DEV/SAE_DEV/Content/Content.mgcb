@@ -78,6 +78,18 @@
 /processorParam:TextureFormat=Color
 /build:Back.png
 
+#begin BackgroundChargement.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BackgroundChargement.png
+
 #begin BackgroundGameOver.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -514,6 +526,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:truck.png
+
+#begin VoitureChargement.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:VoitureChargement.png
 
 #begin VoitureJoueur.png
 /importer:TextureImporter
