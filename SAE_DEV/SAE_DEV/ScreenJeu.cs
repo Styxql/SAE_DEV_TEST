@@ -164,7 +164,7 @@ namespace SAE_DEV
             _score = 0;
             _chrono = 60;
 
-            _positionJerikan = new Vector2(20, HAUTEUR_ECRAN - TAILLE_JERRICANE - 5);
+            _positionJerricane = new Vector2(20, HAUTEUR_ECRAN - TAILLE_JERRICANE - 5);
             _positionCoeur = new Vector2(LARGEUR_ECRAN - LARGEUR_BARRE - SIZE_HEART - 20, HAUTEUR_ECRAN - SIZE_HEART - 5);
             
             _barreEssence = 100;
@@ -225,7 +225,7 @@ namespace SAE_DEV
             _textureJaugeVie = Content.Load<Texture2D>("JaugeVie");
             _textureCoeur = Content.Load<Texture2D>("heart");
             _textureJaugeEssence = Content.Load<Texture2D>("JaugeEssence");
-            _textureJerricane = Content.Load<Texture2D>("Jerikan");
+            _textureJerricane = Content.Load<Texture2D>("Jerricane");
             _textureButtonExit = Content.Load<Texture2D>("ExitButton");
             _textureButtonExitPressed = Content.Load<Texture2D>("ExitButtonPressed");
             _textureButtonMenuPressed = Content.Load<Texture2D>("ExitButton");
