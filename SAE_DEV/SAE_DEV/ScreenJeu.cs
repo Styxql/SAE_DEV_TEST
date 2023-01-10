@@ -21,7 +21,7 @@ namespace SAE_DEV
         private const int INTERVALLE_RESPAWN = 1;
         private const int HAUTEUR_BARRE = 30;
         private const int LARGEUR_BARRE = 300;
-        private const int SIZE_JERIKAN = 50;
+        private const int SIZE_JERRICANE = 50;
         private const int SIZE_HEART = 50;
 
         //Autre
@@ -121,7 +121,7 @@ namespace SAE_DEV
             _score = 0;
             _chrono = 60;
 
-            _positionJerikan = new Vector2(20, _myGame._graphics.PreferredBackBufferHeight - SIZE_JERIKAN - 5);
+            _positionJerikan = new Vector2(20, _myGame._graphics.PreferredBackBufferHeight - SIZE_JERRICANE - 5);
             _positionBarreVie = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE);
             _positionCoeur = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - SIZE_HEART - 20, _myGame._graphics.PreferredBackBufferHeight - SIZE_HEART - 5);
             _barreEssence = 100;
@@ -265,10 +265,10 @@ namespace SAE_DEV
             _largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
             _largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeVie.Width);
 
-            _rectangleJaugeEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleBarreEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreEssence, HAUTEUR_BARRE);
-            _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreVie, HAUTEUR_BARRE);
+            _rectangleJaugeEssence = new Rectangle(SIZE_JERRICANE + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleBarreEssence = new Rectangle(SIZE_JERRICANE + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, _largeurBarreEssence, HAUTEUR_BARRE);
+            _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, _largeurBarreVie, HAUTEUR_BARRE);
            
         }
 
