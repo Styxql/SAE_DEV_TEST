@@ -83,12 +83,13 @@ namespace SAE_DEV
         private Texture2D _textureBarreEssence;
         private Texture2D _textureJaugeEssence;
         private Texture2D _textureJerricane;
-        private Vector2 _positionJerricane;
         private float _barreEssence;
+        private Vector2 _positionJerricane;
         Rectangle _rectangleBarreEssence;
         Rectangle _rectangleJaugeEssence;
+
         //Menu pause
-       
+
         private Texture2D _textureButtonPlay;
         private Texture2D _textureButtonMenu;
         private Texture2D _textureButtonExit;
@@ -565,6 +566,15 @@ namespace SAE_DEV
             }
              return false;
         }
+        //bool CollisionItem()
+        //{
+        //    if(_delaiCollision < 0.5)
+        //    {
+        //        Rectangle rect1=new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE);
+        //        foreach()
+        //    }
+        //}
+
         
     }
    
