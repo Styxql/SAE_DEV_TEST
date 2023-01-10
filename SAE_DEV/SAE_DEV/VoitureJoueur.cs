@@ -30,9 +30,9 @@ namespace SAE_DEV
         }
 
         public VoitureJoueur(string nom, int vitesse, Vector2 position)
-            :this(nom,vitesse,position,null)
+            : this(nom, vitesse, position, null)
         {
-            
+
         }
 
         #region propriété
@@ -115,7 +115,7 @@ namespace SAE_DEV
         }
         #endregion
         public void DeplacementDroite(float deltaSeconds)
-        {                          
+        {
             Sprite.Play("droite");
             if (Angle <= 0.3f)
             {
@@ -172,8 +172,3 @@ namespace SAE_DEV
         }
     }
 }
-
-            
-
-
-

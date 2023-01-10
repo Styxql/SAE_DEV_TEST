@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Screens;
 
 namespace SAE_DEV
@@ -35,8 +37,10 @@ namespace SAE_DEV
         private Texture2D _buttonAudioPressed;
         private Texture2D[] _buttons;
         private Texture2D[] _buttonsPressed;
-        
+        private Song _song;
+
         public bool _isButtonPlayPressed;
+        private bool _estActif = true;
 
         // contient les rectangles : position et taille des 3 boutons présents dans la texture 
         private Rectangle[] lesBoutons;
@@ -53,7 +57,7 @@ namespace SAE_DEV
             lesBoutons[3] = new Rectangle(362, 350, 200, 70);
             lesBoutons[4] = new Rectangle(0, 0, 50, 50);
             //lesBoutons[4] = new Rectangle(865, 670, 640, 160);
-            
+
 
 
         }
@@ -99,41 +103,67 @@ namespace SAE_DEV
             _buttons[3] = _buttonExit;
             _buttons[4] = _buttonAudio;
 
+
+            _song = Content.Load<Song>("sonmenu");
+
+
+            if (_estActif)
+            {
+                MediaPlayer.Play(_song);
+            }
+                    
             base.LoadContent();
         }
         public override void Update(GameTime gameTime)
         {
 
-            MouseState _mouseState = Mouse.GetState();
-            //          
+            MouseState _mouseState = Mouse.GetState();         
 
-
-            for (int i = 0; i < lesBoutons.Length; i++)
-            {
-                // si le clic correspond à un des 3 boutons
-                if (lesBoutons[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                if (_mouseState.LeftButton == ButtonState.Pressed)
                 {
-                    if (_mouseState.LeftButton == ButtonState.Pressed)
+                    for (int i = 0; i < lesBoutons.Length; i++)
                     {
-                        // on change l'état défini dans Game1 en fonction du bouton cliqué
-                        if (i == 0)
+                        // si le clic correspond à un des 3 boutons
+                        if (lesBoutons[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                        {
+                            // on change l'état défini dans Game1 en fonction du bouton cliqué
+                            if (i == 0)
+                            {
+                                _myGame.Etat = Game1.Etats.Play;
+                                _estActif = false;
+                            }
+                            else if (i == 1)
+                                _myGame.Etat = Game1.Etats.Menu;
+                            else if (i == 2)
+                                _myGame.Etat = Game1.Etats.Settings;
+                            else if (i == 3)
+                                _myGame.Etat = Game1.Etats.Exit;
 
-                            _myGame.Etat = Game1.Etats.Play;
-                        else if (i == 1)
-                            _myGame.Etat = Game1.Etats.Menu;
-                        else if (i == 2)
-                            _myGame.Etat = Game1.Etats.Settings;
-                        else if (i == 3)
-                            _myGame.Etat = Game1.Etats.Exit;
+                            ///MARCHE PAS ;(/////
+                            //else if (i == 4)
+                            //{
+                            //    _isSoundOn = !_isSoundOn;
 
+                            //    if (_isSoundOn)
+                            //    {
+                            //        _buttonAudio = _buttonAudio2;
+                            //    }
+                            //    else
+                            //    {
+                            //        _buttonAudio = _buttonAudioOff;
+                            //    }
 
+                            //}
 
-                        break;
+                            break;
+                        }
+
                     }
-
                 }
-            }
-            
+                if(!_estActif)
+                {
+                    MediaPlayer.Stop();
+                }
         }
         public override void Draw(GameTime gameTime)
         {
@@ -164,8 +194,8 @@ namespace SAE_DEV
 
 
         }
+        
 
-       
     }
 
 }
