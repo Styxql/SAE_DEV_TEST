@@ -11,6 +11,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Content\truck.png~RF1bd434.TMP" />
     <None Remove="Game1.cs~RFf3b5a.TMP" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />

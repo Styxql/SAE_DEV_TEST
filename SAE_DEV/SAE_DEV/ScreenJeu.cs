@@ -16,8 +16,12 @@ namespace SAE_DEV
     public class ScreenJeu : GameScreen
     {
         //constantes
-        public const int HAUTEUR_VEHICULE_BASIQUE = 47;
+        public const int HAUTEUR_VEHICULE_BASIQUE = 85;
         public const int LARGEUR_VEHICULE_BASIQUE = 85;
+        public const int HAUTEUR_VEHICULE_GRAND = 105;
+        public const int LARGEUR_VEHICULE_GRAND = 105;
+        public const int HAUTEUR_VEHICULE_JOUEUR = 85;
+        public const int LARGEUR_VEHICULE_JOUEUR = 78;
         private const int ROUTE_INTERIEUR = 224;
         private const int ROUTE_EXTERIEUR = 192;
         private const float INTERVALLE_RESPAWN = 0.8f;
@@ -186,6 +190,15 @@ namespace SAE_DEV
             _textureCoeur = Content.Load<Texture2D>("heart");
             _textureJaugeEssence = Content.Load<Texture2D>("JaugeEssence");
             _textureJerikan = Content.Load<Texture2D>("Jerikan");
+            _textureButtonExit = Content.Load<Texture2D>("ExitButton");
+            _textureButtonExitPressed = Content.Load<Texture2D>("ExitButtonPressed");
+            _textureButtonMenuPressed = Content.Load<Texture2D>("ExitButton");
+            _textureButtonMenu = Content.Load<Texture2D>("MenuButton");
+            _textureButtonMenuPressed = Content.Load<Texture2D>("ButtonMenuPressed");
+            _textureButtonSettings = Content.Load<Texture2D>("SettingsButton");
+            _textureButtonSettingsPressed = Content.Load<Texture2D>("BoutonSettingsPressed");
+            _textureButtonPlay = Content.Load<Texture2D>("PlayButton");
+            _textureButtonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
 
             //Autre
             _fond = Content.Load<Texture2D>("fondmenu");
@@ -293,7 +306,7 @@ namespace SAE_DEV
                 }
             }
             _delaiCollision += deltaSeconds;
-            if (Collision())
+            if (CollisionVehiculeBasique()||CollisionVehiculeGrand())
             {
                 _pointDeVie -= 20;
                 _delaiCollision = 0;            
@@ -304,12 +317,12 @@ namespace SAE_DEV
             _largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeVie.Width);
 
             //aspect de la barre d'essence
-            _rectangleJaugeEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleBarreEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreEssence, HAUTEUR_BARRE);
+            _rectangleJaugeEssence = new Rectangle(SIZE_JERRICANE + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleBarreEssence = new Rectangle(SIZE_JERRICANE + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, _largeurBarreEssence, HAUTEUR_BARRE);
            
             //aspect de la barre de vie
-            _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreVie, HAUTEUR_BARRE);
+            _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, _largeurBarreVie, HAUTEUR_BARRE);
             MouseState _mouseState = Mouse.GetState();
             //          
             if (_mouseState.LeftButton == ButtonState.Pressed)
@@ -440,14 +453,14 @@ namespace SAE_DEV
         //    _radioOFF.Play();
         //}
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-         bool Collision()
+         bool CollisionVehiculeBasique()
         {
             if (_delaiCollision > 1)
             {
                 Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE);
                 foreach (VoitureEnnemie voiture in _lesVoituresEnnemies)
                 {
-                    Rectangle rect2 = new Rectangle((int)voiture.Position.X, (int)voiture.Position.Y, LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE);
+                    Rectangle rect2 = new Rectangle((int)voiture.Position.X, (int)voiture.Position.Y, LARGEUR_VEHICULE_JOUEUR, HAUTEUR_VEHICULE_JOUEUR);
                     if (rect1.Intersects(rect2))
                     {
                         return true;
@@ -456,6 +469,23 @@ namespace SAE_DEV
                 }
             }
              return false;
+        }
+        bool CollisionVehiculeGrand()
+        {
+            if (_delaiCollision > 1)
+            {
+                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_GRAND, HAUTEUR_VEHICULE_GRAND);
+                foreach (VoitureEnnemie voiture in _lesVoituresEnnemies)
+                {
+                    Rectangle rect2 = new Rectangle((int)voiture.Position.X, (int)voiture.Position.Y, LARGEUR_VEHICULE_JOUEUR, HAUTEUR_VEHICULE_JOUEUR);
+                    if (rect1.Intersects(rect2))
+                    {
+                        return true;
+                    }
+
+                }
+            }
+            return false;
         }
     }
    

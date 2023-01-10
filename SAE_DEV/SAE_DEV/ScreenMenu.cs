@@ -119,8 +119,6 @@ namespace SAE_DEV
                         if (i == 0)
 
                             _myGame.Etat = Game1.Etats.Play;
-                        else if (i == 1)
-                            _myGame.Etat = Game1.Etats.Menu;
                         else if (i == 2)
                             _myGame.Etat = Game1.Etats.Settings;
                         else if (i == 3)
