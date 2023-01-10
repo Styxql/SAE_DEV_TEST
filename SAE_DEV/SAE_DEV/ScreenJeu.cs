@@ -511,8 +511,8 @@ namespace SAE_DEV
         {
             Random rand = new Random();
 
-            int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE,
-                                          _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ESPACE_LIGNE - LARGEUR_VEHICULE_GRAND };
+            int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE + LARGEUR_VEHICULE_GRAND,
+                                          _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - LARGEUR_VEHICULE_GRAND };
 
             int i = rand.Next(0, _nomBonus.Length);
             int voie = rand.Next(0, positionsX.Length);
@@ -520,7 +520,7 @@ namespace SAE_DEV
             int x = positionsX[voie];
             int vitesse = 400;
 
-            Bonus item = new Bonus(_nomEnnemies[i], vitesse, new Vector2(x, 0),_textureJerricane);
+            Bonus item = new Bonus(_nomEnnemies[i], vitesse, new Vector2(x, 0), _textureBonus[i]);
             _lesObjetsBonus.Add(item);
 
         }
