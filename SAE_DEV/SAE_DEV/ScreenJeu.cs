@@ -35,7 +35,7 @@ namespace SAE_DEV
         private const int HAUTEUR_BARRE = 30;
         private const int LARGEUR_BARRE = 300;
         private const int TAILLE_JERRICANE = 50;
-        private const int SIZE_HEART = 50;
+        private const int TAILLE_HEART = 50;
         private const int DECOR_MAP = 288;// taille des tuiles ciel, herbe et barriere en px : x * 32 = taille px
         private const int ESPACE_LIGNE = 25;  //petit espace entre la route et la ligne
         private const int LARGEUR_ITEMS = 50;
@@ -45,6 +45,7 @@ namespace SAE_DEV
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private KeyboardState _keyboardState;
+        private Vector2 _horsMap;
 
         //Champs tiled
         private TiledMap _tiledMapJour;
@@ -92,12 +93,13 @@ namespace SAE_DEV
         private Texture2D _textureBarreEssence;
         private Texture2D _textureJaugeEssence;
         private Texture2D _textureJerricane;
-        private Vector2 _positionJerricane;
         private float _barreEssence;
+        private Vector2 _positionJerricane;
         Rectangle _rectangleBarreEssence;
         Rectangle _rectangleJaugeEssence;
+
         //Menu pause
-       
+
         private Texture2D _textureButtonPlay;
         private Texture2D _textureButtonMenu;
         private Texture2D _textureButtonExit;
@@ -172,14 +174,14 @@ namespace SAE_DEV
             _timerSpawnMalus = 0;
 
             _joueur = new VoitureJoueur("joueur", 250, new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 3,GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE));
-
+            
             _positionScore = new Vector2(70, 0);
             _positionChrono = new Vector2(610, 0);
             _score = 0;
             _chrono = 60;
 
             _positionJerricane = new Vector2(20, HAUTEUR_ECRAN - TAILLE_JERRICANE - 5);
-            _positionCoeur = new Vector2(LARGEUR_ECRAN - LARGEUR_BARRE - SIZE_HEART - 20, HAUTEUR_ECRAN - SIZE_HEART - 5);
+            _positionCoeur = new Vector2(LARGEUR_ECRAN - LARGEUR_BARRE - TAILLE_HEART - 20, HAUTEUR_ECRAN - TAILLE_HEART - 5);
             
             _barreEssence = 100;
             _pointDeVie = 100;
@@ -310,7 +312,7 @@ namespace SAE_DEV
 
 
                 //diminution de l'essence
-                _barreEssence -= 1 * deltaSeconds;
+                _barreEssence -= 3 * deltaSeconds;
 
 
                 //Mise à jour de la map et défilement 
@@ -403,6 +405,10 @@ namespace SAE_DEV
                 {
                     _pointDeVie -= 20;
                     _delaiCollision = 0;
+                }
+                if(CollisionItem())
+                {
+                    _barreEssence = 100;
                 }
 
             }
@@ -633,7 +639,24 @@ namespace SAE_DEV
             }
              return false;
         }
-        
+        bool CollisionItem()
+        {
+            if (_delaiCollision < 0.5)
+            {
+                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE);
+                foreach (Bonus jerricane in  _lesObjetsBonus)
+                {
+                Rectangle rect2 = new Rectangle((int)jerricane.Position.X,(int)jerricane.Position.Y,TAILLE_JERRICANE,TAILLE_JERRICANE);
+                    if (rect1.Intersects(rect2))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
     }
    
 
