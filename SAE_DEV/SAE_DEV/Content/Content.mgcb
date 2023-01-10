@@ -318,6 +318,11 @@
 /processor:TiledMapProcessor
 /build:mapJour.tmx
 
+#begin mapNuit.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:mapNuit.tmx
+
 #begin MenuButton.png
 /importer:TextureImporter
 /processor:TextureProcessor

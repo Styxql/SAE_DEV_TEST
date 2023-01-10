@@ -38,8 +38,10 @@ namespace SAE_DEV
         private KeyboardState _keyboardState;
 
         //Champs tiled
-        private TiledMap _tiledMap;
-        private TiledMapRenderer _tiledMapRenderer;
+        private TiledMap _tiledMapJour;
+        private TiledMap _tiledMapNuit;
+        private TiledMapRenderer _tiledMapRendererJour;
+        private TiledMapRenderer _tiledMapRendererNuit;
 
         //Map
         private float _mapYPosition = 0;
@@ -163,8 +165,12 @@ namespace SAE_DEV
         }
         public override void LoadContent()
         {
-            _tiledMap = Content.Load<TiledMap>("mapJour");
-            _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
+            _tiledMapJour = Content.Load<TiledMap>("mapJour");
+            _tiledMapNuit = Content.Load<TiledMap>("mapNuit");
+            _tiledMapRendererJour = new TiledMapRenderer(GraphicsDevice, _tiledMapJour);
+            _tiledMapRendererNuit = new TiledMapRenderer(GraphicsDevice, _tiledMapJour);
+
+
             
             //Chargement des textures pour les ennemies
             _textureEnnemies = new List<Texture2D>();
@@ -276,16 +282,14 @@ namespace SAE_DEV
                     _dureeEnPause = 0;
                 }
 
-                //autre
-                _tiledMapRenderer.Update(gameTime);
-
 
                 //diminution de l'essence
                 _barreEssence -= 1 * deltaSeconds;
 
 
                 //Mise à jour de la map et défilement 
-                _tiledMapRenderer.Update(gameTime);
+                _tiledMapRendererJour.Update(gameTime);
+                _tiledMapRendererNuit.Update(gameTime);
                 _mapYPosition += _vitesseYMap * deltaSeconds;
                 _mapYPosition %= 800;
 
@@ -387,14 +391,15 @@ namespace SAE_DEV
 
         public override void Draw(GameTime gameTime)
         {
-            _tiledMapRenderer.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 1000, 0));
+            //_tiledMapRendererJour.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 800, 0));
+            _tiledMapRendererNuit.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 800, 0));
 
             _myGame.SpriteBatch.Begin();
          
             foreach(VoitureEnnemie voiture in _lesVoituresEnnemies)
             {                
                 _myGame.SpriteBatch.Draw(voiture.Texture, voiture.Position, null, Color.White, voiture.Sens,
-                    new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE),2f, SpriteEffects.None, 0);
+                    new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE),1.5f, SpriteEffects.None, 0);
             }
 
             _myGame.SpriteBatch.Draw(_joueur.Sprite, _joueur.Position, _joueur.Angle);
