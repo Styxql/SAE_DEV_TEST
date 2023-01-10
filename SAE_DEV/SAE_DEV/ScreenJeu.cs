@@ -31,12 +31,15 @@ namespace SAE_DEV
         private const int ROUTE_EXTERIEUR = 192;
         private const float INTERVALLE_RESPAWN = 0.8f;
         private const float INTERVALLE_SPAWN_BONUS = 1f;
+        private const float INTERVALLE_SPAWN_MALUS = 1f;
         private const int HAUTEUR_BARRE = 30;
         private const int LARGEUR_BARRE = 300;
         private const int TAILLE_JERRICANE = 50;
         private const int SIZE_HEART = 50;
         private const int DECOR_MAP = 288;// taille des tuiles ciel, herbe et barriere en px : x * 32 = taille px
         private const int ESPACE_LIGNE = 25;  //petit espace entre la route et la ligne
+        private const int LARGEUR_ITEMS = 50;
+        private const int HAUTEUR_ITEMS = 50;
 
         //Autre
         private GraphicsDeviceManager _graphics;
@@ -58,9 +61,15 @@ namespace SAE_DEV
         private List<VoitureEnnemie> _lesVoituresEnnemies;
         private string[] _nomEnnemies = new string[] { "Car", "Ambulance", "miniTruck", "audi", "Blackviper", "truck", "taxi", "Police" };
 
+        //Champs listes et tableau bonus
         private List<Texture2D> _textureBonus;
         private List<Bonus> _lesObjetsBonus;
-        private string[] _nomBonus = new string[] { "Jerricane" };
+        private string[] _nomBonus = new string[] { "Jerricane", "coins" };
+
+        //Champs listes et tableau malus
+        private List<Texture2D> _textureMalus;
+        private List<Malus> _lesObjetsMalus;
+        private string[] _nomMalus = new string[] { "tache" };
 
         //radio
         private SoundEffect _radio;
@@ -118,6 +127,9 @@ namespace SAE_DEV
         //timer des spawn bonus
         private float _timerSpawnBonus;
 
+        //timer des spawn bonus
+        private float _timerSpawnMalus;
+
         //pause
         private bool _estEntrainDeJouer = true;
         private float _dureeEnPause;
@@ -154,8 +166,10 @@ namespace SAE_DEV
 
             _lesVoituresEnnemies = new List<VoitureEnnemie>();//création d'une liste sans ennemies
             _lesObjetsBonus = new List<Bonus>();
+            _lesObjetsMalus = new List<Malus>();
             _timerRespawnEnnemie = 0;
             _timerSpawnBonus = 0;
+            _timerSpawnMalus = 0;
 
             _joueur = new VoitureJoueur("joueur", 250, new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 3,GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE));
 
@@ -203,6 +217,14 @@ namespace SAE_DEV
             {
                 Texture2D texture = Content.Load<Texture2D>(nom);
                 _textureBonus.Add(texture);
+            }
+
+            //Chargement des textures pour les malus
+            _textureMalus = new List<Texture2D>();
+            foreach (string nom in _nomMalus)
+            {
+                Texture2D texture = Content.Load<Texture2D>(nom);
+                _textureMalus.Add(texture);
             }
 
             //création de deux ennemies au démarrage
@@ -331,6 +353,13 @@ namespace SAE_DEV
                     _timerSpawnBonus -= INTERVALLE_SPAWN_BONUS;
                 }
 
+                //Spawn des malus
+                _timerSpawnMalus += deltaSeconds;
+                if (_timerSpawnMalus > INTERVALLE_SPAWN_MALUS)
+                {
+                    this.SpawnMalus();
+                    _timerSpawnMalus -= INTERVALLE_SPAWN_MALUS;
+                }
 
                 //Déplacement des ennemies
                 for (int i = 0; i < _lesVoituresEnnemies.Count; i++)
@@ -352,6 +381,19 @@ namespace SAE_DEV
                     if(item.Position.Y > GraphicsDevice.Viewport.Height + _textureJerricane.Height)
                     {
                         _lesObjetsBonus.Remove(item);
+                        i--;
+                    }
+                }
+
+
+                //Déplacemement des Malus
+                for (int i = 0; i < _lesObjetsMalus.Count; i++)
+                {
+                    Malus item = _lesObjetsMalus[i];
+                    item.Position = new Vector2(item.Position.X, item.Position.Y + item.Vitesse * deltaSeconds);
+                    if (item.Position.Y > GraphicsDevice.Viewport.Height + HAUTEUR_ITEMS)
+                    {
+                        _lesObjetsMalus.Remove(item);
                         i--;
                     }
                 }
@@ -439,7 +481,13 @@ namespace SAE_DEV
             foreach(Bonus item in _lesObjetsBonus)
             {
                 _myGame.SpriteBatch.Draw(item.Texture, item.Position, null, Color.White, 0,
-                    new Vector2(_textureJerricane.Width, _textureJerricane.Height), 1f, SpriteEffects.None, 0);
+                    new Vector2(LARGEUR_ITEMS, HAUTEUR_ITEMS), 1f, SpriteEffects.None, 0);
+            }
+
+            foreach(Malus item in _lesObjetsMalus)
+            {
+                _myGame.SpriteBatch.Draw(item.Texture, item.Position, null, Color.White, 0,
+                    new Vector2(LARGEUR_ITEMS , HAUTEUR_ITEMS), 1f, SpriteEffects.None, 0);
             }
 
             _myGame.SpriteBatch.Draw(_joueur.Sprite, _joueur.Position, _joueur.Angle);
@@ -530,11 +578,29 @@ namespace SAE_DEV
             int x = positionsX[voie];
             int vitesse = 400;
 
-            Bonus item = new Bonus(_nomEnnemies[i], vitesse, new Vector2(x, 0), _textureBonus[i]);
+            Bonus item = new Bonus(_nomBonus[i], vitesse, new Vector2(x, 0), _textureBonus[i]);
             _lesObjetsBonus.Add(item);
 
         }
-        
+
+        public void SpawnMalus()
+        {
+            Random rand = new Random();
+
+            int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE + LARGEUR_VEHICULE_GRAND,
+                                          _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - LARGEUR_VEHICULE_GRAND };
+
+            int i = rand.Next(0, _nomMalus.Length);
+            int voie = rand.Next(0, positionsX.Length);
+
+            int x = positionsX[voie];
+            int vitesse = 400;
+
+            Malus item = new Malus(_nomMalus[i], vitesse, new Vector2(x, 0), _textureMalus[i]);
+            _lesObjetsMalus.Add(item);
+
+        }
+
 
         /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
         //if (_keyboardState.IsKeyDown(Keys.K))
@@ -548,7 +614,9 @@ namespace SAE_DEV
         //    _radioOFF.Play();
         //}
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-         bool CollisionVehicule()
+
+
+        bool CollisionVehicule()
         {
             if (_delaiCollision > 0.5)
             {
