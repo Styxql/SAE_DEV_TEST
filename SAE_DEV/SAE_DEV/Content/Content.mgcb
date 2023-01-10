@@ -66,6 +66,30 @@
 /processorParam:TextureFormat=Color
 /build:AudioSquareButtonOFF.png
 
+#begin Back.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Back.png
+
+#begin BackPressed.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BackPressed.png
+
 #begin barreEssence.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -89,6 +113,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:BarreVie.png
+
+#begin Barrieres.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Barrieres.png
 
 #begin Blackviper.png
 /importer:TextureImporter
@@ -150,18 +186,6 @@
 /processorParam:TextureFormat=Color
 /build:CarSprite2.png
 
-#begin Ciel.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Ciel.png
-
 #begin coins.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -173,6 +197,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:coins.png
+
+#begin Décor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Décor.png
 
 #begin ExitButton.png
 /importer:TextureImporter
@@ -277,10 +313,10 @@
 /processorParam:TextureFormat=Color
 /build:Jerikan.png
 
-#begin map.tmx
+#begin mapJour.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
-/build:map.tmx
+/build:mapJour.tmx
 
 #begin MenuButton.png
 /importer:TextureImporter
@@ -365,6 +401,30 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:radioTurnON.mp3
+
+#begin Route.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Route.png
+
+#begin Route.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Route.png
 
 #begin SettingsBackground.png
 /importer:TextureImporter
