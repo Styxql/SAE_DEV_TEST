@@ -318,6 +318,11 @@
 /processor:TiledMapProcessor
 /build:mapJour.tmx
 
+#begin mapJour.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:mapJour.tmx
+
 #begin MenuButton.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -401,18 +406,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:radioTurnON.mp3
-
-#begin Route.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Route.png
 
 #begin Route.png
 /importer:TextureImporter
