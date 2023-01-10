@@ -11,8 +11,8 @@ namespace SAE_DEV
 
     public class ScreenMenu : GameScreen
     {
-        const int HEIGHT_MAIN_BUTTON = 70;
-        const int WIDTH_MAIN_BUTTON = 200;
+        const int HAUTEUR_BOUTON_PRINCIPAL = 70;
+        const int LARGEUR_BOUTON_PRINCIPAL = 200;
         const int SIZE_OTHER_BUTTON = 50;
 
 
@@ -21,23 +21,25 @@ namespace SAE_DEV
         private Game1 _myGame;
 
         // texture du menu avec 3 boutons
-        private Texture2D _buttonAudio;
+        private Texture2D _boutonAudio;
 
-        private Texture2D _buttonExit;
-        private Texture2D _buttonInfo;
-        private Texture2D _buttonPlay;
-        private Texture2D _buttonSettings;
+        private Texture2D _boutonExit;
+        private Texture2D _BoutonInfo;
+            
+        private Texture2D _boutonPlay;
+        private Texture2D _boutonSettings;
         private Texture2D _background;
-        private Texture2D _buttonPlayPressed;
-        private Texture2D _buttonMenu;
-        private Texture2D _buttonMenuPressed;
-        private Texture2D _buttonSettingsPressed;
-        private Texture2D _buttonExitPressed;
-        private Texture2D _buttonInfoPressed;
-        private Texture2D _buttonAudioPressed;
-        private Texture2D[] _buttons;
-        private Texture2D[] _buttonsPressed;
+        private Texture2D _boutonPlayPressé;
+        private Texture2D _boutonMenu;
+        private Texture2D _boutonMenuPressé;
+        private Texture2D _boutonSettingsPressé;
+        private Texture2D _boutonExitPressé;
+        private Texture2D _boutonInfoPressé;
+        private Texture2D _boutonAudioPressé;
+        private Texture2D[] _boutons;
+        private Texture2D[] _boutonsPressés;
         private Song _song;
+        bool _audioIsPressed;
 
         public bool _isButtonPlayPressed;
         private bool _estActif = true;
@@ -69,39 +71,39 @@ namespace SAE_DEV
             _myGame._graphics.PreferredBackBufferHeight = 720;
             _myGame._graphics.PreferredBackBufferWidth = 925;
             _myGame._graphics.ApplyChanges();
-
+            _audioIsPressed = false;
 
         }
 
         public override void LoadContent()
         {
-            _buttonInfo = Content.Load<Texture2D>("InfoSquare Button");
-            _buttonExit = Content.Load<Texture2D>("ExitButton");
-            _buttonPlay = Content.Load<Texture2D>("PlayButton");
-            _buttonAudio = Content.Load<Texture2D>("AudioSquareButton");
-            _buttonMenuPressed = Content.Load<Texture2D>("ButtonMenuPressed");
-            _buttonSettingsPressed = Content.Load<Texture2D>("BoutonSettingsPressed");
-            _buttonAudioPressed = Content.Load<Texture2D>("AudioSquareButtonOff");
-            _buttonSettings = Content.Load<Texture2D>("SettingsButton");
-            _buttonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
-            _buttonMenu = Content.Load<Texture2D>("MenuButton");
+            _BoutonInfo = Content.Load<Texture2D>("InfoSquare Button");
+            _boutonExit = Content.Load<Texture2D>("ExitButton");
+            _boutonPlay = Content.Load<Texture2D>("PlayButton");
+            _boutonAudio = Content.Load<Texture2D>("AudioSquareButton");
+            _boutonMenuPressé = Content.Load<Texture2D>("ButtonMenuPressed");
+            _boutonSettingsPressé = Content.Load<Texture2D>("BoutonSettingsPressed");
+            _boutonAudioPressé = Content.Load<Texture2D>("AudioSquareButtonOff");
+            _boutonSettings = Content.Load<Texture2D>("SettingsButton");
+            _boutonPlayPressé = Content.Load<Texture2D>("PlayButtonPressed");
+            _boutonMenu = Content.Load<Texture2D>("MenuButton");
             _background = Content.Load<Texture2D>("fondmenu");
-            _buttonExitPressed = Content.Load<Texture2D>("ExitButtonPressed");
+            _boutonExitPressé = Content.Load<Texture2D>("ExitButtonPressed");
 
-            _buttonsPressed = new Texture2D[5];
-            _buttonsPressed[0] = _buttonPlayPressed;
-            _buttonsPressed[1] = _buttonMenuPressed;
-            _buttonsPressed[2] = _buttonSettingsPressed;
-            _buttonsPressed[3] = _buttonExitPressed;
-            _buttonsPressed[4] = _buttonAudioPressed;
+            _boutonsPressés = new Texture2D[5];
+            _boutonsPressés[0] = _boutonPlayPressé;
+            _boutonsPressés[1] = _boutonMenuPressé;
+            _boutonsPressés[2] = _boutonSettingsPressé;
+            _boutonsPressés[3] = _boutonExitPressé;
+            _boutonsPressés[4] = _boutonAudioPressé;
             //_buttons[4] = _buttonSettings;
             //Bouton a l'état initial
-            _buttons = new Texture2D[5];
-            _buttons[0] = _buttonPlay;
-            _buttons[1] = _buttonMenu;
-            _buttons[2] = _buttonSettings;
-            _buttons[3] = _buttonExit;
-            _buttons[4] = _buttonAudio;
+            _boutons = new Texture2D[5];
+            _boutons[0] = _boutonPlay;
+            _boutons[1] = _boutonMenu;
+            _boutons[2] = _boutonSettings;
+            _boutons[3] = _boutonExit;
+            _boutons[4] = _boutonAudio;
 
 
             //_song = Content.Load<Song>("sonmenu");
@@ -136,7 +138,16 @@ namespace SAE_DEV
                                 _myGame.Etat = Game1.Etats.Settings;
                             else if (i == 3)
                                 _myGame.Etat = Game1.Etats.Exit;
-                            break;
+                            else if (i== 4)
+                            _audioIsPressed = true;
+
+                            else
+                            _audioIsPressed=false;
+                                
+                            
+
+
+                        break;
                         }
 
                     }
@@ -155,20 +166,29 @@ namespace SAE_DEV
 
 
             MouseState _mouseState1 = Mouse.GetState();
-            for (int i = 0; i < _buttons.Length; i++)
+            for (int i = 0; i < _boutons.Length-1; i++)
             {
+                if (_audioIsPressed)
+                {
+                    _myGame.SpriteBatch.Draw(_boutonAudioPressé, lesBoutons[4], Color.Red);
+                }
+                else
+                _myGame.SpriteBatch.Draw(_boutonAudio,lesBoutons[4], Color.White);
 
                 // Si la souris est au-dessus du bouton actuel
                 if (lesBoutons[i].Contains(_mouseState1.X, _mouseState1.Y))
                 {
                     // Affiche le bouton pressé
-                    _myGame.SpriteBatch.Draw(_buttonsPressed[i], lesBoutons[i], Color.Red);
+                    _myGame.SpriteBatch.Draw(_boutonsPressés[i], lesBoutons[i], Color.Red);
+                   
+
                 }
                 else
                 {
                     // Affiche le bouton normal
-                    _myGame.SpriteBatch.Draw(_buttons[i], lesBoutons[i], Color.White);
+                    _myGame.SpriteBatch.Draw(_boutons[i], lesBoutons[i], Color.White);
                 }
+               
 
             }
             _myGame.SpriteBatch.End();
