@@ -35,7 +35,7 @@ namespace SAE_DEV
 
         //Map
         private float _mapYPosition = 0;
-        private float _vitesseYMap = 300;
+        private float _vitesseYMap = 500;
 
         //Champs de listes et tableau
         private List<Texture2D> _textureEnnemies;
@@ -341,16 +341,16 @@ namespace SAE_DEV
             x += rand.Next(0, 150);//assigne une position aléatoire dans l'une des 4 voies
 
             float sens = 0;
-            int vitesse = 250;
+            int vitesse = 600;
 
             if (x < GraphicsDevice.Viewport.Width / 2)
             {
                 sens = (float)Math.PI;//rotation de 180 degrés
-                vitesse = 300;//vitesse de déplacement si voie de gauche
+                vitesse = 750;//vitesse de déplacement si voie de gauche
             }
             //else de le remettre à 0 ne sert à rien
 
-            vitesse += rand.Next(0, 60);//variation de la vitesse
+            vitesse += rand.Next(0, 100);//variation de la vitesse
 
             VoitureEnnemie voiture = new VoitureEnnemie(nomEnnemies[i], vitesse, new Vector2(x, 0), sens, _textureEnnemies[i]);
             _lesVoituresEnnemies.Add(voiture);
