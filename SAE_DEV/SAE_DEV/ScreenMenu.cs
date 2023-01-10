@@ -104,13 +104,13 @@ namespace SAE_DEV
             _buttons[4] = _buttonAudio;
 
 
-            _song = Content.Load<Song>("sonmenu");
+            //_song = Content.Load<Song>("sonmenu");
 
 
-            if (_estActif)
-            {
-                MediaPlayer.Play(_song);
-            }
+            //if (_estActif)
+            //{
+            //    MediaPlayer.Play(_song);
+            //}
                     
             base.LoadContent();
         }
@@ -138,32 +138,15 @@ namespace SAE_DEV
                                 _myGame.Etat = Game1.Etats.Settings;
                             else if (i == 3)
                                 _myGame.Etat = Game1.Etats.Exit;
-
-                            ///MARCHE PAS ;(/////
-                            //else if (i == 4)
-                            //{
-                            //    _isSoundOn = !_isSoundOn;
-
-                            //    if (_isSoundOn)
-                            //    {
-                            //        _buttonAudio = _buttonAudio2;
-                            //    }
-                            //    else
-                            //    {
-                            //        _buttonAudio = _buttonAudioOff;
-                            //    }
-
-                            //}
-
                             break;
                         }
 
                     }
                 }
-                if(!_estActif)
-                {
-                    MediaPlayer.Stop();
-                }
+                //if(!_estActif)
+                //{
+                //    MediaPlayer.Stop();
+                //}
         }
         public override void Draw(GameTime gameTime)
         {
