@@ -95,15 +95,15 @@ namespace SAE_DEV
                 else if (this.Etat == Etats.Settings)
                     _screenManager.LoadScreen(_screenSettings, new FadeTransition(GraphicsDevice, Color.Black));
 
-               
+                else if (this.Etat == Etats.Menu)
+                    _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
 
                 else if (this.Etat == Etats.Exit)
                     Exit();
             }
             else if (this.Etat == Etats.Lose)
                 _screenManager.LoadScreen(_screenGameOver, new FadeTransition(GraphicsDevice, Color.Black,10));
-            if (this.Etat == Etats.Menu)
-                _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
+           
 
             base.Update(gameTime);
         }
