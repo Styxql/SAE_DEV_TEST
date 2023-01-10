@@ -326,7 +326,7 @@ namespace SAE_DEV
                 }
             }
             _delaiCollision += deltaSeconds;
-            if (CollisionVehiculeBasique()||CollisionVehiculeGrand())
+            if (CollisionVehiculeBasique())
             {
                 _pointDeVie -= 20;
                 _delaiCollision = 0;            
@@ -490,23 +490,7 @@ namespace SAE_DEV
             }
              return false;
         }
-        bool CollisionVehiculeGrand()
-        {
-            if (_delaiCollision > 1)
-            {
-                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_GRAND, HAUTEUR_VEHICULE_GRAND);
-                foreach (VoitureEnnemie voiture in _lesVoituresEnnemies)
-                {
-                    Rectangle rect2 = new Rectangle((int)voiture.Position.X, (int)voiture.Position.Y, LARGEUR_VEHICULE_JOUEUR, HAUTEUR_VEHICULE_JOUEUR);
-                    if (rect1.Intersects(rect2))
-                    {
-                        return true;
-                    }
-
-                }
-            }
-            return false;
-        }
+        
     }
    
 
