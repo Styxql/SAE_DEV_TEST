@@ -99,10 +99,7 @@ namespace SAE_DEV
                     Exit();
             }
             else if (this.Etat == Etats.Lose)
-                _screenManager.LoadScreen(_screenGameOver, new FadeTransition(GraphicsDevice, Color.Black));
-
-
-
+                _screenManager.LoadScreen(_screenGameOver, new FadeTransition(GraphicsDevice, Color.Black,10));
 
             base.Update(gameTime);
         }

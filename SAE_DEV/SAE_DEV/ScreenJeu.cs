@@ -30,6 +30,7 @@ namespace SAE_DEV
         private const int ROUTE_INTERIEUR = 224;
         private const int ROUTE_EXTERIEUR = 192;
         private const float INTERVALLE_RESPAWN = 0.8f;
+        private const float INTERVALLE_SPAWN_BONUS = 1f;
         private const int HAUTEUR_BARRE = 30;
         private const int LARGEUR_BARRE = 300;
         private const int TAILLE_JERRICANE = 50;
@@ -43,17 +44,23 @@ namespace SAE_DEV
         private KeyboardState _keyboardState;
 
         //Champs tiled
-        private TiledMap _tiledMap;
-        private TiledMapRenderer _tiledMapRenderer;
+        private TiledMap _tiledMapJour;
+        private TiledMap _tiledMapNuit;
+        private TiledMapRenderer _tiledMapRendererJour;
+        private TiledMapRenderer _tiledMapRendererNuit;
 
         //Map
         private float _mapYPosition = 0;
-        private float _vitesseYMap = 500;
+        private float _vitesseYMap = 400;
 
         //Champs de listes et tableau
         private List<Texture2D> _textureEnnemies;
         private List<VoitureEnnemie> _lesVoituresEnnemies;
-        private string[] nomEnnemies = new string[] { "Car", "Ambulance", "miniTruck", "audi", "Blackviper", "truck", "taxi", "Police" };
+        private string[] _nomEnnemies = new string[] { "Car", "Ambulance", "miniTruck", "audi", "Blackviper", "truck", "taxi", "Police" };
+
+        private List<Texture2D> _textureBonus;
+        private List<Bonus> _lesObjetsBonus;
+        private string[] _nomBonus = new string[] { "Jerricane" };
 
         //radio
         private SoundEffect _radio;
@@ -75,8 +82,8 @@ namespace SAE_DEV
         //barre d'essence
         private Texture2D _textureBarreEssence;
         private Texture2D _textureJaugeEssence;
-        private Texture2D _textureJerikan;
-        private Vector2 _positionJerikan;
+        private Texture2D _textureJerricane;
+        private Vector2 _positionJerricane;
         private float _barreEssence;
         Rectangle _rectangleBarreEssence;
         Rectangle _rectangleJaugeEssence;
@@ -107,6 +114,9 @@ namespace SAE_DEV
         
         //timer de spawn ennemie
         private float _timerRespawnEnnemie;
+
+        //timer des spawn bonus
+        private float _timerSpawnBonus;
 
         //pause
         private bool _estEntrainDeJouer = true;
@@ -143,7 +153,9 @@ namespace SAE_DEV
             _positionBoutonPlay =new Vector2(362, 50);
 
             _lesVoituresEnnemies = new List<VoitureEnnemie>();//création d'une liste sans ennemies
+            _lesObjetsBonus = new List<Bonus>();
             _timerRespawnEnnemie = 0;
+            _timerSpawnBonus = 0;
 
             _joueur = new VoitureJoueur("joueur", 250, new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 3,GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE));
 
@@ -159,6 +171,8 @@ namespace SAE_DEV
             _pointDeVie = 100;
             _delaiCollision = 1;
 
+            //_lesObjetsBonus = new List
+
             lesBoutonsMenu = new Rectangle[5];
             lesBoutonsMenu[0] = new Rectangle(362, 50, LARGEUR_BOUTON,HAUTEUR_BOUTON);
             lesBoutonsMenu[1] = new Rectangle(362, 150, LARGEUR_BOUTON,HAUTEUR_BOUTON);
@@ -169,19 +183,30 @@ namespace SAE_DEV
         }
         public override void LoadContent()
         {
-            _tiledMap = Content.Load<TiledMap>("mapJour");
-            _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
+            _tiledMapJour = Content.Load<TiledMap>("mapJour");
+            //_tiledMapNuit = Content.Load<TiledMap>("mapNuit");
+            _tiledMapRendererJour = new TiledMapRenderer(GraphicsDevice, _tiledMapJour);
+            _tiledMapRendererNuit = new TiledMapRenderer(GraphicsDevice, _tiledMapJour);
+
             
             //Chargement des textures pour les ennemies
             _textureEnnemies = new List<Texture2D>();
-            foreach (string nom in nomEnnemies)
+            foreach (string nom in _nomEnnemies)
             {
                 Texture2D texture = Content.Load<Texture2D>(nom);
                 _textureEnnemies.Add(texture);
             }
 
-            //créaation de deux ennemies au démarrage
-            for(int i = 0;i < 2;i++)
+            //Chargement des textures pour les bonus
+            _textureBonus = new List<Texture2D>();
+            foreach(string nom in _nomBonus)
+            {
+                Texture2D texture = Content.Load<Texture2D>(nom);
+                _textureBonus.Add(texture);
+            }
+
+            //création de deux ennemies au démarrage
+            for (int i = 0; i < 2; i++)
             {
                 this.SpawnEnnemie();
             }
@@ -200,7 +225,7 @@ namespace SAE_DEV
             _textureJaugeVie = Content.Load<Texture2D>("JaugeVie");
             _textureCoeur = Content.Load<Texture2D>("heart");
             _textureJaugeEssence = Content.Load<Texture2D>("JaugeEssence");
-            _textureJerikan = Content.Load<Texture2D>("Jerikan");
+            _textureJerricane = Content.Load<Texture2D>("Jerikan");
             _textureButtonExit = Content.Load<Texture2D>("ExitButton");
             _textureButtonExitPressed = Content.Load<Texture2D>("ExitButtonPressed");
             _textureButtonMenuPressed = Content.Load<Texture2D>("ExitButton");
@@ -210,24 +235,7 @@ namespace SAE_DEV
             _textureButtonSettingsPressed = Content.Load<Texture2D>("BoutonSettingsPressed");
             _textureButtonPlay = Content.Load<Texture2D>("PlayButton");
             _textureBackgroundGameOver = Content.Load<Texture2D>("BackgroundGameOver");
-
             _textureButtonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
-
-            //Autre
-
-            //Chargement des textures pour les ennemies
-            _textureEnnemies = new List<Texture2D>();
-            foreach (string nom in nomEnnemies)
-            {
-                Texture2D texture = Content.Load<Texture2D>(nom);
-                _textureEnnemies.Add(texture);
-            }
-
-            //créaation de deux ennemies au démarrage
-            for (int i = 0; i < 2; i++)
-            {
-                this.SpawnEnnemie();
-            }
 
             //_radio = Content.Load<SoundEffect>("Son radio");
             //_radioOFF = Content.Load<SoundEffect>("radioTurnOff");
@@ -278,16 +286,14 @@ namespace SAE_DEV
                     _dureeEnPause = 0;
                 }
 
-                //autre
-                _tiledMapRenderer.Update(gameTime);
-
 
                 //diminution de l'essence
                 _barreEssence -= 1 * deltaSeconds;
 
 
                 //Mise à jour de la map et défilement 
-                _tiledMapRenderer.Update(gameTime);
+                _tiledMapRendererJour.Update(gameTime);
+                _tiledMapRendererNuit.Update(gameTime);
                 _mapYPosition += _vitesseYMap * deltaSeconds;
                 _mapYPosition %= 800;
 
@@ -317,6 +323,15 @@ namespace SAE_DEV
                     _timerRespawnEnnemie -= INTERVALLE_RESPAWN;
                 }
 
+                //Spawn des bonus
+                _timerSpawnBonus += deltaSeconds;
+                if(_timerSpawnBonus > INTERVALLE_SPAWN_BONUS)
+                {
+                    this.SpawnBonus();
+                    _timerSpawnBonus -= INTERVALLE_SPAWN_BONUS;
+                }
+
+
                 //Déplacement des ennemies
                 for (int i = 0; i < _lesVoituresEnnemies.Count; i++)
                 {
@@ -328,6 +343,26 @@ namespace SAE_DEV
                         i--;//permet de vérifier les voitures toujours existantes 
                     }
                 }
+
+                //Déplacemement des bonus
+                for(int i = 0; i < _lesObjetsBonus.Count; i++)
+                {
+                    Bonus item = _lesObjetsBonus[i];
+                    item.Position = new Vector2(item.Position.X, item.Position.Y + item.Vitesse * deltaSeconds);
+                    if(item.Position.Y > GraphicsDevice.Viewport.Height + _textureJerricane.Height)
+                    {
+                        _lesObjetsBonus.Remove(item);
+                        i--;
+                    }
+                }
+
+                _delaiCollision += deltaSeconds;
+                if (CollisionVehicule())
+                {
+                    _pointDeVie -= 20;
+                    _delaiCollision = 0;
+                }
+
             }
 
             else
@@ -339,13 +374,7 @@ namespace SAE_DEV
 
                 }
             }
-            _delaiCollision += deltaSeconds;
-            if (CollisionVehiculeBasique())
-            {
-                _pointDeVie -= 20;
-                _delaiCollision = 0;            
-            }
-           
+                       
 
             //positions barre d'essence et barre de vie
             _largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
@@ -389,13 +418,15 @@ namespace SAE_DEV
                     }
 
                 }
+           
             }
             
         }
 
         public override void Draw(GameTime gameTime)
         {
-            _tiledMapRenderer.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 1000, 0));
+            _tiledMapRendererJour.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 800, 0));
+           // _tiledMapRendererNuit.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 800, 0));
 
             _myGame.SpriteBatch.Begin();
          
@@ -405,6 +436,12 @@ namespace SAE_DEV
                     new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE),1.5f, SpriteEffects.None, 0);
             }
 
+            foreach(Bonus item in _lesObjetsBonus)
+            {
+                _myGame.SpriteBatch.Draw(item.Texture, item.Position, null, Color.White, 0,
+                    new Vector2(_textureJerricane.Width, _textureJerricane.Height), 1f, SpriteEffects.None, 0);
+            }
+
             _myGame.SpriteBatch.Draw(_joueur.Sprite, _joueur.Position, _joueur.Angle);
 
             /////BARRE ESSENCE///////
@@ -412,7 +449,7 @@ namespace SAE_DEV
            
             _myGame.SpriteBatch.Draw(_textureBarreEssence, _rectangleJaugeEssence, Color.White);
             _myGame.SpriteBatch.Draw(_textureJaugeEssence, _rectangleBarreEssence, Color.White);
-            _myGame.SpriteBatch.Draw(_textureJerikan, _positionJerikan, Color.White);
+            _myGame.SpriteBatch.Draw(_textureJerricane, _positionJerricane, Color.White);
 
             ///////BARRE VIE///////
             
@@ -457,11 +494,11 @@ namespace SAE_DEV
                                            LARGEUR_ECRAN - DECOR_MAP - ROUTE_EXTERIEUR - ESPACE_LIGNE*2,
                                            LARGEUR_ECRAN - DECOR_MAP - ESPACE_LIGNE };
 
-            int i = rand.Next(0, nomEnnemies.Length);//index du tableau
+            int i = rand.Next(0, _nomEnnemies.Length);//index du tableau
             int voie = rand.Next(0, positionsX.Length);//index de la voie
 
             int x = positionsX[voie];
-            x += rand.Next(0,100);//assigne une position aléatoire dans l'une des 4 voies
+            x += rand.Next(0,150);//variation de positions dans les 4 voies
 
             float sens = 0;
             int vitesse = 600;
@@ -475,8 +512,26 @@ namespace SAE_DEV
 
             vitesse += rand.Next(0, 100);//variation de la vitesse
 
-            VoitureEnnemie voiture = new VoitureEnnemie(nomEnnemies[i], vitesse, new Vector2(x, 0), sens, _textureEnnemies[i]);
+            VoitureEnnemie voiture = new VoitureEnnemie(_nomEnnemies[i], vitesse, new Vector2(x, 0), sens, _textureEnnemies[i]);
             _lesVoituresEnnemies.Add(voiture);
+
+        }
+
+        public void SpawnBonus()
+        {
+            Random rand = new Random();
+
+            int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE,
+                                          _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ESPACE_LIGNE - LARGEUR_VEHICULE_GRAND };
+
+            int i = rand.Next(0, _nomBonus.Length);
+            int voie = rand.Next(0, positionsX.Length);
+
+            int x = positionsX[voie];
+            int vitesse = 400;
+
+            Bonus item = new Bonus(_nomEnnemies[i], vitesse, new Vector2(x, 0),_textureJerricane);
+            _lesObjetsBonus.Add(item);
 
         }
         
@@ -493,7 +548,7 @@ namespace SAE_DEV
         //    _radioOFF.Play();
         //}
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-         bool CollisionVehiculeBasique()
+         bool CollisionVehicule()
         {
             if (_delaiCollision > 0.5)
             {

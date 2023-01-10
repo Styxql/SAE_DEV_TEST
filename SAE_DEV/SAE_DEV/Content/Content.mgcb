@@ -313,7 +313,7 @@
 /processorParam:TextureFormat=Color
 /build:JaugeVie.png
 
-#begin Jerikan.png
+#begin Jerricane.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -323,12 +323,17 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Jerikan.png
+/build:Jerricane.png
 
 #begin mapJour.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
 /build:mapJour.tmx
+
+#begin mapNuit.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:mapNuit.tmx
 
 #begin MenuButton.png
 /importer:TextureImporter
