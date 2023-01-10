@@ -82,8 +82,7 @@ namespace SAE_DEV
                 if (this.Etat == Etats.Play)
                     _screenManager.LoadScreen(_screenJeu, new FadeTransition(GraphicsDevice, Color.Black));
 
-                else if (this.Etat == Etats.Menu)
-                    _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
+
 
                 else if (this.Etat == Etats.Settings)
                     _screenManager.LoadScreen(_screenSettings, new FadeTransition(GraphicsDevice, Color.Black));

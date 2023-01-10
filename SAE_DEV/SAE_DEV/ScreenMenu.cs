@@ -129,7 +129,6 @@ namespace SAE_DEV
                     {
                         // on change l'état défini dans Game1 en fonction du bouton cliqué
                         if (i == 0)
-
                             _myGame.Etat = Game1.Etats.Play;
                         else if (i == 2)
                             _myGame.Etat = Game1.Etats.Settings;
