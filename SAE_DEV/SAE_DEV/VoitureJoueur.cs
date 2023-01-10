@@ -6,12 +6,18 @@ namespace SAE_DEV
 {
     internal class VoitureJoueur
     {
+        //private const int LARGEUR_VOITURE = 78; //taille en px du sprite
+        private const int DECOR_MAP = 288;// taille des tuiles ciel, herbe et barriere en px : x * 32 = taille px
+        private const int ESPACE_LIGNE = 25;  //petit espace entre la barriere et la ligne continu
+        private const int LARGEUR_ECRAN = 1600;
+
         private string nom;
         private int vitesse;
         private Vector2 position;
         private AnimatedSprite sprite;
         private int direction;
         private float angle;
+        
 
         public VoitureJoueur(string nom, int vitesse, Vector2 position, AnimatedSprite typeVehicule)
         {
@@ -117,16 +123,16 @@ namespace SAE_DEV
             }
 
             float nextX = Position.X + Direction * Vitesse * deltaSeconds;
-            float maxPositionX = 1920 - 32 - 78 - 420;
-            if (nextX < maxPositionX) //32 : barriere , 78 : width voiture , 420 : decor.width pos barriere : 1390
+            float maxPositionX = LARGEUR_ECRAN - DECOR_MAP - ESPACE_LIGNE;
+            if (nextX < maxPositionX) 
             {
-                Position = new Vector2(nextX,Position.Y);
+                Position = new Vector2(nextX, Position.Y);
             }
             else
             {
-                Position = new Vector2(maxPositionX,Position.Y);
+                Position = new Vector2(maxPositionX, Position.Y);
                 Angle = 0f;
-            }                                        
+            }
         }
 
         public void DeplacementGauche(float deltaSeconds)
@@ -139,17 +145,17 @@ namespace SAE_DEV
             }
 
             float nextX = Position.X - Direction * Vitesse * deltaSeconds;
-            float maxPositionX = 32 + 390 + 78;
-            if (nextX > maxPositionX) //32 : barriere , 390 : decor , 78 :voiture.width
+            float maxPositionX = DECOR_MAP + ESPACE_LIGNE;
+            if (nextX > maxPositionX) 
             {
                 Position = new Vector2(nextX, Position.Y);
             }
             else
             {
-                Position = new Vector2(maxPositionX,Position.Y);
+                Position = new Vector2(maxPositionX, Position.Y);
                 Angle = 0;
             }
- 
+
         }
 
         public void Idle()

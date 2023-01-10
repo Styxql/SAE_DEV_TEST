@@ -17,7 +17,6 @@ namespace SAE_DEV
         // pour récupérer une référence à l’objet game pour avoir accès à tout ce qui est 
         // défini dans Game1
         private Game1 _myGame;
-        Color _colorButtonAudio;
 
         // texture du menu avec 3 boutons
         private Texture2D _buttonAudio;
@@ -107,12 +106,14 @@ namespace SAE_DEV
 
             MouseState _mouseState = Mouse.GetState();
             //          
-            if (_mouseState.LeftButton == ButtonState.Pressed)
+
+
+            for (int i = 0; i < lesBoutons.Length; i++)
             {
-                for (int i = 0; i < lesBoutons.Length; i++)
+                // si le clic correspond à un des 3 boutons
+                if (lesBoutons[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
                 {
-                    // si le clic correspond à un des 3 boutons
-                    if (lesBoutons[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                    if (_mouseState.LeftButton == ButtonState.Pressed)
                     {
                         // on change l'état défini dans Game1 en fonction du bouton cliqué
                         if (i == 0)
@@ -125,27 +126,14 @@ namespace SAE_DEV
                         else if (i == 3)
                             _myGame.Etat = Game1.Etats.Exit;
 
-                        ///MARCHE PAS ;(/////
-                        //else if (i == 4)
-                        //{
-                        //    _isSoundOn = !_isSoundOn;
 
-                        //    if (_isSoundOn)
-                        //    {
-                        //        _buttonAudio = _buttonAudio2;
-                        //    }
-                        //    else
-                        //    {
-                        //        _buttonAudio = _buttonAudioOff;
-                        //    }
-
-                        //}
 
                         break;
                     }
 
                 }
             }
+            
         }
         public override void Draw(GameTime gameTime)
         {
@@ -153,20 +141,6 @@ namespace SAE_DEV
             _myGame.SpriteBatch.Begin();
             _myGame.SpriteBatch.Draw(_background, new Vector2(GraphicsDevice.Viewport.Width / 2 - (925 / 2), GraphicsDevice.Viewport.Height / 2 - (720 / 2)), Color.White);
 
-
-            //_myGame.SpriteBatch.Draw(_buttonPlayPressed,new Vector2(362,55),Color.White);
-
-
-            //_myGame.SpriteBatch.Draw(_buttonPlay, new Vector2(362, 50), Color.Red);
-
-            //_myGame.SpriteBatch.Draw(_buttonSettings, new Vector2(362, 150), Color.Red);
-            //_myGame.SpriteBatch.Draw(_buttonMenu, new Vector2(362, 250), Color.Red);
-
-            //_myGame.SpriteBatch.Draw(_buttonExit, new Vector2(362, 350), Color.Red);
-            ////_myGame.SpriteBatch.Draw(_buttonPlayPressed,  
-            ////_myGame.SpriteBatch.Draw(_buttonInfo, new Vector2(0, 0), Color.Red);
-
-            //_myGame.SpriteBatch.Draw(_buttonAudio, new Vector2(0, 0), Color.Red);
 
 
             MouseState _mouseState1 = Mouse.GetState();
