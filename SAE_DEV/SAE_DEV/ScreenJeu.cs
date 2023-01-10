@@ -21,7 +21,7 @@ namespace SAE_DEV
         public const int HAUTEUR_VEHICULE_GRAND = 105;
         public const int LARGEUR_VEHICULE_GRAND = 105;
         public const int HAUTEUR_VEHICULE_JOUEUR = 85;
-        public const int LARGEUR_VEHICULE_JOUEUR = 78;
+        public const int LARGEUR_VEHICULE_JOUEUR = 85;
         private const int ROUTE_INTERIEUR = 224;
         private const int ROUTE_EXTERIEUR = 192;
         private const float INTERVALLE_RESPAWN = 0.8f;
