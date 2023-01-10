@@ -22,8 +22,8 @@ namespace SAE_DEV
         public const int LARGEUR_VEHICULE_GRAND = 105;
         public const int HAUTEUR_VEHICULE_JOUEUR = 85;
         public const int LARGEUR_VEHICULE_JOUEUR = 85;
-        public const int LARGEUR_BOUTON = 600;
-        public const int HAUTEUR_BOUTON = 200;
+        public const int LARGEUR_BOUTON = 200;
+        public const int HAUTEUR_BOUTON = 70;
         public const int POSITION_BOUTON_X = 360;
         public const int LARGEUR_ECRAN = 1600;
         public const int HAUTEUR_ECRAN = 800;
@@ -42,7 +42,6 @@ namespace SAE_DEV
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private KeyboardState _keyboardState;
-        private Vector2 _horsMap;
 
         //Champs tiled
         private TiledMap _tiledMapJour;
@@ -63,10 +62,12 @@ namespace SAE_DEV
         private List<Bonus> _lesObjetsBonus;
         private string[] _nomBonus = new string[] { "Jerricane" };
 
-        //radio
+        //radio et klaxon
         private SoundEffect _radio;
         private SoundEffect _radioON;
         private SoundEffect _radioOFF;
+        private SoundEffect _klaxon;
+        private float _delaiKlaxon;
 
         //champs joueur
         private VoitureJoueur _joueur;
@@ -238,7 +239,7 @@ namespace SAE_DEV
             _textureButtonPlay = Content.Load<Texture2D>("PlayButton");
             _textureBackgroundGameOver = Content.Load<Texture2D>("BackgroundGameOver");
             _textureButtonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
-
+            _klaxon= Content.Load<SoundEffect>("klaxon");
             //_radio = Content.Load<SoundEffect>("Son radio");
             //_radioOFF = Content.Load<SoundEffect>("radioTurnOff");
             //_radioON = Content.Load<SoundEffect>("radioTurnON");
@@ -269,6 +270,9 @@ namespace SAE_DEV
         {
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _dureeEnPause += deltaSeconds;
+            _delaiKlaxon += deltaSeconds;
+
+
 
             _keyboardState = Keyboard.GetState();
 
@@ -315,7 +319,11 @@ namespace SAE_DEV
                 {
                     _joueur.Idle();
                 }
-
+                if (_keyboardState.IsKeyDown(Keys.K) && _delaiKlaxon > 1)
+                {
+                    _klaxon.Play();
+                    _delaiKlaxon = 0;
+                }
                 //Spawn d'un ennemie et timer          
                 _timerRespawnEnnemie += deltaSeconds;
 
@@ -498,7 +506,7 @@ namespace SAE_DEV
             int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE,
                                            DECOR_MAP + ROUTE_EXTERIEUR + ESPACE_LIGNE*2,
                                            LARGEUR_ECRAN - DECOR_MAP - ROUTE_EXTERIEUR - ESPACE_LIGNE*2,
-                                           LARGEUR_ECRAN - DECOR_MAP - ESPACE_LIGNE };
+                                           LARGEUR_ECRAN - DECOR_MAP - ESPACE_LIGNE - LARGEUR_VEHICULE_GRAND};
 
             int i = rand.Next(0, _nomEnnemies.Length);//index du tableau
             int voie = rand.Next(0, positionsX.Length);//index de la voie
@@ -542,26 +550,15 @@ namespace SAE_DEV
         }
         
 
-        /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
-        //if (_keyboardState.IsKeyDown(Keys.K))
-        //{
-        //    _radioON.Play();
-        //    Thread.Sleep(5000);
-        //    //_radio.Play();
-        //}
-        //else if (_keyboardState.IsKeyDown(Keys.L))
-        //{
-        //    _radioOFF.Play();
-        //}
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
          bool CollisionVehicule()
         {
             if (_delaiCollision > 0.5)
             {
-                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE);
+                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_JOUEUR, HAUTEUR_VEHICULE_JOUEUR);
                 foreach (VoitureEnnemie voiture in _lesVoituresEnnemies)
                 {
-                    Rectangle rect2 = new Rectangle((int)voiture.Position.X, (int)voiture.Position.Y, LARGEUR_VEHICULE_JOUEUR, HAUTEUR_VEHICULE_JOUEUR);
+                    Rectangle rect2 = new Rectangle((int)voiture.Position.X, (int)voiture.Position.Y, LARGEUR_VEHICULE_BASIQUE,HAUTEUR_VEHICULE_BASIQUE );
                     if (rect1.Intersects(rect2))
                     {
                         return true;
@@ -575,7 +572,7 @@ namespace SAE_DEV
         {
             if (_delaiCollision < 0.5)
             {
-                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE);
+                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_JOUEUR, HAUTEUR_VEHICULE_JOUEUR);
                 foreach (Bonus jerricane in  _lesObjetsBonus)
                 {
                 Rectangle rect2 = new Rectangle((int)jerricane.Position.X,(int)jerricane.Position.Y,TAILLE_JERRICANE,TAILLE_JERRICANE);
