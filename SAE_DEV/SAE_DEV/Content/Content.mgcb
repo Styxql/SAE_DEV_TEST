@@ -198,7 +198,7 @@
 /processorParam:TextureFormat=Color
 /build:coins.png
 
-#begin Décor.png
+#begin Decor.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -208,7 +208,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Décor.png
+/build:Decor.png
 
 #begin ExitButton.png
 /importer:TextureImporter
