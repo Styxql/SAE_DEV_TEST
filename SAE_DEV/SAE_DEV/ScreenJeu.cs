@@ -43,12 +43,15 @@ namespace SAE_DEV
 
         //Map
         private float _mapYPosition = 0;
-        private float _vitesseYMap = 500;
+        private float _vitesseYMap = 400;
 
         //Champs de listes et tableau
         private List<Texture2D> _textureEnnemies;
         private List<VoitureEnnemie> _lesVoituresEnnemies;
-        private string[] nomEnnemies = new string[] { "Car", "Ambulance", "miniTruck", "audi", "Blackviper", "truck", "taxi", "Police" };
+        private string[] _nomEnnemies = new string[] { "Car", "Ambulance", "miniTruck", "audi", "Blackviper", "truck", "taxi", "Police" };
+
+        private List<Texture2D> _textureBonus;
+        private string[] _nomBonus = new string[] { "Jerricane" };
 
         //radio
         private SoundEffect _radio;
@@ -148,6 +151,8 @@ namespace SAE_DEV
             _pointDeVie = 100;
             _delaiCollision = 1;
 
+            //_lesBonus = new List
+
             lesBoutonsMenu = new Rectangle[5];
             lesBoutonsMenu[0] = new Rectangle(362, 50, 200, 70);
             lesBoutonsMenu[1] = new Rectangle(362, 150, 200, 70);
@@ -163,10 +168,17 @@ namespace SAE_DEV
             
             //Chargement des textures pour les ennemies
             _textureEnnemies = new List<Texture2D>();
-            foreach (string nom in nomEnnemies)
+            foreach (string nom in _nomEnnemies)
             {
                 Texture2D texture = Content.Load<Texture2D>(nom);
                 _textureEnnemies.Add(texture);
+            }
+
+            //Chargement des textures pour les bonus
+            _textureBonus = new List<Texture2D>();
+            foreach(string nom in _nomBonus)
+            {
+
             }
 
             //créaation de deux ennemies au démarrage
@@ -204,7 +216,7 @@ namespace SAE_DEV
 
             //Chargement des textures pour les ennemies
             _textureEnnemies = new List<Texture2D>();
-            foreach (string nom in nomEnnemies)
+            foreach (string nom in _nomEnnemies)
             {
                 Texture2D texture = Content.Load<Texture2D>(nom);
                 _textureEnnemies.Add(texture);
@@ -382,7 +394,7 @@ namespace SAE_DEV
             foreach(VoitureEnnemie voiture in _lesVoituresEnnemies)
             {                
                 _myGame.SpriteBatch.Draw(voiture.Texture, voiture.Position, null, Color.White, voiture.Sens,
-                    new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE),1.5f, SpriteEffects.None, 0);
+                    new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE),2f, SpriteEffects.None, 0);
             }
 
             _myGame.SpriteBatch.Draw(_joueur.Sprite, _joueur.Position, _joueur.Angle);
@@ -434,14 +446,14 @@ namespace SAE_DEV
 
             int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE,
                                            DECOR_MAP + ROUTE_EXTERIEUR + ESPACE_LIGNE*2,
-                                           _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ROUTE_EXTERIEUR - ESPACE_LIGNE*2,
-                                           _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ESPACE_LIGNE };
+                                           _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ROUTE_EXTERIEUR - LARGEUR_VEHICULE_GRAND - ESPACE_LIGNE*2,
+                                           _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ESPACE_LIGNE - LARGEUR_VEHICULE_GRAND};
 
-            int i = rand.Next(0, nomEnnemies.Length);//index du tableau
+            int i = rand.Next(0, _nomEnnemies.Length);//index du tableau
             int voie = rand.Next(0, positionsX.Length);//index de la voie
 
             int x = positionsX[voie];
-            x += rand.Next(0,100);//assigne une position aléatoire dans l'une des 4 voies
+            x += rand.Next(0,150);//assigne une position aléatoire dans l'une des 4 voies
 
             float sens = 0;
             int vitesse = 600;
@@ -455,7 +467,7 @@ namespace SAE_DEV
 
             vitesse += rand.Next(0, 100);//variation de la vitesse
 
-            VoitureEnnemie voiture = new VoitureEnnemie(nomEnnemies[i], vitesse, new Vector2(x, 0), sens, _textureEnnemies[i]);
+            VoitureEnnemie voiture = new VoitureEnnemie(_nomEnnemies[i], vitesse, new Vector2(x, 0), sens, _textureEnnemies[i]);
             _lesVoituresEnnemies.Add(voiture);
 
         }
