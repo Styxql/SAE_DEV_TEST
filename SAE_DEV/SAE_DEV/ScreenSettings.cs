@@ -66,9 +66,7 @@ namespace SAE_DEV
 
             }
             else
-                _isHovered = false;
-
-               
+                _isHovered = false;       
                 
 
             

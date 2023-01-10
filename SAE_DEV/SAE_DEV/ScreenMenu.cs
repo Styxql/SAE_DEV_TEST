@@ -132,8 +132,6 @@ namespace SAE_DEV
                                 _myGame.Etat = Game1.Etats.Play;
                                 _estActif = false;
                             }
-                            else if (i == 1)
-                                _myGame.Etat = Game1.Etats.Menu;
                             else if (i == 2)
                                 _myGame.Etat = Game1.Etats.Settings;
                             else if (i == 3)

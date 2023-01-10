@@ -95,6 +95,7 @@ namespace SAE_DEV
         private Texture2D _textureBarreVie;
         private Texture2D _textureJaugeVie;
         private Texture2D _textureCoeur;
+        private Texture2D _textureBackgroundGameOver;
         private Vector2 _positionCoeur;
         private Vector2 _positionBarreVie;
         private float _pointDeVie;
@@ -216,6 +217,8 @@ namespace SAE_DEV
             _textureButtonSettings = Content.Load<Texture2D>("SettingsButton");
             _textureButtonSettingsPressed = Content.Load<Texture2D>("BoutonSettingsPressed");
             _textureButtonPlay = Content.Load<Texture2D>("PlayButton");
+            _textureBackgroundGameOver = Content.Load<Texture2D>("BackgroundGameOver");
+
             _textureButtonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
 
             //Autre
@@ -269,6 +272,7 @@ namespace SAE_DEV
 
             if (_estEntrainDeJouer)
             {
+              
 
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                     _myGame.Exit();
@@ -342,15 +346,20 @@ namespace SAE_DEV
                 }
             }
             _delaiCollision += deltaSeconds;
-            if (CollisionVehiculeBasique()||CollisionVehiculeGrand())
+            if (CollisionVehiculeBasique())
             {
                 _pointDeVie -= 20;
                 _delaiCollision = 0;            
             }
+           
 
             //positions barre d'essence et barre de vie
             _largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
             _largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeVie.Width);
+            if (_pointDeVie <=0 || _barreEssence <= 0)
+            {
+                _myGame.Etat = Game1.Etats.Lose;
+            }
 
             //aspect de la barre d'essence
             _rectangleJaugeEssence = new Rectangle(SIZE_JERRICANE + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
@@ -387,6 +396,7 @@ namespace SAE_DEV
 
                 }
             }
+            
         }
 
         public override void Draw(GameTime gameTime)
@@ -492,7 +502,7 @@ namespace SAE_DEV
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
          bool CollisionVehiculeBasique()
         {
-            if (_delaiCollision > 1)
+            if (_delaiCollision > 0.5)
             {
                 Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE);
                 foreach (VoitureEnnemie voiture in _lesVoituresEnnemies)
@@ -507,23 +517,7 @@ namespace SAE_DEV
             }
              return false;
         }
-        bool CollisionVehiculeGrand()
-        {
-            if (_delaiCollision > 1)
-            {
-                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_GRAND, HAUTEUR_VEHICULE_GRAND);
-                foreach (VoitureEnnemie voiture in _lesVoituresEnnemies)
-                {
-                    Rectangle rect2 = new Rectangle((int)voiture.Position.X, (int)voiture.Position.Y, LARGEUR_VEHICULE_JOUEUR, HAUTEUR_VEHICULE_JOUEUR);
-                    if (rect1.Intersects(rect2))
-                    {
-                        return true;
-                    }
-
-                }
-            }
-            return false;
-        }
+        
     }
    
 

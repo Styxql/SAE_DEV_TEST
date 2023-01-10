@@ -15,7 +15,7 @@ namespace SAE_DEV
         
 
         // on définit les différents états possibles du jeu ( à compléter) 
-        public enum Etats { Menu, Play, Settings, Exit };
+        public enum Etats { Menu, Play, Settings, Exit ,Lose};
 
         // on définit un champ pour stocker l'état en cours du jeu
         public Etats Etat;
@@ -25,6 +25,7 @@ namespace SAE_DEV
         private ScreenJeu _screenJeu;
         private ScreenSettings _screenSettings;
         private ScreenRemerciement _screenRemerciement;
+        private ScreenGameOver _screenGameOver;
 
         public Game1()
         {
@@ -41,7 +42,7 @@ namespace SAE_DEV
             _screenMenu = new ScreenMenu(this);
             _screenJeu = new ScreenJeu(this);
             _screenSettings=new ScreenSettings(this);
-
+            _screenGameOver = new ScreenGameOver(this);
         }
 
         protected override void Initialize()
@@ -76,24 +77,33 @@ namespace SAE_DEV
             // On teste le clic de souris et l'état pour savoir quelle action faire 
             MouseState _mouseState = Mouse.GetState();
 
+            //if (_mouseState.LeftButton == ButtonState.Pressed)
+            //}
+            //{
+            // Attention, l'état a été mis à jour directement par l'écran en question
             if (_mouseState.LeftButton == ButtonState.Pressed)
             {
-                // Attention, l'état a été mis à jour directement par l'écran en question
                 if (this.Etat == Etats.Play)
                     _screenManager.LoadScreen(_screenJeu, new FadeTransition(GraphicsDevice, Color.Black));
 
-                else if (this.Etat == Etats.Menu)
+
+                if (this.Etat == Etats.Menu)
                     _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
 
                 else if (this.Etat == Etats.Settings)
                     _screenManager.LoadScreen(_screenSettings, new FadeTransition(GraphicsDevice, Color.Black));
 
+               
+
                 else if (this.Etat == Etats.Exit)
                     Exit();
-               
             }
+            else if (this.Etat == Etats.Lose)
+                _screenManager.LoadScreen(_screenGameOver, new FadeTransition(GraphicsDevice, Color.Black));
 
-         
+
+
+
             base.Update(gameTime);
         }
 
