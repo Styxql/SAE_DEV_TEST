@@ -12,7 +12,7 @@ namespace SAE_DEV
         private Texture2D texture;
         private float sens;
 
-        public VoitureEnnemie (string nom, int vitesse, Vector2 position, float sens, Texture2D texture)
+        public VoitureEnnemie(string nom, int vitesse, Vector2 position, float sens, Texture2D texture)
         {
             this.Nom = nom;
             this.Vitesse = vitesse;
@@ -21,7 +21,7 @@ namespace SAE_DEV
             this.Sens = sens;
         }
         public VoitureEnnemie(string nom, int vitesse, Vector2 position, float sens)
-            : this(nom,vitesse,position,sens,null)
+            : this(nom, vitesse, position, sens, null)
         {
             
         }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Screens;
 
 namespace SAE_DEV
@@ -35,8 +37,10 @@ namespace SAE_DEV
         private Texture2D _buttonAudioPressed;
         private Texture2D[] _buttons;
         private Texture2D[] _buttonsPressed;
-        
+        private Song _song;
+
         public bool _isButtonPlayPressed;
+        private bool _estActif = true;
 
         // contient les rectangles : position et taille des 3 boutons présents dans la texture 
         private Rectangle[] lesBoutons;
@@ -53,7 +57,7 @@ namespace SAE_DEV
             lesBoutons[3] = new Rectangle(362, 350, 200, 70);
             lesBoutons[4] = new Rectangle(0, 0, 50, 50);
             //lesBoutons[4] = new Rectangle(865, 670, 640, 160);
-            
+
 
 
         }
@@ -99,13 +103,21 @@ namespace SAE_DEV
             _buttons[3] = _buttonExit;
             _buttons[4] = _buttonAudio;
 
+
+            _song = Content.Load<Song>("sonmenu");
+
+
+            if (_estActif)
+            {
+                MediaPlayer.Play(_song);
+            }
+                    
             base.LoadContent();
         }
         public override void Update(GameTime gameTime)
         {
 
-            MouseState _mouseState = Mouse.GetState();
-            //          
+            MouseState _mouseState = Mouse.GetState();         
 
 
             for (int i = 0; i < lesBoutons.Length; i++)
@@ -124,14 +136,31 @@ namespace SAE_DEV
                         else if (i == 3)
                             _myGame.Etat = Game1.Etats.Exit;
 
+                            ///MARCHE PAS ;(/////
+                            //else if (i == 4)
+                            //{
+                            //    _isSoundOn = !_isSoundOn;
 
+                            //    if (_isSoundOn)
+                            //    {
+                            //        _buttonAudio = _buttonAudio2;
+                            //    }
+                            //    else
+                            //    {
+                            //        _buttonAudio = _buttonAudioOff;
+                            //    }
 
-                        break;
+                            //}
+
+                            break;
+                        }
+
                     }
-
                 }
-            }
-            
+                if(!_estActif)
+                {
+                    MediaPlayer.Stop();
+                }
         }
         public override void Draw(GameTime gameTime)
         {
@@ -162,8 +191,8 @@ namespace SAE_DEV
 
 
         }
+        
 
-       
     }
 
 }

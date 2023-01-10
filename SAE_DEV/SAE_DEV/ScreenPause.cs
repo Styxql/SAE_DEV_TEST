@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended.Screens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SAE_DEV
 {
@@ -22,11 +18,14 @@ namespace SAE_DEV
         }
         public override void Update(GameTime gameTime)
         {
-
         }
         public override void Draw(GameTime gameTime)
         {
-            _myGame.GraphicsDevice.Clear(Color.White);
+            _myGame.GraphicsDevice.Clear(Color.Red);
+
+
+
+
         }
     }
 }

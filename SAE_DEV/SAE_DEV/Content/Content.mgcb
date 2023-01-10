@@ -450,6 +450,12 @@
 /processorParam:TextureFormat=Color
 /build:SettingsButton.png
 
+#begin sonmenu.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:sonmenu.mp3
+
 #begin taxi.png
 /importer:TextureImporter
 /processor:TextureProcessor
