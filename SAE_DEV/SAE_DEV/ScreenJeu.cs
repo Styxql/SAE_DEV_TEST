@@ -461,18 +461,6 @@ namespace SAE_DEV
         }
         
 
-        /////////////////////////////////RADIO(Phase de test son dégeu jsp pk)/////////////////////////////////////////////////////
-        //if (_keyboardState.IsKeyDown(Keys.K))
-        //{
-        //    _radioON.Play();
-        //    Thread.Sleep(5000);
-        //    //_radio.Play();
-        //}
-        //else if (_keyboardState.IsKeyDown(Keys.L))
-        //{
-        //    _radioOFF.Play();
-        //}
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
          bool CollisionVehiculeBasique()
         {
             if (_delaiCollision > 1)
