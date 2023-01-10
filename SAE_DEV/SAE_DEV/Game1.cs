@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
-using MonoGame.Extended.Sprites;
-using MonoGame.Extended.Serialization;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Screens.Transitions;
-using Microsoft.Xna.Framework.Audio;
-using System.Threading;
 
 namespace SAE_DEV
 {
@@ -87,10 +81,17 @@ namespace SAE_DEV
                 // Attention, l'état a été mis à jour directement par l'écran en question
                 if (this.Etat == Etats.Play)
                     _screenManager.LoadScreen(_screenJeu, new FadeTransition(GraphicsDevice, Color.Black));
+
+                else if (this.Etat == Etats.Menu)
+                    _screenManager.LoadScreen(_screenMenu, new FadeTransition(GraphicsDevice, Color.Black));
+
                 else if (this.Etat == Etats.Settings)
                     _screenManager.LoadScreen(_screenSettings, new FadeTransition(GraphicsDevice, Color.Black));
+
                 else if (this.Etat == Etats.Exit)
                     Exit();
+                else if (this.Etat == Etats.Menu)
+                    _screenManager.LoadScreen(_screenSettings, new FadeTransition(GraphicsDevice, Color.Black));
             }
 
          

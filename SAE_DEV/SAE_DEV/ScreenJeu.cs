@@ -18,11 +18,15 @@ namespace SAE_DEV
         //constantes
         public const int HAUTEUR_VEHICULE_BASIQUE = 47;
         public const int LARGEUR_VEHICULE_BASIQUE = 85;
-        private const int INTERVALLE_RESPAWN = 1;
+        private const int ROUTE_INTERIEUR = 224;
+        private const int ROUTE_EXTERIEUR = 192;
+        private const float INTERVALLE_RESPAWN = 0.8f;
         private const int HAUTEUR_BARRE = 30;
         private const int LARGEUR_BARRE = 300;
         private const int SIZE_JERRICANE = 50;
         private const int SIZE_HEART = 50;
+        private const int DECOR_MAP = 288;// taille des tuiles ciel, herbe et barriere en px : x * 32 = taille px
+        private const int ESPACE_LIGNE = 25;  //petit espace entre la route et la ligne
 
         //Autre
         private GraphicsDeviceManager _graphics;
@@ -35,7 +39,7 @@ namespace SAE_DEV
 
         //Map
         private float _mapYPosition = 0;
-        private float _vitesseYMap = 300;
+        private float _vitesseYMap = 400;
 
         //Champs de listes et tableau
         private List<Texture2D> _textureEnnemies;
@@ -67,7 +71,16 @@ namespace SAE_DEV
         private float _barreEssence;
         Rectangle _rectangleBarreEssence;
         Rectangle _rectangleJaugeEssence;
-
+        //Menu pause
+       
+        private Texture2D _textureButtonPlay;
+        private Texture2D _textureButtonMenu;
+        private Texture2D _textureButtonExit;
+        private Texture2D _textureButtonSettings;  
+        private Texture2D _textureButtonPlayPressed;
+        private Texture2D _textureButtonExitPressed;
+        private Texture2D _textureButtonMenuPressed;
+        private Texture2D _textureButtonSettingsPressed;
 
         //barre de vie
         private Texture2D _textureBarreVie;
@@ -88,6 +101,9 @@ namespace SAE_DEV
         //pause
         private bool _estEntrainDeJouer = true;
         private float _dureeEnPause;
+        private Rectangle[] lesBoutonsMenu;
+        private Texture2D[] _buttons;
+        private Texture2D[] _buttonsPressed;
 
 
         private Game1 _myGame;
@@ -113,8 +129,7 @@ namespace SAE_DEV
             _lesVoituresEnnemies = new List<VoitureEnnemie>();//création d'une liste sans ennemies
             _timerRespawnEnnemie = 0;
 
-            _joueur = new VoitureJoueur("joueur", 250, new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 3,
-                GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE));
+            _joueur = new VoitureJoueur("joueur", 250, new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 3,GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE));
 
             _positionScore = new Vector2(70, 0);
             _positionChrono = new Vector2(610, 0);
@@ -124,15 +139,22 @@ namespace SAE_DEV
             _positionJerikan = new Vector2(20, _myGame._graphics.PreferredBackBufferHeight - SIZE_JERRICANE - 5);
             _positionBarreVie = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE);
             _positionCoeur = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - SIZE_HEART - 20, _myGame._graphics.PreferredBackBufferHeight - SIZE_HEART - 5);
+
             _barreEssence = 100;
             _pointDeVie = 100;
             _delaiCollision = 1;
-            
+
+            lesBoutonsMenu = new Rectangle[5];
+            lesBoutonsMenu[0] = new Rectangle(362, 50, 200, 70);
+            lesBoutonsMenu[1] = new Rectangle(362, 150, 200, 70);
+            lesBoutonsMenu[2] = new Rectangle(362, 250, 200, 70);
+            lesBoutonsMenu[3] = new Rectangle(362, 350, 200, 70);
+
             base.Initialize();
         }
         public override void LoadContent()
         {
-            _tiledMap = Content.Load<TiledMap>("map");
+            _tiledMap = Content.Load<TiledMap>("mapJour");
             _tiledMapRenderer = new TiledMapRenderer(GraphicsDevice, _tiledMap);
             
             //Chargement des textures pour les ennemies
@@ -156,6 +178,7 @@ namespace SAE_DEV
             //Chargement du joueur
             SpriteSheet spriteSheet = Content.Load<SpriteSheet>("CarSprite2.sf", new JsonContentLoader());
             _joueur.Sprite = new AnimatedSprite(spriteSheet);
+
             //Barre de vie //Barre d'essence
             _textureBarreEssence = Content.Load<Texture2D>("barreEssence");
             _textureBarreVie = Content.Load<Texture2D>("BarreVie");
@@ -163,12 +186,24 @@ namespace SAE_DEV
             _textureCoeur = Content.Load<Texture2D>("heart");
             _textureJaugeEssence = Content.Load<Texture2D>("JaugeEssence");
             _textureJerikan = Content.Load<Texture2D>("Jerikan");
+
             //Autre
             _fond = Content.Load<Texture2D>("fondmenu");
             _police = Content.Load<SpriteFont>("Font");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _buttonsPressed = new Texture2D[4];
+            _buttonsPressed[0] = _textureButtonPlayPressed;
+            _buttonsPressed[1] = _textureButtonMenuPressed;
+            _buttonsPressed[2] = _textureButtonSettingsPressed;
+            _buttonsPressed[3] = _textureButtonExitPressed;
 
-       
+            //Bouton a l'état initial
+            _buttons = new Texture2D[4];
+            _buttons[0] = _textureButtonPlay;
+            _buttons[1] = _textureButtonMenu;
+            _buttons[2] = _textureButtonSettings;
+            _buttons[3] = _textureButtonExit;
+
             base.LoadContent();
 
             // TODO: use this.Content to load your game content here
@@ -207,7 +242,7 @@ namespace SAE_DEV
                 //Mise à jour de la map et défilement 
                 _tiledMapRenderer.Update(gameTime);
                 _mapYPosition += _vitesseYMap * deltaSeconds;
-                _mapYPosition %= 1000;
+                _mapYPosition %= 800;
 
 
                 //Mise à jour du déplacememnt joueur
@@ -253,7 +288,8 @@ namespace SAE_DEV
                 if (_dureeEnPause > 0.4 && _keyboardState.IsKeyDown(Keys.P))
                 {                 
                     _estEntrainDeJouer = true;
-                    _dureeEnPause = 0;                  
+                    _dureeEnPause = 0;
+
                 }
             }
             _delaiCollision += deltaSeconds;
@@ -262,14 +298,46 @@ namespace SAE_DEV
                 _pointDeVie -= 20;
                 _delaiCollision = 0;            
             }
+
+            //positions barre d'essence et barre de vie
             _largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
             _largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeVie.Width);
 
-            _rectangleJaugeEssence = new Rectangle(SIZE_JERRICANE + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleBarreEssence = new Rectangle(SIZE_JERRICANE + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, _largeurBarreEssence, HAUTEUR_BARRE);
-            _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, _largeurBarreVie, HAUTEUR_BARRE);
+            //aspect de la barre d'essence
+            _rectangleJaugeEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleBarreEssence = new Rectangle(SIZE_JERIKAN + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreEssence, HAUTEUR_BARRE);
            
+            //aspect de la barre de vie
+            _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERIKAN / 3, _largeurBarreVie, HAUTEUR_BARRE);
+            MouseState _mouseState = Mouse.GetState();
+            //          
+            if (_mouseState.LeftButton == ButtonState.Pressed)
+            {
+                for (int i = 0; i < lesBoutonsMenu.Length; i++)
+                {
+                    // si le clic correspond à un des 3 boutons
+                    if (lesBoutonsMenu[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                    {
+                        // on change l'état défini dans Game1 en fonction du bouton cliqué
+                        if (i == 0)
+                            _estEntrainDeJouer = true;
+                        
+
+                        else if (i == 1)
+                            _myGame.Etat = Game1.Etats.Menu;
+                        else if (i == 2)
+                            _myGame.Etat = Game1.Etats.Settings;
+                        else if (i == 3)
+                            _myGame.Etat = Game1.Etats.Exit;
+
+
+
+                        break;
+                    }
+
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -281,7 +349,7 @@ namespace SAE_DEV
             foreach(VoitureEnnemie voiture in _lesVoituresEnnemies)
             {                
                 _myGame.SpriteBatch.Draw(voiture.Texture, voiture.Position, null, Color.White, voiture.Sens,
-                    new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE),1.3f, SpriteEffects.None, 0);
+                    new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE),1.5f, SpriteEffects.None, 0);
             }
 
             _myGame.SpriteBatch.Draw(_joueur.Sprite, _joueur.Position, _joueur.Angle);
@@ -298,6 +366,26 @@ namespace SAE_DEV
             _myGame.SpriteBatch.Draw(_textureBarreVie, _rectangleBarreVie, Color.White);
             _myGame.SpriteBatch.Draw(_textureJaugeVie, _rectangleJaugeVie, Color.White);
             _myGame.SpriteBatch.Draw(_textureCoeur, _positionCoeur, Color.White);
+            if (!_estEntrainDeJouer)
+            {
+                MouseState _mouseState1 = Mouse.GetState();
+                for (int i = 0; i < _buttons.Length; i++)
+                {
+
+                    // Si la souris est au-dessus du bouton actuel
+                    if (lesBoutonsMenu[i].Contains(_mouseState1.X, _mouseState1.Y))
+                    {
+                        // Affiche le bouton pressé
+                        _myGame.SpriteBatch.Draw(_buttonsPressed[i], lesBoutonsMenu[i], Color.Red);
+                    }
+                    else
+                    {
+                        // Affiche le bouton normal
+                        _myGame.SpriteBatch.Draw(_buttons[i], lesBoutonsMenu[i], Color.White);
+                    }
+
+                }
+            }
 
             _myGame.SpriteBatch.End();
 
@@ -311,25 +399,28 @@ namespace SAE_DEV
         {
             Random rand = new Random();
 
-            int[] positionsX = new int[] { 500, 700, 900, 1100 };//
+            int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE,
+                                           DECOR_MAP + ROUTE_EXTERIEUR + ESPACE_LIGNE*2,
+                                           _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ROUTE_EXTERIEUR - ESPACE_LIGNE*2,
+                                           _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ESPACE_LIGNE };
 
             int i = rand.Next(0, nomEnnemies.Length);//index du tableau
             int voie = rand.Next(0, positionsX.Length);//index de la voie
 
             int x = positionsX[voie];
-            x += rand.Next(0, 150);//assigne une position aléatoire dans l'une des 4 voies
+            x += rand.Next(0,100);//assigne une position aléatoire dans l'une des 4 voies
 
             float sens = 0;
-            int vitesse = 250;
+            int vitesse = 400;
 
             if (x < GraphicsDevice.Viewport.Width / 2)
             {
-                sens = (float)Math.PI;//rotation de 180 degrés
-                vitesse = 300;//vitesse de déplacement si voie de gauche
+                sens = (float)Math.PI;  //rotation de 180 degrés
+                vitesse = 550;  //vitesse de déplacement si voie de gauche
             }
             //else de le remettre à 0 ne sert à rien
 
-            vitesse += rand.Next(0, 60);//variation de la vitesse
+            vitesse += rand.Next(0, 60);  //variation de la vitesse
 
             VoitureEnnemie voiture = new VoitureEnnemie(nomEnnemies[i], vitesse, new Vector2(x, 0), sens, _textureEnnemies[i]);
             _lesVoituresEnnemies.Add(voiture);
