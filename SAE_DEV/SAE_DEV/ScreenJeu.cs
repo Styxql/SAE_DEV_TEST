@@ -22,12 +22,17 @@ namespace SAE_DEV
         public const int LARGEUR_VEHICULE_GRAND = 105;
         public const int HAUTEUR_VEHICULE_JOUEUR = 85;
         public const int LARGEUR_VEHICULE_JOUEUR = 85;
+        public const int LARGEUR_BOUTON = 600;
+        public const int HAUTEUR_BOUTON = 200;
+        public const int POSITION_BOUTON_X = 360;
+        public const int LARGEUR_ECRAN = 1600;
+        public const int HAUTEUR_ECRAN = 800;
         private const int ROUTE_INTERIEUR = 224;
         private const int ROUTE_EXTERIEUR = 192;
         private const float INTERVALLE_RESPAWN = 0.8f;
         private const int HAUTEUR_BARRE = 30;
         private const int LARGEUR_BARRE = 300;
-        private const int SIZE_JERRICANE = 50;
+        private const int TAILLE_JERRICANE = 50;
         private const int SIZE_HEART = 50;
         private const int DECOR_MAP = 288;// taille des tuiles ciel, herbe et barriere en px : x * 32 = taille px
         private const int ESPACE_LIGNE = 25;  //petit espace entre la route et la ligne
@@ -110,6 +115,11 @@ namespace SAE_DEV
         private Texture2D[] _buttons;
         private Texture2D[] _buttonsPressed;
 
+        private Vector2 _positionBoutonPlay;
+        private Vector2 _positionBoutonMenu;
+        private Vector2 _positionBoutonSettings;
+        private Vector2 _positionBoutonExit;
+
 
         private Game1 _myGame;
         // récup une ref à l'objet game qui permet d'accéder à ce qu'il y a dans Game1
@@ -130,6 +140,7 @@ namespace SAE_DEV
             _myGame._graphics.PreferredBackBufferWidth = 1600;
             _myGame._graphics.PreferredBackBufferHeight = 800;
             _myGame._graphics.ApplyChanges();
+            _positionBoutonPlay =new Vector2(362, 50);
 
             _lesVoituresEnnemies = new List<VoitureEnnemie>();//création d'une liste sans ennemies
             _timerRespawnEnnemie = 0;
@@ -141,19 +152,18 @@ namespace SAE_DEV
             _score = 0;
             _chrono = 60;
 
-            _positionJerikan = new Vector2(20, _myGame._graphics.PreferredBackBufferHeight - SIZE_JERRICANE - 5);
-            _positionBarreVie = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE);
-            _positionCoeur = new Vector2(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - SIZE_HEART - 20, _myGame._graphics.PreferredBackBufferHeight - SIZE_HEART - 5);
-
+            _positionJerikan = new Vector2(20, HAUTEUR_ECRAN - TAILLE_JERRICANE - 5);
+            _positionCoeur = new Vector2(LARGEUR_ECRAN - LARGEUR_BARRE - SIZE_HEART - 20, HAUTEUR_ECRAN - SIZE_HEART - 5);
+            
             _barreEssence = 100;
             _pointDeVie = 100;
             _delaiCollision = 1;
 
             lesBoutonsMenu = new Rectangle[5];
-            lesBoutonsMenu[0] = new Rectangle(362, 50, 200, 70);
-            lesBoutonsMenu[1] = new Rectangle(362, 150, 200, 70);
-            lesBoutonsMenu[2] = new Rectangle(362, 250, 200, 70);
-            lesBoutonsMenu[3] = new Rectangle(362, 350, 200, 70);
+            lesBoutonsMenu[0] = new Rectangle(362, 50, LARGEUR_BOUTON,HAUTEUR_BOUTON);
+            lesBoutonsMenu[1] = new Rectangle(362, 150, LARGEUR_BOUTON,HAUTEUR_BOUTON);
+            lesBoutonsMenu[2] = new Rectangle(362, 250,LARGEUR_BOUTON, HAUTEUR_BOUTON);
+            lesBoutonsMenu[3] = new Rectangle(362, 350, LARGEUR_BOUTON,HAUTEUR_BOUTON);
 
             base.Initialize();
         }
@@ -346,12 +356,12 @@ namespace SAE_DEV
             }
 
             //aspect de la barre d'essence
-            _rectangleJaugeEssence = new Rectangle(SIZE_JERRICANE + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleBarreEssence = new Rectangle(SIZE_JERRICANE + 50, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, _largeurBarreEssence, HAUTEUR_BARRE);
+            _rectangleJaugeEssence = new Rectangle(TAILLE_JERRICANE + 50,HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleBarreEssence = new Rectangle(TAILLE_JERRICANE + 50,HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_JERRICANE / 3, _largeurBarreEssence, HAUTEUR_BARRE);
            
             //aspect de la barre de vie
-            _rectangleBarreVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleJaugeVie = new Rectangle(_myGame._graphics.PreferredBackBufferWidth - LARGEUR_BARRE - 10, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE - SIZE_JERRICANE / 3, _largeurBarreVie, HAUTEUR_BARRE);
+            _rectangleBarreVie = new Rectangle(LARGEUR_ECRAN - LARGEUR_BARRE - 10, HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleJaugeVie = new Rectangle(LARGEUR_ECRAN - LARGEUR_BARRE - 10, HAUTEUR_ECRAN- HAUTEUR_BARRE - TAILLE_JERRICANE / 3, _largeurBarreVie, HAUTEUR_BARRE);
             MouseState _mouseState = Mouse.GetState();
             //          
             if (_mouseState.LeftButton == ButtonState.Pressed)
@@ -444,8 +454,8 @@ namespace SAE_DEV
 
             int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE,
                                            DECOR_MAP + ROUTE_EXTERIEUR + ESPACE_LIGNE*2,
-                                           _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ROUTE_EXTERIEUR - ESPACE_LIGNE*2,
-                                           _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - ESPACE_LIGNE };
+                                           LARGEUR_ECRAN - DECOR_MAP - ROUTE_EXTERIEUR - ESPACE_LIGNE*2,
+                                           LARGEUR_ECRAN - DECOR_MAP - ESPACE_LIGNE };
 
             int i = rand.Next(0, nomEnnemies.Length);//index du tableau
             int voie = rand.Next(0, positionsX.Length);//index de la voie
