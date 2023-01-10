@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+
 
 namespace SAE_DEV
 {
@@ -17,9 +17,10 @@ namespace SAE_DEV
             this.Nom = nom;
             this.Vitesse = vitesse;
             this.Position = position;
-            this.Texture = texture;
             this.Sens = sens;
+            this.Texture = texture;          
         }
+
         public VoitureEnnemie(string nom, int vitesse, Vector2 position, float sens)
             : this(nom, vitesse, position, sens, null)
         {
