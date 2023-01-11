@@ -10,6 +10,7 @@ using MonoGame.Extended.Screens;
 using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using System;
+using Microsoft.Xna.Framework.Media;
 
 namespace SAE_DEV
 {
@@ -21,7 +22,7 @@ namespace SAE_DEV
         public const int HAUTEUR_VEHICULE_GRAND = 105;
         public const int LARGEUR_VEHICULE_GRAND = 105;
         public const int HAUTEUR_VEHICULE_JOUEUR = 85;
-        public const int LARGEUR_VEHICULE_JOUEUR = 85;
+        public const int LARGEUR_VEHICULE_JOUEUR = 78;
         public const int LARGEUR_BOUTON = 200;
         public const int HAUTEUR_BOUTON = 70;
         public const int POSITION_BOUTON_X = 360;
@@ -41,6 +42,8 @@ namespace SAE_DEV
         private const int LARGEUR_ITEMS = 50;
         private const int HAUTEUR_ITEMS = 50;
 
+        //Musique
+        private Song _musiqueNuit;
         //Autre
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -84,7 +87,7 @@ namespace SAE_DEV
         //score et chrono
         private SpriteFont _police;
         private Texture2D _fond;
-        private Texture2D _coins;
+        private Texture2D _textureCoins;
         private int _score;
         private int _chrono;
         private Vector2 _positionScore;
@@ -266,6 +269,8 @@ namespace SAE_DEV
             _textureBackgroundGameOver = Content.Load<Texture2D>("BackgroundGameOver");
             _textureButtonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
             _klaxon= Content.Load<SoundEffect>("klaxon");
+            //_musiqueNuit=Content.Load<SoundEffect>("")
+
             //_radio = Content.Load<SoundEffect>("Son radio");
             //_radioOFF = Content.Load<SoundEffect>("radioTurnOff");
             //_radioON = Content.Load<SoundEffect>("radioTurnON");
@@ -527,10 +532,10 @@ namespace SAE_DEV
             }
 
             _myGame.SpriteBatch.Draw(_joueur.Sprite, _joueur.Position, _joueur.Angle);
-            
+            //_myGame.SpriteBatch.Draw()
             /////BARRE ESSENCE///////
-           
-           
+
+
             _myGame.SpriteBatch.Draw(_textureBarreEssence, _rectangleJaugeEssence, Color.White);
             _myGame.SpriteBatch.Draw(_textureJaugeEssence, _rectangleBarreEssence, Color.White);
             _myGame.SpriteBatch.Draw(_textureJerricane, _positionJerricane, Color.White);

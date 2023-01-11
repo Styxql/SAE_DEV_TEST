@@ -38,11 +38,11 @@ namespace SAE_DEV
         private Texture2D _boutonAudioPressé;
         private Texture2D[] _boutons;
         private Texture2D[] _boutonsPressés;
-        private Song _song;
+        private Song _sonMenu;
         bool _audioIsPressed;
+        bool _estActif;
 
         public bool _isButtonPlayPressed;
-        private bool _estActif = true;
 
         // contient les rectangles : position et taille des 3 boutons présents dans la texture 
         private Rectangle[] lesBoutons;
@@ -89,6 +89,8 @@ namespace SAE_DEV
             _boutonMenu = Content.Load<Texture2D>("MenuButton");
             _background = Content.Load<Texture2D>("fondmenu");
             _boutonExitPressé = Content.Load<Texture2D>("ExitButtonPressed");
+            _sonMenu = Content.Load<Song>("sonmenu");
+
 
             _boutonsPressés = new Texture2D[5];
             _boutonsPressés[0] = _boutonPlayPressé;
@@ -106,14 +108,13 @@ namespace SAE_DEV
             _boutons[4] = _boutonAudio;
 
 
-            //_song = Content.Load<Song>("sonmenu");
 
 
-            //if (_estActif)
-            //{
-            //    MediaPlayer.Play(_song);
-            //}
-                    
+            
+            MediaPlayer.Play(_sonMenu);
+            MediaPlayer.IsRepeating=true;
+            
+
             base.LoadContent();
         }
         public override void Update(GameTime gameTime)
@@ -133,14 +134,15 @@ namespace SAE_DEV
                             {
                                 _myGame.Etat = Game1.Etats.Play;
                                 _estActif = false;
+                            MediaPlayer.Stop();
                             }
                             else if (i == 2)
                                 _myGame.Etat = Game1.Etats.Settings;
                             else if (i == 3)
                                 _myGame.Etat = Game1.Etats.Exit;
                             else if (i== 4)
-                            _audioIsPressed = true;
-
+                             _audioIsPressed = true;
+                                
                             else
                             _audioIsPressed=false;
                                 
