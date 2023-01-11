@@ -360,10 +360,10 @@
 /processor:TiledMapProcessor
 /build:mapJour.tmx
 
-#begin mapJour.tmx
+#begin mapNuit.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
-/build:mapJour.tmx
+/build:mapNuit.tmx
 
 #begin MenuButton.png
 /importer:TextureImporter
