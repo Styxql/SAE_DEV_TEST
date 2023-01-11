@@ -39,6 +39,7 @@ namespace SAE_DEV
         private Texture2D[] _boutons;
         private Texture2D[] _boutonsPressés;
         private Song _song;
+        bool _audioIsPressed;
 
         public bool _isButtonPlayPressed;
         private bool _estActif = true;
@@ -70,7 +71,7 @@ namespace SAE_DEV
             _myGame._graphics.PreferredBackBufferHeight = 720;
             _myGame._graphics.PreferredBackBufferWidth = 925;
             _myGame._graphics.ApplyChanges();
-
+            _audioIsPressed = false;
 
         }
 
@@ -137,7 +138,16 @@ namespace SAE_DEV
                                 _myGame.Etat = Game1.Etats.Settings;
                             else if (i == 3)
                                 _myGame.Etat = Game1.Etats.Exit;
-                            break;
+                            else if (i== 4)
+                            _audioIsPressed = true;
+
+                            else
+                            _audioIsPressed=false;
+                                
+                            
+
+
+                        break;
                         }
 
                     }
@@ -156,20 +166,29 @@ namespace SAE_DEV
 
 
             MouseState _mouseState1 = Mouse.GetState();
-            for (int i = 0; i < _boutons.Length; i++)
+            for (int i = 0; i < _boutons.Length-1; i++)
             {
+                if (_audioIsPressed)
+                {
+                    _myGame.SpriteBatch.Draw(_boutonAudioPressé, lesBoutons[4], Color.Red);
+                }
+                else
+                _myGame.SpriteBatch.Draw(_boutonAudio,lesBoutons[4], Color.White);
 
                 // Si la souris est au-dessus du bouton actuel
                 if (lesBoutons[i].Contains(_mouseState1.X, _mouseState1.Y))
                 {
                     // Affiche le bouton pressé
                     _myGame.SpriteBatch.Draw(_boutonsPressés[i], lesBoutons[i], Color.Red);
+                   
+
                 }
                 else
                 {
                     // Affiche le bouton normal
                     _myGame.SpriteBatch.Draw(_boutons[i], lesBoutons[i], Color.White);
                 }
+               
 
             }
             _myGame.SpriteBatch.End();

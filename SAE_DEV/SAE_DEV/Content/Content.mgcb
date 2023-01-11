@@ -78,6 +78,18 @@
 /processorParam:TextureFormat=Color
 /build:Back.png
 
+#begin BackgroundChargement.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BackgroundChargement.png
+
 #begin BackgroundGameOver.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -101,6 +113,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:BackPressed.png
+
+#begin BarreChargement.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BarreChargement.png
 
 #begin barreEssence.png
 /importer:TextureImporter
@@ -325,6 +349,12 @@
 /processorParam:TextureFormat=Color
 /build:Jerricane.png
 
+#begin klaxon.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:klaxon.mp3
+
 #begin mapJour.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
@@ -461,6 +491,18 @@
 /processorParam:Quality=Best
 /build:sonmenu.mp3
 
+#begin tache.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tache.png
+
 #begin taxi.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -484,6 +526,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:truck.png
+
+#begin VoitureChargement.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:VoitureChargement.png
 
 #begin VoitureJoueur.png
 /importer:TextureImporter
