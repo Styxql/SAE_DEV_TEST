@@ -81,7 +81,7 @@ namespace SAE_DEV
                 Exit();
             MouseState _mouseState = Mouse.GetState();
 
-           
+
 
             base.Update(gameTime);
         }
@@ -89,32 +89,31 @@ namespace SAE_DEV
 
         public void LoadScreen(Etats etat)
         {
-            
-                System.Console.WriteLine();
-
-                if (etat == Etats.Play)
-                    _screenManager.LoadScreen(new ScreenJeu(this), new FadeTransition(GraphicsDevice, Color.Black));
 
 
+            if (etat == Etats.Play)
+                _screenManager.LoadScreen(new ScreenJeu(this), new FadeTransition(GraphicsDevice, Color.Black));
 
-                else if (etat == Etats.Menu)
-                    _screenManager.LoadScreen(new ScreenMenu(this), new FadeTransition(GraphicsDevice, Color.Black));
 
-                else if (etat == Etats.Settings)
-                    _screenManager.LoadScreen(new ScreenSettings(this), new FadeTransition(GraphicsDevice, Color.Black));
 
-                else if (etat == Etats.Exit)
-                    Exit();
-                else if (etat == Etats.Lose)
-                    _screenManager.LoadScreen(new ScreenGameOver(this), new FadeTransition(GraphicsDevice, Color.Black, 10));
-                else if (etat == Etats.MenuMap)
-                    _screenManager.LoadScreen(new ScreenMenuMap(this), new FadeTransition(GraphicsDevice, Color.Black));
-                else if (etat == Etats.Classement)
-                    _screenManager.LoadScreen(new ScreenClassement(this), new FadeTransition(GraphicsDevice, Color.Black));
-            
+            else if (etat == Etats.Menu)
+                _screenManager.LoadScreen(new ScreenMenu(this), new FadeTransition(GraphicsDevice, Color.Black));
+
+            else if (etat == Etats.Settings)
+                _screenManager.LoadScreen(new ScreenSettings(this), new FadeTransition(GraphicsDevice, Color.Black));
+
+            else if (etat == Etats.Exit)
+                Exit();
+            else if (etat == Etats.Lose)
+                _screenManager.LoadScreen(new ScreenGameOver(this), new FadeTransition(GraphicsDevice, Color.Black, 10));
+            else if (etat == Etats.MenuMap)
+                _screenManager.LoadScreen(new ScreenMenuMap(this), new FadeTransition(GraphicsDevice, Color.Black));
+            else if (etat == Etats.Classement)
+                _screenManager.LoadScreen(new ScreenClassement(this), new FadeTransition(GraphicsDevice, Color.Black));
+
         }
 
-       
+
 
 
 
