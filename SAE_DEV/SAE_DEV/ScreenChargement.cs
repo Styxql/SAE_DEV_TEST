@@ -19,7 +19,6 @@ namespace SAE_DEV
         private Vector2 _positionVoiture;
         private int _largeurBarreChargement;
         private float _barreChargement;
-        private bool _changeScene;
        
         private Texture2D _textureJaugeChargement;
         private Texture2D _textureVoitureChargement;
@@ -40,7 +39,6 @@ namespace SAE_DEV
             _myGame._graphics.PreferredBackBufferWidth = 925;
             _myGame._graphics.ApplyChanges();
             _barreChargement = 0;
-            _changeScene= false;
 
         }
         public override void LoadContent()
@@ -59,21 +57,21 @@ namespace SAE_DEV
             
 
             _rectangleJaugeChargement = new Rectangle(-LARGEUR_VOITURE, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE * 2, _largeurBarreChargement, HAUTEUR_BARRE);
-            if (!(_largeurBarreChargement-LARGEUR_VOITURE*2>= _myGame._graphics.PreferredBackBufferWidth)) 
+            if (!(_largeurBarreChargement-LARGEUR_VOITURE*2>= _myGame._graphics.PreferredBackBufferWidth))
             {
                 _positionVoiture = new Vector2(_largeurBarreChargement-LARGEUR_VOITURE, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_VOITURE - HAUTEUR_BARRE /2);
 
-                _positionVoiture.X += _positionVoiture.X * deltaSeconds-VITESSE_VOITURE;
+                _positionVoiture.X += _positionVoiture.X * deltaSeconds - VITESSE_VOITURE;
 
 
                 _barreChargement += 10 * deltaSeconds;
-                //if (!_changeScene)
-                {
-                    _myGame.LoadScreen(Game1.Etats.Menu);
-                    _changeScene= true;
-                }
+                
+                    
+                
 
             }
+            else
+                _myGame.LoadScreen(Game1.Etats.Menu);
 
 
 

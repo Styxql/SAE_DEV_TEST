@@ -16,7 +16,6 @@ namespace SAE_DEV
         private Vector2 _positionBack;
         private Rectangle _buttonBack;
         private bool _isHovered;
-
         
 
         public ScreenSettings(Game1 game) : base(game)
@@ -32,10 +31,9 @@ namespace SAE_DEV
             _myGame._graphics.PreferredBackBufferWidth = 925;
             _myGame._graphics.PreferredBackBufferHeight = 720;
             _myGame._graphics.ApplyChanges();
-            _positionBack = new Vector2(10, _myGame._graphics.PreferredBackBufferHeight-SIZE_ICONE);
-            _buttonBack = new Rectangle(10, _myGame._graphics.PreferredBackBufferHeight-SIZE_ICONE, 50, 50);
-            _isHovered = false;
-
+            _positionBack = new Vector2(10, _myGame._graphics.PreferredBackBufferHeight-SIZE_ICONE*2);
+            _buttonBack = new Rectangle(10, _myGame._graphics.PreferredBackBufferHeight-SIZE_ICONE*2, 50, 50);
+            _isHovered= false;
 
         }
         public override void LoadContent()
@@ -50,7 +48,7 @@ namespace SAE_DEV
         public override void Update(GameTime gameTime)
         {
             MouseState _mouseState = Mouse.GetState();
-            //          
+                     
 
             if (_buttonBack.Contains(Mouse.GetState().X, Mouse.GetState().Y))
             {

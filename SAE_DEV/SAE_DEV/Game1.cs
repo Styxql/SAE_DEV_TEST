@@ -15,17 +15,7 @@ namespace SAE_DEV
         // on définit les différents états possibles du jeu ( à compléter) 
         public enum Etats { Play, Menu, MenuMap, Settings, Exit, Lose, Classement };
 
-        // on définit un champ pour stocker l'état en cours du jeu
-
-        // on définit  2 écrans ( à compléter )
-        //public ScreenMenu _screenMenu;
-        //public ScreenJeu _screenJeu;
-        //public ScreenSettings _screenSettings;
-        //private ScreenRemerciement _screenRemerciement;
-        //public ScreenGameOver _screenGameOver;
-        //private ScreenChargement _screenChargement;
-        //private ScreenMenuMap _screenMenuMap;
-        //private ScreenClassement _screenClassement;
+       
 
 
         public Game1()
@@ -36,16 +26,7 @@ namespace SAE_DEV
             _screenManager = new ScreenManager();
             Components.Add(_screenManager);
 
-            // Par défaut, le 1er état flèche l'écran de menu
-
-            // on charge les 2 écrans 
-            //_screenMenu = new ScreenMenu(this);
-            //_screenJeu = new ScreenJeu(this);
-            //_screenSettings = new ScreenSettings(this);
-            //_screenGameOver = new ScreenGameOver(this);
-            //_screenChargement = new ScreenChargement(this);
-            //_screenMenuMap = new ScreenMenuMap(this);
-            //_screenClassement = new ScreenClassement(this);
+        
         }
 
 
@@ -105,7 +86,7 @@ namespace SAE_DEV
             else if (etat == Etats.Exit)
                 Exit();
             else if (etat == Etats.Lose)
-                _screenManager.LoadScreen(new ScreenGameOver(this), new FadeTransition(GraphicsDevice, Color.Black, 10));
+                _screenManager.LoadScreen(new ScreenGameOver(this), new FadeTransition(GraphicsDevice, Color.Black));
             else if (etat == Etats.MenuMap)
                 _screenManager.LoadScreen(new ScreenMenuMap(this), new FadeTransition(GraphicsDevice, Color.Black));
             else if (etat == Etats.Classement)

@@ -41,7 +41,7 @@ namespace SAE_DEV
         private Texture2D[] _boutons;
         private Texture2D[] _boutonsPressés;
         private Song _sonMenu;
-        bool _audioIsPressed;
+        private bool _audioIsPressed;
         public bool _isButtonPlayPressed;
         public readonly ScreenManager _screenManager;
 
@@ -117,7 +117,7 @@ namespace SAE_DEV
             
             MediaPlayer.Play(_sonMenu);
             MediaPlayer.IsRepeating = true;
-            
+
 
             base.LoadContent();
         }
@@ -141,19 +141,23 @@ namespace SAE_DEV
                             MediaPlayer.Stop();
                         }
                         else if (i == 1)
-                            _myGame.LoadScreen(Game1.Etats.Menu);
+                            _myGame.LoadScreen(Game1.Etats.MenuMap);
                         else if (i == 2)
                             _myGame.LoadScreen(Game1.Etats.Settings);
                         else if (i == 3)
                             _myGame.LoadScreen(Game1.Etats.Exit);
-                        //else if (i == 4)
+                        else if (i == 4)
+                        {
+                            _audioIsPressed = !_audioIsPressed;
+                           if(_audioIsPressed )
+                                MediaPlayer.Play(_sonMenu);
                             
-                        //else if (i == 5)
-                            //_myGame.Etat = Game1.Etats.Classement;
-                        //_myGame.Etat=Game
-
-                        else
-                            //_audioIsPressed = false;
+                            else
+                                MediaPlayer.Pause();
+                        }
+                       
+                                
+    
 
                             break;
                     }

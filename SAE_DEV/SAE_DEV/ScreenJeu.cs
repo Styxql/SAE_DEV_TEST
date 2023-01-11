@@ -441,7 +441,7 @@ namespace SAE_DEV
             _largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeVie.Width);
             if (_pointDeVie <=0 || _barreEssence <= 0)
             {
-                
+                _myGame.LoadScreen(Game1.Etats.Lose);
             }
 
             //aspect de la barre d'essence
