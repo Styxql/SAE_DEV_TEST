@@ -19,8 +19,7 @@ namespace SAE_DEV
         private Vector2 _positionVoiture;
         private int _largeurBarreChargement;
         private float _barreChargement;
-        private float _vitesseVoiture;
-        private float _rotationVoiture;
+       
         private Texture2D _textureJaugeChargement;
         private Texture2D _textureVoitureChargement;
 
@@ -40,7 +39,6 @@ namespace SAE_DEV
             _myGame._graphics.PreferredBackBufferWidth = 925;
             _myGame._graphics.ApplyChanges();
             _barreChargement = 0;
-            _rotationVoiture= 0.5f;
 
         }
         public override void LoadContent()
@@ -79,9 +77,9 @@ namespace SAE_DEV
         public override void Draw(GameTime gameTime)
         {
             _myGame.SpriteBatch.Begin();
-            _myGame.SpriteBatch.Draw(_textureBackground, new Vector2(GraphicsDevice.Viewport.Width / 2 - (925 / 2), GraphicsDevice.Viewport.Height / 2 - (720 / 2)), Color.White);
+            _myGame.SpriteBatch.Draw(_textureBackground, new Vector2(GraphicsDevice.Viewport.Width / 2 - (GraphicsDevice.Viewport.Width / 2), GraphicsDevice.Viewport.Height / 2 - (720 / 2)), Color.White);
             _myGame.SpriteBatch.Draw(_textureJaugeChargement, _rectangleJaugeChargement, Color.White);
-            _myGame.SpriteBatch.Draw(_textureVoitureChargement, _positionVoiture, null, Color.White, 0f,new Vector2(0, 0), 1f, SpriteEffects.None, 0);
+            _myGame.SpriteBatch.Draw(_textureVoitureChargement, _positionVoiture, Color.White);
 
             _myGame.GraphicsDevice.Clear(Color.Yellow);
             _myGame.SpriteBatch.End();
