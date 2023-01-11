@@ -3,14 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SAE_DEV
 {
-    internal class Bonus
+    internal class Items
     {
         private string nom;
         private int vitesse;
         private Vector2 position;
         private Texture2D texture;
 
-        public Bonus(string nom, int vitesse, Vector2 position, Texture2D texture)
+        public Items(string nom, int vitesse, Vector2 position, Texture2D texture)
         {
             this.nom = nom;
             this.vitesse = vitesse;
@@ -18,7 +18,7 @@ namespace SAE_DEV
             this.texture = texture;
         }
 
-        public Bonus(string nom, int vitesse, Vector2 position)
+        public Items(string nom, int vitesse, Vector2 position)
             : this(nom, vitesse, position, null)
         {
 

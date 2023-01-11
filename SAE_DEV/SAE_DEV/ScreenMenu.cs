@@ -128,7 +128,8 @@ namespace SAE_DEV
                         // si le clic correspond à un des 3 boutons
                         if (lesBoutons[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
                         {
-                            // on change l'état défini dans Game1 en fonction du bouton cliqué
+                        // on change l'état défini dans Game1 en fonction du bouton cliqué
+                        System.Console.WriteLine(i);
                             if (i == 0)
                             {
                                 _myGame.Etat = Game1.Etats.Play;

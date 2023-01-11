@@ -10,9 +10,7 @@ namespace SAE_DEV
     {
         public GraphicsDeviceManager _graphics;
         public SpriteBatch SpriteBatch { get; private set; }
-        public readonly ScreenManager _screenManager;
-      
-        
+        public readonly ScreenManager _screenManager;             
 
         // on définit les différents états possibles du jeu ( à compléter) 
         public enum Etats { Menu, Play, Settings, Exit ,Lose};
@@ -24,7 +22,6 @@ namespace SAE_DEV
         private ScreenMenu _screenMenu;
         private ScreenJeu _screenJeu;
         private ScreenSettings _screenSettings;
-        private ScreenRemerciement _screenRemerciement;
         private ScreenGameOver _screenGameOver;
         private ScreenChargement _screenChargement;
 
