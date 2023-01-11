@@ -203,7 +203,7 @@ namespace SAE_DEV
             _tiledMapJour = Content.Load<TiledMap>("mapJour");
             //_tiledMapNuit = Content.Load<TiledMap>("mapNuit");
             _tiledMapRendererJour = new TiledMapRenderer(GraphicsDevice, _tiledMapJour);
-            _tiledMapRendererNuit = new TiledMapRenderer(GraphicsDevice, _tiledMapJour);
+           // _tiledMapRendererNuit = new TiledMapRenderer(GraphicsDevice, _tiledMapNuit);
 
             
             //Chargement des textures pour les ennemies
@@ -321,7 +321,7 @@ namespace SAE_DEV
 
                 //Mise à jour de la map et défilement 
                 _tiledMapRendererJour.Update(gameTime);
-                _tiledMapRendererNuit.Update(gameTime);
+                //_tiledMapRendererNuit.Update(gameTime);
                 _mapYPosition += _vitesseYMap * deltaSeconds;
                 _mapYPosition %= 800;
 
