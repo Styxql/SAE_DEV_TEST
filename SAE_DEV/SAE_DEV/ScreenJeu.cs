@@ -10,6 +10,7 @@ using MonoGame.Extended.Screens;
 using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using System;
+using Microsoft.Xna.Framework.Media;
 
 namespace SAE_DEV
 {
@@ -41,6 +42,8 @@ namespace SAE_DEV
         private const int LARGEUR_ITEMS = 50;
         private const int HAUTEUR_ITEMS = 50;
 
+        //Musique
+        private Song _musiqueNuit;
         //Autre
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -266,6 +269,8 @@ namespace SAE_DEV
             _textureBackgroundGameOver = Content.Load<Texture2D>("BackgroundGameOver");
             _textureButtonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
             _klaxon= Content.Load<SoundEffect>("klaxon");
+            //_musiqueNuit=Content.Load<SoundEffect>("")
+
             //_radio = Content.Load<SoundEffect>("Son radio");
             //_radioOFF = Content.Load<SoundEffect>("radioTurnOff");
             //_radioON = Content.Load<SoundEffect>("radioTurnON");

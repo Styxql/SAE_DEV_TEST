@@ -141,8 +141,8 @@ namespace SAE_DEV
                             else if (i == 3)
                                 _myGame.Etat = Game1.Etats.Exit;
                             else if (i== 4)
-                            _audioIsPressed = true;
-
+                             _audioIsPressed = true;
+                                
                             else
                             _audioIsPressed=false;
                                 
