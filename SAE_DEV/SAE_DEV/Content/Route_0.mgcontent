@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFile>E:/R1.01.DEV/NO_BRAKE/SAE_DEV/SAE_DEV/Content/Route.png</SourceFile>
+  <SourceTime>2023-01-10T00:24:07.3932064+01:00</SourceTime>
+  <DestFile>E:/R1.01.DEV/NO_BRAKE/SAE_DEV/SAE_DEV/Content/Route_0.xnb</DestFile>
+  <DestTime>2023-01-10T08:35:20.0549495+01:00</DestTime>
+  <Importer>TextureImporter</Importer>
+  <ImporterTime>2020-08-10T18:17:54+02:00</ImporterTime>
+  <Processor>TextureProcessor</Processor>
+  <ProcessorTime>2020-08-10T18:17:54+02:00</ProcessorTime>
+  <Parameters>
+    <Key>ColorKeyColor</Key>
+    <Value>0,0,0,0</Value>
+  </Parameters>
+  <Parameters>
+    <Key>ColorKeyEnabled</Key>
+    <Value>True</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>
