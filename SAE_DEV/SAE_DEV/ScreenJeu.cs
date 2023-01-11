@@ -296,8 +296,7 @@ namespace SAE_DEV
         {
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _dureeEnPause += deltaSeconds;
-            _delaiKlaxon += deltaSeconds;
-            _timerClimat += deltaSeconds;
+
 
 
 
@@ -305,7 +304,9 @@ namespace SAE_DEV
 
             if (_estEntrainDeJouer)
             {
-              
+                _delaiKlaxon += deltaSeconds;
+                _timerClimat += deltaSeconds;
+
 
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                     _myGame.Exit();
