@@ -7,7 +7,7 @@ namespace SAE_DEV
     internal class VoitureJoueur
     {
         //private const int LARGEUR_VOITURE = 78; //taille en px du sprite
-        private const int DECOR_MAP = 288;// taille des tuiles ciel, herbe et barriere en px : x * 32 = taille px
+        private const int DECOR_MAP = 448;// taille des tuiles ciel, herbe et barriere en px : x * 32 = taille px
         private const int ESPACE_LIGNE = 25;  //petit espace entre la barriere et la ligne continu
         private const int LARGEUR_ECRAN = 1600;
 
