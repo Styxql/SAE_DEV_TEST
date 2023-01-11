@@ -57,7 +57,7 @@ namespace SAE_DEV
             
 
             _rectangleJaugeChargement = new Rectangle(-LARGEUR_VOITURE, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE * 2, _largeurBarreChargement, HAUTEUR_BARRE);
-            if (!(_largeurBarreChargement-LARGEUR_VOITURE>= _myGame._graphics.PreferredBackBufferWidth)) 
+            if (!(_largeurBarreChargement-LARGEUR_VOITURE*2>= _myGame._graphics.PreferredBackBufferWidth)) 
             {
                 _positionVoiture = new Vector2(_largeurBarreChargement-LARGEUR_VOITURE, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_VOITURE - HAUTEUR_BARRE /2);
 
@@ -77,7 +77,7 @@ namespace SAE_DEV
         public override void Draw(GameTime gameTime)
         {
             _myGame.SpriteBatch.Begin();
-            _myGame.SpriteBatch.Draw(_textureBackground, new Vector2(GraphicsDevice.Viewport.Width / 2 - (GraphicsDevice.Viewport.Width / 2), GraphicsDevice.Viewport.Height / 2 - (720 / 2)), Color.White);
+            _myGame.SpriteBatch.Draw(_textureBackground, new Vector2(0,0), Color.White);
             _myGame.SpriteBatch.Draw(_textureJaugeChargement, _rectangleJaugeChargement, Color.White);
             _myGame.SpriteBatch.Draw(_textureVoitureChargement, _positionVoiture, Color.White);
 

@@ -77,9 +77,9 @@ namespace SAE_DEV
         private string[] _nomMalus = new string[] { "tache" };
 
         //radio et klaxon
-        private SoundEffect _radio;
-        private SoundEffect _radioON;
-        private SoundEffect _radioOFF;
+        //private SoundEffect _radio;
+        //private SoundEffect _radioON;
+        //private SoundEffect _radioOFF;
         private SoundEffect _klaxon;
         private float _delaiKlaxon;
 
