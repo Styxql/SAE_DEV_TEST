@@ -9,6 +9,7 @@ namespace SAE_DEV
     {
         private Game1 _myGame;
         private Texture2D _textureBackgroundGameOver;
+        
 
         public ScreenGameOver(Game1 game) : base(game)
         {

@@ -75,9 +75,9 @@ namespace SAE_DEV
         private string[] _nomMalus = new string[] { "tache" };
 
         //radio et klaxon
-        private SoundEffect _radio;
-        private SoundEffect _radioON;
-        private SoundEffect _radioOFF;
+        //private SoundEffect _radio;
+        //private SoundEffect _radioON;
+        //private SoundEffect _radioOFF;
         private SoundEffect _klaxon;
         private float _delaiKlaxon;
 
@@ -188,7 +188,7 @@ namespace SAE_DEV
             _score = 0;
             _chrono = 60;
 
-            _positionJerricane = new Vector2(20, HAUTEUR_ECRAN - TAILLE_JERRICANE - 5);
+            _positionJerricane = new Vector2(20, HAUTEUR_ECRAN -HAUTEUR_BARRE*2);
             _positionCoeur = new Vector2(LARGEUR_ECRAN - LARGEUR_BARRE - TAILLE_HEART - 20, HAUTEUR_ECRAN - TAILLE_HEART - 5);
             
             _barreEssence = 100;
@@ -452,12 +452,12 @@ namespace SAE_DEV
             }
 
             //aspect de la barre d'essence
-            _rectangleJaugeEssence = new Rectangle(TAILLE_JERRICANE + 50,HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleBarreEssence = new Rectangle(TAILLE_JERRICANE + 50,HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_JERRICANE / 3, _largeurBarreEssence, HAUTEUR_BARRE);
+            _rectangleJaugeEssence = new Rectangle(TAILLE_JERRICANE + 50,HAUTEUR_ECRAN - HAUTEUR_BARRE*2, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleBarreEssence = new Rectangle(TAILLE_JERRICANE + 50,HAUTEUR_ECRAN - HAUTEUR_BARRE*2, _largeurBarreEssence, HAUTEUR_BARRE);
            
             //aspect de la barre de vie
-            _rectangleBarreVie = new Rectangle(LARGEUR_ECRAN - LARGEUR_BARRE - 10, HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_JERRICANE / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleJaugeVie = new Rectangle(LARGEUR_ECRAN - LARGEUR_BARRE - 10, HAUTEUR_ECRAN- HAUTEUR_BARRE - TAILLE_JERRICANE / 3, _largeurBarreVie, HAUTEUR_BARRE);
+            _rectangleBarreVie = new Rectangle(LARGEUR_ECRAN - LARGEUR_BARRE - 10, HAUTEUR_ECRAN - HAUTEUR_BARRE *2, LARGEUR_BARRE, HAUTEUR_BARRE);
+            _rectangleJaugeVie = new Rectangle(LARGEUR_ECRAN - LARGEUR_BARRE - 10, HAUTEUR_ECRAN- HAUTEUR_BARRE*2, _largeurBarreVie, HAUTEUR_BARRE);
             MouseState _mouseState = Mouse.GetState();
             //          
             if (_mouseState.LeftButton == ButtonState.Pressed)
