@@ -19,6 +19,7 @@ namespace SAE_DEV
         private Vector2 _positionVoiture;
         private int _largeurBarreChargement;
         private float _barreChargement;
+        private bool _changeScene;
        
         private Texture2D _textureJaugeChargement;
         private Texture2D _textureVoitureChargement;
@@ -39,6 +40,7 @@ namespace SAE_DEV
             _myGame._graphics.PreferredBackBufferWidth = 925;
             _myGame._graphics.ApplyChanges();
             _barreChargement = 0;
+            _changeScene= false;
 
         }
         public override void LoadContent()
@@ -65,7 +67,11 @@ namespace SAE_DEV
 
 
                 _barreChargement += 10 * deltaSeconds;
-                _myGame.Etat = Game1.Etats.Menu;
+                //if (!_changeScene)
+                {
+                    _myGame.LoadScreen(Game1.Etats.Menu);
+                    _changeScene= true;
+                }
 
             }
 

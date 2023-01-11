@@ -42,8 +42,6 @@ namespace SAE_DEV
         private Texture2D[] _boutonsPressés;
         private Song _sonMenu;
         bool _audioIsPressed;
-        public enum Etats { Menu, Play, Settings, Exit, Lose };
-        public Etats Etat;
         public bool _isButtonPlayPressed;
         public readonly ScreenManager _screenManager;
 
@@ -97,7 +95,7 @@ namespace SAE_DEV
             _background = Content.Load<Texture2D>("fondmenu");
             _boutonExitPressé = Content.Load<Texture2D>("ExitButtonPressed");
             _sonMenu = Content.Load<Song>("sonmenu");
-            _boutonClassement = Content.Load<Texture2D>("Trophée");
+            _boutonClassement = Content.Load<Texture2D>("Trophee");
 
 
             _boutonsPressés = new Texture2D[5];
@@ -109,7 +107,7 @@ namespace SAE_DEV
             
             //_buttons[4] = _buttonSettings;
             //Bouton a l'état initial
-            _boutons = new Texture2D[5];
+            _boutons = new Texture2D[6];
             _boutons[0] = _boutonPlay;
             _boutons[1] = _boutonMenu;
             _boutons[2] = _boutonSettings;
@@ -139,19 +137,19 @@ namespace SAE_DEV
                         // on change l'état défini dans Game1 en fonction du bouton cliqué
                         if (i == 0)
                         {
-                            _myGame.Etat = Game1.Etats.Play;
+                            _myGame.LoadScreen(Game1.Etats.Play);
                             MediaPlayer.Stop();
                         }
                         else if (i == 1)
-                            _myGame.Etat = Game1.Etats.MenuMap;
+                            _myGame.LoadScreen(Game1.Etats.Menu);
                         else if (i == 2)
-                            _myGame.Etat = Game1.Etats.Settings;
+                            _myGame.LoadScreen(Game1.Etats.Settings);
                         else if (i == 3)
-                            _myGame.Etat = Game1.Etats.Exit;
-                        else if (i == 4)
-                            _audioIsPressed = true;
-                        else if (i == 5)
-                            _myGame.Etat = Game1.Etats.Classement;
+                            _myGame.LoadScreen(Game1.Etats.Exit);
+                        //else if (i == 4)
+                            
+                        //else if (i == 5)
+                            //_myGame.Etat = Game1.Etats.Classement;
                         //_myGame.Etat=Game
 
                         else

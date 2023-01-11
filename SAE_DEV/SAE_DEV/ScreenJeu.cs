@@ -441,7 +441,7 @@ namespace SAE_DEV
             _largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeVie.Width);
             if (_pointDeVie <=0 || _barreEssence <= 0)
             {
-                _myGame.Etat = Game1.Etats.Lose;
+                
             }
 
             //aspect de la barre d'essence
@@ -462,14 +462,14 @@ namespace SAE_DEV
                     {
                         // on change l'état défini dans Game1 en fonction du bouton cliqué
                         if (i == 0)
-                            _estEntrainDeJouer = true;                    
+                            _estEntrainDeJouer = true;
 
                         else if (i == 1)
-                            _myGame.Etat = Game1.Etats.Menu;
+                            _myGame.LoadScreen(Game1.Etats.Menu);
                         else if (i == 2)
-                            _myGame.Etat = Game1.Etats.Settings;
+                            _myGame.LoadScreen(Game1.Etats.Settings);
                         else if (i == 3)
-                            _myGame.Etat = Game1.Etats.Exit;
+                            _myGame.LoadScreen(Game1.Etats.Exit);
 
                         break;
                     }
