@@ -205,7 +205,7 @@ namespace SAE_DEV
         public override void LoadContent()
         {
             _tiledMapJour = Content.Load<TiledMap>("mapJour");
-            _tiledMapNuit = Content.Load<TiledMap>("mapNuit");
+            //_tiledMapNuit = Content.Load<TiledMap>("mapNuit");
             _tiledMapRendererJour = new TiledMapRenderer(GraphicsDevice, _tiledMapJour);
             _tiledMapRendererNuit = new TiledMapRenderer(GraphicsDevice, _tiledMapNuit);
 
