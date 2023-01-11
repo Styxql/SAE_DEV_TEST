@@ -133,6 +133,9 @@ namespace SAE_DEV
         //timer des spawn bonus
         private float _timerSpawnMalus;
 
+        //timer changement climat
+        private float _timerClimat;
+
         //pause
         private bool _estEntrainDeJouer = true;
         private float _dureeEnPause;
@@ -173,6 +176,7 @@ namespace SAE_DEV
             _timerRespawnEnnemie = 0;
             _timerSpawnBonus = 0;
             _timerSpawnMalus = 0;
+            _timerClimat = 0;
 
             _joueur = new VoitureJoueur("joueur", 250, new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 3,GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE));
             
@@ -201,9 +205,9 @@ namespace SAE_DEV
         public override void LoadContent()
         {
             _tiledMapJour = Content.Load<TiledMap>("mapJour");
-            //_tiledMapNuit = Content.Load<TiledMap>("mapNuit");
+            _tiledMapNuit = Content.Load<TiledMap>("mapNuit");
             _tiledMapRendererJour = new TiledMapRenderer(GraphicsDevice, _tiledMapJour);
-           // _tiledMapRendererNuit = new TiledMapRenderer(GraphicsDevice, _tiledMapNuit);
+            _tiledMapRendererNuit = new TiledMapRenderer(GraphicsDevice, _tiledMapNuit);
 
             
             //Chargement des textures pour les ennemies
@@ -293,6 +297,7 @@ namespace SAE_DEV
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _dureeEnPause += deltaSeconds;
             _delaiKlaxon += deltaSeconds;
+            _timerClimat += deltaSeconds;
 
 
 
@@ -481,8 +486,24 @@ namespace SAE_DEV
 
         public override void Draw(GameTime gameTime)
         {
-            _tiledMapRendererJour.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 800, 0));
-           // _tiledMapRendererNuit.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 800, 0));
+
+            if(_timerClimat > 240)
+            {
+                _timerClimat -= _timerClimat;
+                
+            } 
+            else if(_timerClimat > 120)
+            {
+                _tiledMapRendererNuit.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 800, 0));
+                
+            }
+            else
+            {
+                _tiledMapRendererJour.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 800, 0));
+            }
+
+
+           
 
             _myGame.SpriteBatch.Begin();
          
