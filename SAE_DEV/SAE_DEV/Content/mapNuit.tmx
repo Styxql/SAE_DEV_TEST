@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="50" height="70" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" name="Decor" tilewidth="32" tileheight="32" tilecount="9" columns="3">
-  <image source="P:/NO_BRAKE/SAE_DEV/SAE_DEV/Content/Decor.png" width="96" height="96"/>
+  <image source="../Content/Decor.png" width="96" height="96"/>
  </tileset>
  <tileset firstgid="10" name="Barrieres" tilewidth="32" tileheight="32" tilecount="4" columns="2">
-  <image source="P:/NO_BRAKE/SAE_DEV/SAE_DEV/Content/Barrieres.png" width="64" height="64"/>
+  <image source="../Content/Barrieres.png" width="64" height="64"/>
  </tileset>
  <tileset firstgid="14" name="Route" tilewidth="32" tileheight="32" tilecount="6" columns="2">
-  <image source="P:/NO_BRAKE/SAE_DEV/SAE_DEV/Content/Route.png" width="64" height="96"/>
+  <image source="../Content/Route.png" width="64" height="96"/>
  </tileset>
  <layer id="1" name="Calque de Tuiles 1" width="50" height="70">
   <data encoding="csv">

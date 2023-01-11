@@ -59,7 +59,7 @@ namespace SAE_DEV
             _rectangleJaugeChargement = new Rectangle(-LARGEUR_VOITURE, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_BARRE * 2, _largeurBarreChargement, HAUTEUR_BARRE);
             if (!(_largeurBarreChargement-LARGEUR_VOITURE*2>= _myGame._graphics.PreferredBackBufferWidth)) 
             {
-                _positionVoiture = new Vector2(_largeurBarreChargement-LARGEUR_VOITURE, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_VOITURE + HAUTEUR_BARRE / 2 +4);
+                _positionVoiture = new Vector2(_largeurBarreChargement-LARGEUR_VOITURE, _myGame._graphics.PreferredBackBufferHeight - HAUTEUR_VOITURE + HAUTEUR_BARRE / 2 +6);
 
                 _positionVoiture.X += _positionVoiture.X * deltaSeconds-VITESSE_VOITURE;
 
