@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SAE_DEV.Game1">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="SAE_DEV.Game1.Etats" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Game1.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAACAAwAAAiAAAAAABQAAAAAKQAAAAAAAgIQ=</HashCode>
+      <FileName>Game1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SAE_DEV.ScreenChargement">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAwQACAAAgAAAwAAAAAAAAAAAAAAAhAIBgBAAAAAAwQ=</HashCode>
+      <FileName>ScreenChargement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SAE_DEV.ScreenGameOver">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACAAAAAAAwAAAAAAAAAAAAAAAAgAAAAAAAAAAAQ=</HashCode>
+      <FileName>ScreenGameOver.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SAE_DEV.ScreenJeu">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAwg5H3MjIgGN8KwCiFAhiCOAQhJmV4GoOAQIlQUEkQ=</HashCode>
+      <FileName>ScreenJeu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SAE_DEV.ScreenMenu">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQCACABAABAAwEUABAECAsQEEAABAAAAEAACQBAAAQ=</HashCode>
+      <FileName>ScreenMenu.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SAE_DEV.ScreenSettings">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAASAIAAAAAwAoAAAQAAAAAAAAAAAAAAABgAAAAAQ=</HashCode>
+      <FileName>ScreenSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SAE_DEV.VoitureEnnemie">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAoAAAAKAAABCAAAgQAAAIAAAAAAAA=</HashCode>
+      <FileName>VoitureEnnemie.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SAE_DEV.VoitureJoueur">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQABAgAQAMAAgACAAIAAABDAAAAQQAEAAAABAAAA=</HashCode>
+      <FileName>VoitureJoueur.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

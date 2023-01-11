@@ -16,7 +16,7 @@ namespace SAE_DEV
         private Vector2 position;
         private AnimatedSprite sprite;
         private int direction;
-        private float angle;
+        private float  angle ;
         
 
         public VoitureJoueur(string nom, int vitesse, Vector2 position, AnimatedSprite typeVehicule)
