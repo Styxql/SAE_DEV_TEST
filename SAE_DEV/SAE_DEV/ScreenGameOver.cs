@@ -39,7 +39,7 @@ namespace SAE_DEV
             if(_chronoChangementScene > 3 )
             {
                 _myGame.Etat = Game1.Etats.Menu;
-            _myGame.LoadScreen(Game1.Etats.Menu);
+                _myGame.LoadScreen(Game1.Etats.Menu);
 
 
             }
