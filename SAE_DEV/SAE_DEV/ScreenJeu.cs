@@ -42,7 +42,7 @@ namespace SAE_DEV
 
         private const int TAILLE_ITEM = 50;
         private const int DECOR_MAP = 448;// taille des tuiles ciel, herbe et barriere en px : x * 32 = taille px
-        private const int ESPACE_LIGNE = 25;  //petit espace entre la route et la ligne
+        private const int ESPACE_LIGNE = 25;//petit espace entre la route et la ligne
 
         private const int ESSENCE_MAX = 100;
         private const int VIE_MAX = 100;
@@ -491,12 +491,12 @@ namespace SAE_DEV
 
                                 else if (i == 1)
                                 { 
-                                    _myGame.Etat = Game1.Etats.Menu;
+                                     _myGame.Etat = Game1.Etats.Menu;
                                      _myGame.LoadScreen(Game1.Etats.Menu);                       
                                 }
                                 else if (i == 2)
                                 {
-                                    _myGame.Etat = Game1.Etats.Settings;
+                                     _myGame.Etat = Game1.Etats.Settings;
                                      _myGame.LoadScreen(Game1.Etats.Settings);
                                 }
                                 else if (i == 3)
@@ -726,12 +726,12 @@ namespace SAE_DEV
                         if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
                         {
                             _keyPressed = Keys.Right;
-                           // _effetMalus.Play(0.1f, 0, 0);
+                            _effetMalus.Play(0.1f, 0, 0);
                         }
                         else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
                         {
                             _keyPressed = Keys.Left;
-                           // _effetMalus.Play(0.1f, 0, 0);
+                            _effetMalus.Play(0.1f, 0, 0);
                         }
 
                         _timerDureeMalus = 0;
@@ -739,7 +739,6 @@ namespace SAE_DEV
                         
                     }
                 }
-
 
             }
         }
