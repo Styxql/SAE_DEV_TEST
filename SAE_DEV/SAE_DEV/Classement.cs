@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 
 namespace SAE_DEV;
-internal class Classement
+internal class Classement : IComparable<Classement>
 {
+    private static string CHEMIN = Directory.GetCurrentDirectory() + "\\classement.txt";
     private string pseudo;
     private float score;
 
     public Classement(string pseudo, float score)
     {
-        this.pseudo = pseudo;
-        this.score = score;
+        this.Pseudo = pseudo;
+        this.Score = score;
     }
 
     #region propriété
@@ -41,32 +43,50 @@ internal class Classement
     }
     #endregion
 
-    public void AddScore()
+    public static List <Classement> ReadAll()
     {
-        string chemin = @"P:\NO_BRAKE\SAE_DEV\SAE_DEV\classement\classement.txt";
-        if (!File.Exists(chemin))
-        {
-            // Create a file to write to.
-            using (StreamWriter sw = File.CreateText(chemin))
-            {
-                sw.WriteLine("Pseudo");
-                sw.WriteLine(" : ");
-                sw.WriteLine("Score");
-            }
+        if (!File.Exists(CHEMIN))
+        { 
+            File.Create(CHEMIN).Close();
         }
-
+            List<Classement> _lesClassements= new List<Classement>();
         // Open the file to read from.
-        using (StreamReader sr = File.OpenText(chemin))
+        using (StreamReader sr = File.OpenText(CHEMIN))
         {
             string chaine;
             while ((chaine = sr.ReadLine()) != null)
             {
-                Console.WriteLine(chaine);
+                string[] subs = chaine.Split(':');
+                float.TryParse(subs[1], out float score);
+                Classement c = new Classement(subs[0], score);
+                _lesClassements.Add(c);
+            }
+            return _lesClassements;
+        }
+    }
+
+    public static void WriteAll(List<Classement> _lesClassements)
+    {
+        using (StreamWriter sw = File.CreateText(CHEMIN))
+        {
+            foreach (Classement classement in _lesClassements)
+            {
+                sw.Write(classement.Pseudo);
+                sw.Write(" : ");
+                sw.WriteLine(classement.Score);
+
             }
         }
     }
-    
+
+    public int CompareTo(Classement other)
+    {
+        if (this.Score < other.Score) return 1;
+        if (this.Score == other.Score) return 0;
+        return -1;
+    }
 
 }
+
 
 

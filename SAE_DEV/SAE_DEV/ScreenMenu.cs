@@ -114,8 +114,10 @@ namespace SAE_DEV
             _boutons[3] = _boutonExit;
             _boutons[4] = _boutonAudio;
             _boutons[5] = _boutonClassement;
-            
+
             MediaPlayer.Play(_sonMenu);
+            MediaPlayer.Volume = 0.1f;
+            MediaPlayer.IsRepeating = true;
 
 
             base.LoadContent();
@@ -124,41 +126,45 @@ namespace SAE_DEV
         {
            
         MouseState _mouseState = Mouse.GetState();
-            
-            
+                      
                 for (int i = 0; i < lesBoutons.Length ; i++)
                 {
-                if (lesBoutons[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                if (lesBoutons[i].Contains(_mouseState.X, _mouseState.Y))
 
-                    // si le clic correspond à un des 3 boutons
+                    // si c'est un clique gauche
                     if (_mouseState.LeftButton==ButtonState.Pressed)
                     {
                         // on change l'état défini dans Game1 en fonction du bouton cliqué
-                        if (i == 0)
+                        switch (i)
                         {
-                            _myGame.LoadScreen(Game1.Etats.Play);
-                            MediaPlayer.Stop();
-                        }
-                        else if (i == 1)
-                            _myGame.LoadScreen(Game1.Etats.MenuMap);
-                        else if (i == 2)
-                            _myGame.LoadScreen(Game1.Etats.Settings);
-                        else if (i == 3)
-                            _myGame.LoadScreen(Game1.Etats.Exit);
-                        else if (i == 4)
-                        {
-                            _audioIsPressed = !_audioIsPressed;
-                           if(_audioIsPressed )
-                                MediaPlayer.Play(_sonMenu);
-                            
-                            else
-                                MediaPlayer.Pause();
-                        }
-                       
-                                
-    
+                            case 0:
+                                _myGame.Etat = Game1.Etats.Play;
+                                _myGame.LoadScreen();
+                                MediaPlayer.Stop();
+                                break;
+                            case 1:
+                                _myGame.Etat = Game1.Etats.MenuMap;
+                                _myGame.LoadScreen();
+                                break;
+                            case 2:
+                                _myGame.Etat = Game1.Etats.Settings;
+                                _myGame.LoadScreen();
+                                break;
+                            case 3:
+                                _myGame.Etat = Game1.Etats.Exit;
+                                _myGame.LoadScreen();
+                                break;
+                            case 4:
+                                _audioIsPressed = true;
+                                break;
+                            case 5:
+                                _myGame.Etat = Game1.Etats.Classement;
 
-                            break;
+                                break;
+                            default:
+                                //_audioIsPressed = false;
+                                break;
+                        }
                     }
                 }
             
@@ -170,7 +176,7 @@ namespace SAE_DEV
             _myGame.SpriteBatch.Draw(_background, new Vector2(0,0), Color.White);
 
             MouseState _mouseState1 = Mouse.GetState();
-            for (int i = 0; i < _boutons.Length-1; i++)
+            for (int i = 0; i < _boutons.Length; i++)
             {
                 if (_audioIsPressed)
                 {
@@ -183,8 +189,7 @@ namespace SAE_DEV
                 if (lesBoutons[i].Contains(_mouseState1.X, _mouseState1.Y))
                 {
                     // Affiche le bouton pressé
-                    _myGame.SpriteBatch.Draw(_boutonsPressés[i], lesBoutons[i], Color.Red);
-                   
+                    _myGame.SpriteBatch.Draw(_boutonsPressés[i], lesBoutons[i], Color.Red);                   
 
                 }
                 else

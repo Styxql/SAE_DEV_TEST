@@ -34,8 +34,8 @@ namespace SAE_DEV
         private const int LARGEUR_VOIE = 192;
 
         private const float INTERVALLE_RESPAWN = 0.8f;
-        private const float INTERVALLE_SPAWN_BONUS = 1f;
-        private const float INTERVALLE_SPAWN_MALUS = 1f;
+        private const float INTERVALLE_SPAWN_BONUS = 8f;
+        private const float INTERVALLE_SPAWN_MALUS = 1.7f;
 
         private const int HAUTEUR_BARRE = 30;
         private const int LARGEUR_BARRE = 300;
@@ -44,12 +44,16 @@ namespace SAE_DEV
         private const int DECOR_MAP = 448;// taille des tuiles ciel, herbe et barriere en px : x * 32 = taille px
         private const int ESPACE_LIGNE = 25;  //petit espace entre la route et la ligne
 
+        private const int ESSENCE_MAX = 100;
+        private const int VIE_MAX = 100;
+
         //Musique
         private Song _musiqueNuit;
         //Autre
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private KeyboardState _keyboardState;
+        private Keys _keyPressed;
 
         //Champs tiled
         private TiledMap _tiledMapJour;
@@ -91,7 +95,7 @@ namespace SAE_DEV
         private Texture2D _fond;
         private Texture2D _textureCoins;
         private int _score;
-        private int _chrono;
+        private float _chrono;
         private Vector2 _positionScore;
         private Vector2 _positionChrono;
 
@@ -141,6 +145,9 @@ namespace SAE_DEV
         //timer changement climat
         private float _timerClimat;
 
+        //timer durée malus
+        private float _timerDureeMalus;
+
         //pause
         private bool _estEntrainDeJouer = true;
         private float _dureeEnPause;
@@ -182,6 +189,7 @@ namespace SAE_DEV
             _timerSpawnBonus = 0;
             _timerSpawnMalus = 0;
             _timerClimat = 0;
+            _timerDureeMalus = 0.9f;
 
             _joueur = new VoitureJoueur("joueur", 250, new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 3,GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE));
             
@@ -193,8 +201,8 @@ namespace SAE_DEV
             _positionJerricane = new Vector2(20, HAUTEUR_ECRAN - TAILLE_ITEM - 5);
             _positionCoeur = new Vector2(LARGEUR_ECRAN - LARGEUR_BARRE - TAILLE_ITEM - 20, HAUTEUR_ECRAN - TAILLE_ITEM - 5);
             
-            _barreEssence = 100;
-            _pointDeVie = 100;
+            _barreEssence = ESSENCE_MAX;
+            _pointDeVie = VIE_MAX;
             _delaiCollision = 0;
 
             //_lesObjetsBonus = new List
@@ -204,6 +212,7 @@ namespace SAE_DEV
             lesBoutonsMenu[1] = new Rectangle(362, 150, LARGEUR_BOUTON,HAUTEUR_BOUTON);
             lesBoutonsMenu[2] = new Rectangle(362, 250,LARGEUR_BOUTON, HAUTEUR_BOUTON);
             lesBoutonsMenu[3] = new Rectangle(362, 350, LARGEUR_BOUTON,HAUTEUR_BOUTON);
+
 
             base.Initialize();
         }
@@ -302,6 +311,7 @@ namespace SAE_DEV
         public override void Update(GameTime gameTime)
         {
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             _dureeEnPause += deltaSeconds;
 
             _keyboardState = Keyboard.GetState();
@@ -310,7 +320,9 @@ namespace SAE_DEV
             {
                 _delaiKlaxon += deltaSeconds;
                 _timerClimat += deltaSeconds;
-
+                _timerDureeMalus += deltaSeconds;
+                _chrono += deltaSeconds;
+                _score = (int)Math.Round(_chrono, 0);
 
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                     _myGame.Exit();
@@ -326,34 +338,34 @@ namespace SAE_DEV
 
 
                 //diminution de l'essence
-                _barreEssence -= 3 * deltaSeconds;
-
+                _barreEssence -= deltaSeconds;
 
                 //Mise à jour de la map et défilement 
                 _tiledMapRendererJour.Update(gameTime);
+
                 //_tiledMapRendererNuit.Update(gameTime);
                 _mapYPosition += _vitesseYMap * deltaSeconds;
                 _mapYPosition %= 800;
 
-
                 //Mise à jour du déplacememnt joueur
                 _joueur.Sprite.Update(deltaSeconds);
+ 
+                    if ((_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)) && _timerDureeMalus > 0.9f) || (_timerDureeMalus < 0.9f && _keyPressed == Keys.Right))
+                    {
+                        _joueur.DeplacementDroite(deltaSeconds);
+                    }
+                    else if ((_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)) && _timerDureeMalus > 0.9f) || (_timerDureeMalus < 0.9f && _keyPressed == Keys.Left))
+                    {
+                        _joueur.DeplacementGauche(deltaSeconds);
+                    }
+                    else
+                    {
+                        _joueur.Idle();
+                    }
 
-                if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
-                {
-                    _joueur.DeplacementDroite(deltaSeconds);
-                }
-                else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
-                {
-                    _joueur.DeplacementGauche(deltaSeconds);
-                }
-                else
-                {
-                    _joueur.Idle();
-                }
                 if (_keyboardState.IsKeyDown(Keys.K) && _delaiKlaxon > 1)
                 {
-                    _klaxon.Play();
+                    _klaxon.Play(0.1f,0,0);
                     _delaiKlaxon = 0;
                 }
                 //Spawn d'un ennemie et timer          
@@ -424,6 +436,32 @@ namespace SAE_DEV
                 //appel methode
                 this.CollisionItems();
                 this.CollisionVehicule();
+
+
+
+                //positions barre d'essence et barre de vie
+                _largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
+                _largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeVie.Width);
+
+                //aspect de la barre d'essence
+                _rectangleJaugeEssence = new Rectangle(TAILLE_ITEM + 50,HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_ITEM / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+                _rectangleBarreEssence = new Rectangle(TAILLE_ITEM + 50,HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_ITEM / 3, _largeurBarreEssence, HAUTEUR_BARRE);
+           
+                //aspect de la barre de vie
+                _rectangleBarreVie = new Rectangle(LARGEUR_ECRAN - LARGEUR_BARRE - 10, HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_ITEM / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
+                _rectangleJaugeVie = new Rectangle(LARGEUR_ECRAN - LARGEUR_BARRE - 10, HAUTEUR_ECRAN- HAUTEUR_BARRE - TAILLE_ITEM / 3, _largeurBarreVie, HAUTEUR_BARRE);
+
+
+                if (_pointDeVie <= 0 || _barreEssence <= 0)
+                {
+                    _estEntrainDeJouer = false;
+                    List<Classement> _lesClassements = Classement.ReadAll();
+                    _lesClassements.Add(new Classement("joueur" + (_lesClassements.Count + 1), _score));
+                    _lesClassements.Sort();
+                    Classement.WriteAll(_lesClassements);
+                    _myGame.Etat = Game1.Etats.Lose;
+                    _myGame.LoadScreen();
+                }
             }
 
             else
@@ -432,57 +470,53 @@ namespace SAE_DEV
                 {                 
                     _estEntrainDeJouer = true;
                     _dureeEnPause = 0;
-                }
-            }
-                       
-
-            //positions barre d'essence et barre de vie
-            _largeurBarreEssence = (int)(_barreEssence / 100 * _textureJaugeEssence.Width);
-            _largeurBarreVie = (int)(_pointDeVie / 100 * _textureJaugeVie.Width);
-            if (_pointDeVie <=0 || _barreEssence <= 0)
-            {
-                _myGame.LoadScreen(Game1.Etats.Lose);
-            }
-
-            //aspect de la barre d'essence
-            _rectangleJaugeEssence = new Rectangle(TAILLE_ITEM + 50,HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_ITEM / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleBarreEssence = new Rectangle(TAILLE_ITEM + 50,HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_ITEM / 3, _largeurBarreEssence, HAUTEUR_BARRE);
-           
-            //aspect de la barre de vie
-            _rectangleBarreVie = new Rectangle(LARGEUR_ECRAN - LARGEUR_BARRE - 10, HAUTEUR_ECRAN - HAUTEUR_BARRE - TAILLE_ITEM / 3, LARGEUR_BARRE, HAUTEUR_BARRE);
-            _rectangleJaugeVie = new Rectangle(LARGEUR_ECRAN - LARGEUR_BARRE - 10, HAUTEUR_ECRAN- HAUTEUR_BARRE - TAILLE_ITEM / 3, _largeurBarreVie, HAUTEUR_BARRE);
-            MouseState _mouseState = Mouse.GetState();
-            //          
-            if (_mouseState.LeftButton == ButtonState.Pressed)
-            {
-                for (int i = 0; i < lesBoutonsMenu.Length; i++)
-                {
-                    // si le clic correspond à un des 3 boutons
-                    if (lesBoutonsMenu[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                    MouseState _mouseState = Mouse.GetState();
+                    //          
+                    if (_mouseState.LeftButton == ButtonState.Pressed)
                     {
-                        // on change l'état défini dans Game1 en fonction du bouton cliqué
-                        if (i == 0)
-                            _estEntrainDeJouer = true;
+                        for (int i = 0; i < lesBoutonsMenu.Length; i++)
+                        {
+                            // si le clic correspond à un des 3 boutons
+                            if (lesBoutonsMenu[i].Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                            {
+                                // on change l'état défini dans Game1 en fonction du bouton cliqué
+                                if (i == 0)
+                                    _estEntrainDeJouer = true;                    
 
-                        else if (i == 1)
-                            _myGame.LoadScreen(Game1.Etats.Menu);
-                        else if (i == 2)
-                            _myGame.LoadScreen(Game1.Etats.Settings);
-                        else if (i == 3)
-                            _myGame.LoadScreen(Game1.Etats.Exit);
+                                else if (i == 1)
+                                { 
+                                    _myGame.Etat = Game1.Etats.Menu;
+                                     _myGame.LoadScreen();                       
+                                }
+                                else if (i == 2)
+                                {
+                                    _myGame.Etat = Game1.Etats.Settings;
+                                     _myGame.LoadScreen();
+                                }
+                                else if (i == 3)
+                                {
+                                    _myGame.Etat = Game1.Etats.Exit;
+                                    _myGame.LoadScreen();
+                                }
 
-                        break;
-                    }
+                                break;
+                            }
 
-                }
+                        }
            
+                    }
+                }
             }
+                                  
+
+
+
             
         }
 
         public override void Draw(GameTime gameTime)
         {
-            #region map
+            
             if (_timerClimat > 240)
             {
                 _timerClimat -= _timerClimat;
@@ -496,7 +530,7 @@ namespace SAE_DEV
             {
                 _tiledMapRendererJour.Draw(viewMatrix: Matrix.CreateTranslation(0, _mapYPosition - 800, 0));
             }
-            #endregion
+           
 
             _myGame.SpriteBatch.Begin();
 
@@ -518,18 +552,21 @@ namespace SAE_DEV
                     new Vector2(LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE), 1.5f, SpriteEffects.None, 0);
             }
 
+            float _angleSup = 0;
+            if(_timerDureeMalus < 0.9f)
+            {
+                _angleSup = (2 * (float)Math.PI) * (_timerDureeMalus / 0.9f);
+            }
+            _myGame.SpriteBatch.Draw(_joueur.Sprite, _joueur.Position, _joueur.Angle + _angleSup);
 
-            _myGame.SpriteBatch.Draw(_joueur.Sprite, _joueur.Position, _joueur.Angle);
             //_myGame.SpriteBatch.Draw()
+
             /////BARRE ESSENCE///////
-
-
             _myGame.SpriteBatch.Draw(_textureBarreEssence, _rectangleJaugeEssence, Color.White);
             _myGame.SpriteBatch.Draw(_textureJaugeEssence, _rectangleBarreEssence, Color.White);
             _myGame.SpriteBatch.Draw(_textureJerricane, _positionJerricane, Color.White);
 
-            ///////BARRE VIE///////
-            
+            ///////BARRE VIE///////         
             _myGame.SpriteBatch.Draw(_textureBarreVie, _rectangleBarreVie, Color.White);
             _myGame.SpriteBatch.Draw(_textureJaugeVie, _rectangleJaugeVie, Color.White);
             _myGame.SpriteBatch.Draw(_textureCoeur, _positionCoeur, Color.White);
@@ -616,8 +653,8 @@ namespace SAE_DEV
         {
             Random rand = new Random();
 
-            int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE + LARGEUR_VEHICULE_GRAND,
-                                          _myGame._graphics.GraphicsDevice.Viewport.Width - DECOR_MAP - LARGEUR_VEHICULE_GRAND };//posx malus
+            int[] positionsX = new int[] { DECOR_MAP + ESPACE_LIGNE + LARGEUR_VOIE ,
+                                           LARGEUR_ECRAN - DECOR_MAP - LARGEUR_VOIE };//posx malus
 
             int i = rand.Next(0, _nomMalus.Length);
             int voie = rand.Next(0, positionsX.Length);
@@ -633,7 +670,7 @@ namespace SAE_DEV
         {
             if (_delaiCollision > 0.5)
             {
-                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_JOUEUR, HAUTEUR_VEHICULE_JOUEUR);
+                Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_JOUEUR , HAUTEUR_VEHICULE_JOUEUR);
                 foreach (VoitureEnnemie voiture in _lesVoituresEnnemies)
                 {
                     Rectangle rect2 = new Rectangle((int)voiture.Position.X, (int)voiture.Position.Y, LARGEUR_VEHICULE_BASIQUE, HAUTEUR_VEHICULE_BASIQUE);
@@ -650,7 +687,7 @@ namespace SAE_DEV
 
         public void CollisionItems()
         {
-            if (_delaiCollision < 0.5)
+            if (_delaiCollision > 0.5)
             {
 
                 Rectangle rect1 = new Rectangle((int)_joueur.Position.X, (int)_joueur.Position.Y, LARGEUR_VEHICULE_JOUEUR, HAUTEUR_VEHICULE_JOUEUR);
@@ -659,10 +696,11 @@ namespace SAE_DEV
                     Rectangle rect2 = new Rectangle((int)Bonus.Position.X, (int)Bonus.Position.Y, TAILLE_ITEM, TAILLE_ITEM);
                     if (rect1.Intersects(rect2))
                     {
+                       
                         _barreEssence += 10;
-                        if(_barreEssence > LARGEUR_BARRE)
+                        if(_barreEssence > ESSENCE_MAX)
                         {
-                            _barreEssence = LARGEUR_BARRE;
+                            _barreEssence = ESSENCE_MAX;
                         }
                         _lesObjetsBonus.Remove(Bonus);
                         break;
@@ -674,7 +712,17 @@ namespace SAE_DEV
                     Rectangle rect2 = new Rectangle((int)Malus.Position.X, (int)Malus.Position.Y, TAILLE_ITEM, TAILLE_ITEM);
                     if (rect1.Intersects(rect2))
                     {
-                        _lesObjetsBonus.Remove(Malus);
+
+                        if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
+                        {
+                            _keyPressed = Keys.Right;
+                        }
+                        else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
+                        {
+                            _keyPressed = Keys.Left;
+                        }
+                        _timerDureeMalus = 0;
+                        
                         break;
                     }
                 }
