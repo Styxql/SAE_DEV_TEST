@@ -97,7 +97,6 @@ namespace SAE_DEV
         private Texture2D _fond;
         private Texture2D _textureCoins;
         private int _score;
-        private float _chrono;
         private Vector2 _positionScore;
         private Vector2 _positionChrono;
 
@@ -150,6 +149,9 @@ namespace SAE_DEV
         //timer durée malus
         private float _timerDureeMalus;
 
+        // temps de jeu
+        private float _chrono;
+
         //pause
         private bool _estEntrainDeJouer = true;
         private float _dureeEnPause;
@@ -201,7 +203,6 @@ namespace SAE_DEV
             _positionScore = new Vector2(70, 0);
             _positionChrono = new Vector2(610, 0);
             _score = 0;
-            _chrono = 60;
 
             _positionJerricane = new Vector2(20, HAUTEUR_ECRAN - TAILLE_ITEM - 5);
             _positionCoeur = new Vector2(LARGEUR_ECRAN - LARGEUR_BARRE - TAILLE_ITEM - 20, HAUTEUR_ECRAN - TAILLE_ITEM - 5);
@@ -325,6 +326,7 @@ namespace SAE_DEV
                 _timerClimat += deltaSeconds;
                 _timerDureeMalus += deltaSeconds;
                 _chrono += deltaSeconds;
+
                 _score = (int)Math.Round(_chrono, 0);
 
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -628,8 +630,12 @@ namespace SAE_DEV
                 vitesse = 750;//vitesse de déplacement si voie de gauche
             }
             //else de le remettre à 0 ne sert à rien
+            int _coef = (int)(_chrono / 100);
 
-            vitesse += rand.Next(0, 100);//variation de la vitesse
+            if(_chrono > _chrono + 30)
+            {
+                vitesse += rand.Next(500 * _coef, 1000 * _coef);//variation de la vitesse
+            }
 
             VoitureEnnemie voiture = new VoitureEnnemie(_nomEnnemies[i], vitesse, new Vector2(x, 0), sens, _textureEnnemies[i]);
             _lesVoituresEnnemies.Add(voiture);
@@ -713,25 +719,25 @@ namespace SAE_DEV
 
                 foreach (Items Malus in _lesObjetsMalus)
                 {
-                    Rectangle rect2 = new Rectangle((int)Malus.Position.X, (int)Malus.Position.Y, 100, 151);
+                    Rectangle rect2 = new Rectangle((int)Malus.Position.X, (int)Malus.Position.Y, 228, 150);
                     if (rect1.Intersects(rect2))
                     {
 
-                        if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)) && _timerDureeMalus < 0.9f)
+                        if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
                         {
                             _keyPressed = Keys.Right;
-                            _effetMalus.Play(0.1f, 0, 0);
+                           // _effetMalus.Play(0.1f, 0, 0);
                         }
-                        else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)) && _timerDureeMalus < 0.9f)
+                        else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
                         {
                             _keyPressed = Keys.Left;
-                            _effetMalus.Play(0.1f, 0, 0);
+                           // _effetMalus.Play(0.1f, 0, 0);
                         }
-                        
-                                           
+
+                        _timerDureeMalus = 0;
                         break;
+                        
                     }
-                    _timerDureeMalus = 0;
                 }
 
 

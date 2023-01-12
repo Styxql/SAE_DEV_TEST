@@ -159,7 +159,7 @@ namespace SAE_DEV
                                 break;
                             case 5:
                                 _myGame.Etat = Game1.Etats.Classement;
-
+                                _myGame.LoadScreen(_myGame.Etat);
                                 break;
                             default:
                                 _audioIsPressed = false;
