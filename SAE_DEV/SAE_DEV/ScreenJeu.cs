@@ -471,10 +471,6 @@ namespace SAE_DEV
 
             else
             {
-                if (_dureeEnPause > 0.4 && _keyboardState.IsKeyDown(Keys.P) && _estMort == false)
-                {
-                    _estEntrainDeJouer = true;
-                    _dureeEnPause = 0;
                     MouseState _mouseState = Mouse.GetState();
                     //          
                     if (_mouseState.LeftButton == ButtonState.Pressed)
@@ -490,14 +486,17 @@ namespace SAE_DEV
 
                                 else if (i == 1)
                                 { 
+                                    _myGame.Etat = Game1.Etats.Menu;
                                      _myGame.LoadScreen(Game1.Etats.Menu);                       
                                 }
                                 else if (i == 2)
                                 {
+                                    _myGame.Etat = Game1.Etats.Settings;
                                      _myGame.LoadScreen(Game1.Etats.Settings);
                                 }
                                 else if (i == 3)
                                 {
+                                    _myGame.Etat = Game1.Etats.Exit;
                                     _myGame.LoadScreen(Game1.Etats.Exit);
                                 }
 
@@ -507,6 +506,10 @@ namespace SAE_DEV
                         }
            
                     }
+                if (_dureeEnPause > 0.4 && _keyboardState.IsKeyDown(Keys.P) && _estMort == false)
+                {
+                    _estEntrainDeJouer = true;
+                    _dureeEnPause = 0;
                 }
             }
                                   
