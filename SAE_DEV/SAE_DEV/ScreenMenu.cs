@@ -116,7 +116,6 @@ namespace SAE_DEV
             _boutons[5] = _boutonClassement;
             
             MediaPlayer.Play(_sonMenu);
-            MediaPlayer.IsRepeating = true;
 
 
             base.LoadContent();

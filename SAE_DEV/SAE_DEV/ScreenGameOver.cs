@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Screens;
-
+using System.Threading;
 
 namespace SAE_DEV
 {
@@ -9,6 +9,7 @@ namespace SAE_DEV
     {
         private Game1 _myGame;
         private Texture2D _textureBackgroundGameOver;
+        private float _chronoChangementScene;
         
 
         public ScreenGameOver(Game1 game) : base(game)
@@ -33,6 +34,10 @@ namespace SAE_DEV
         }
         public override void Update(GameTime gameTime)
         {
+            float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _chronoChangementScene += deltaSeconds;
+            if(_chronoChangementScene > 3 )  
+            _myGame.LoadScreen(Game1.Etats.Menu);
 
         }
         public override void Draw(GameTime gameTime)
