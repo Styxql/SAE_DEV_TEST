@@ -84,7 +84,7 @@ namespace SAE_DEV
 
 
 
-        public void LoadScreen()
+        public void LoadScreen(Etats Etat)
         {
             switch (this.Etat)
             {
@@ -128,9 +128,6 @@ namespace SAE_DEV
         //    _screenManager.LoadScreen(_screenSettings, new FadeTransition(GraphicsDevice, Color.Black));
         //}
         //public void LoadScreenLose()
-
-
-
 
 
         protected override void Draw(GameTime gameTime)

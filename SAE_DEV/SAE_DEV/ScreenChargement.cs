@@ -71,7 +71,7 @@ namespace SAE_DEV
             else
             {
                 _myGame.Etat = Game1.Etats.Menu;
-                _myGame.LoadScreen();
+                _myGame.LoadScreen(Game1.Etats.Menu);
             }
 
 

@@ -139,20 +139,20 @@ namespace SAE_DEV
                         {
                             case 0:
                                 _myGame.Etat = Game1.Etats.Play;
-                                _myGame.LoadScreen();
+                                _myGame.LoadScreen(_myGame.Etat);
                                 MediaPlayer.Stop();
                                 break;
                             case 1:
                                 _myGame.Etat = Game1.Etats.MenuMap;
-                                _myGame.LoadScreen();
+                                _myGame.LoadScreen(_myGame.Etat);
                                 break;
                             case 2:
                                 _myGame.Etat = Game1.Etats.Settings;
-                                _myGame.LoadScreen();
+                                _myGame.LoadScreen(_myGame.Etat);
                                 break;
                             case 3:
                                 _myGame.Etat = Game1.Etats.Exit;
-                                _myGame.LoadScreen();
+                                _myGame.LoadScreen(_myGame.Etat);
                                 break;
                             case 4:
                                 _audioIsPressed = true;

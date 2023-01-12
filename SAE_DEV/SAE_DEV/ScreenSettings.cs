@@ -58,7 +58,7 @@ namespace SAE_DEV
                 if (_mouseState.LeftButton == ButtonState.Pressed)
                 {
                     _myGame.Etat = Game1.Etats.Menu;
-                    _myGame.LoadScreen();
+                    _myGame.LoadScreen(_myGame.Etat);
 
                 }
 
