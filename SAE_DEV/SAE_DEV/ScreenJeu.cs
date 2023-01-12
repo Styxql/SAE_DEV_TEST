@@ -465,7 +465,6 @@ namespace SAE_DEV
                     _lesClassements.Add(new Classement("joueur" + (_lesClassements.Count + 1), _score));
                     _lesClassements.Sort();
                     Classement.WriteAll(_lesClassements);
-                    _myGame.Etat = Game1.Etats.Lose;
                     _myGame.LoadScreen(Game1.Etats.Lose);
                 }
             }
@@ -491,17 +490,14 @@ namespace SAE_DEV
 
                                 else if (i == 1)
                                 { 
-                                    _myGame.Etat = Game1.Etats.Menu;
                                      _myGame.LoadScreen(Game1.Etats.Menu);                       
                                 }
                                 else if (i == 2)
                                 {
-                                    _myGame.Etat = Game1.Etats.Settings;
                                      _myGame.LoadScreen(Game1.Etats.Settings);
                                 }
                                 else if (i == 3)
                                 {
-                                    _myGame.Etat = Game1.Etats.Exit;
                                     _myGame.LoadScreen(Game1.Etats.Exit);
                                 }
 

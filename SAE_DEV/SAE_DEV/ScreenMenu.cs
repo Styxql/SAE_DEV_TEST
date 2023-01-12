@@ -59,7 +59,6 @@ namespace SAE_DEV
             lesBoutons[2] = new Rectangle(362, 250, 200, 70);
             lesBoutons[3] = new Rectangle(362, 350, 200, 70);
             lesBoutons[4] = new Rectangle(0, 0, 50, 50);
-            lesBoutons[5]=new Rectangle(LARGEUR_ECRAN-SIZE_OTHER_BUTTON*2, 10, 50, 50);
             
             _screenManager = new ScreenManager();
             _myGame.Components.Add(_screenManager);
@@ -107,13 +106,12 @@ namespace SAE_DEV
             
             //_buttons[4] = _buttonSettings;
             //Bouton a l'état initial
-            _boutons = new Texture2D[6];
+            _boutons = new Texture2D[5];
             _boutons[0] = _boutonPlay;
             _boutons[1] = _boutonMenu;
             _boutons[2] = _boutonSettings;
             _boutons[3] = _boutonExit;
             _boutons[4] = _boutonAudio;
-            _boutons[5] = _boutonClassement;
 
             MediaPlayer.Play(_sonMenu);
             MediaPlayer.Volume = 0.1f;
