@@ -36,9 +36,13 @@ namespace SAE_DEV
         {
             float deltaSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _chronoChangementScene += deltaSeconds;
-            if(_chronoChangementScene > 3 )  
+            if(_chronoChangementScene > 3 )
+            {
+                _myGame.Etat = Game1.Etats.Menu;
             _myGame.LoadScreen(Game1.Etats.Menu);
 
+
+            }
         }
         public override void Draw(GameTime gameTime)
         {
