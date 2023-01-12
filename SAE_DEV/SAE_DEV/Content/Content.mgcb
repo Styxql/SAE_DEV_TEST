@@ -497,6 +497,12 @@
 /processorParam:TextureFormat=Color
 /build:SettingsButton.png
 
+#begin siren.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:siren.mp3
+
 #begin sonmap1.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

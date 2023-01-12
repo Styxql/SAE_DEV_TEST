@@ -87,6 +87,7 @@ namespace SAE_DEV
 
         private SoundEffect _klaxon;
         private float _delaiKlaxon;
+        private SoundEffect _effetMalus;
 
         //champs joueur
         private VoitureJoueur _joueur;
@@ -161,6 +162,8 @@ namespace SAE_DEV
         private Vector2 _positionBoutonSettings;
         private Vector2 _positionBoutonExit;
 
+        public bool _estMort;
+
 
         private Game1 _myGame;
         // récup une ref à l'objet game qui permet d'accéder à ce qu'il y a dans Game1
@@ -191,6 +194,7 @@ namespace SAE_DEV
             _timerSpawnMalus = 0;
             _timerClimat = 0;
             _timerDureeMalus = 0.9f;
+            _estMort = false;
 
             _joueur = new VoitureJoueur("joueur", 250, new Vector2(GraphicsDevice.Viewport.Width - GraphicsDevice.Viewport.Width / 3,GraphicsDevice.Viewport.Height - HAUTEUR_VEHICULE_BASIQUE));
             
@@ -281,11 +285,9 @@ namespace SAE_DEV
             _textureBackgroundGameOver = Content.Load<Texture2D>("BackgroundGameOver");
             _textureButtonPlayPressed = Content.Load<Texture2D>("PlayButtonPressed");
             _klaxon= Content.Load<SoundEffect>("klaxon");
-            //_musiqueNuit=Content.Load<SoundEffect>("")
+            _effetMalus = Content.Load<SoundEffect>("siren");
 
-            //_radio = Content.Load<SoundEffect>("Son radio");
-            //_radioOFF = Content.Load<SoundEffect>("radioTurnOff");
-            //_radioON = Content.Load<SoundEffect>("radioTurnON");
+            //_musiqueNuit=Content.Load<SoundEffect>("")
 
             //Autre
             _fond = Content.Load<Texture2D>("fondmenu");
@@ -455,6 +457,7 @@ namespace SAE_DEV
 
                 if (_pointDeVie <= 0 || _barreEssence <= 0)
                 {
+                    _estMort = true;
                     _estEntrainDeJouer = false;
                     List<Classement> _lesClassements = Classement.ReadAll();
                     _lesClassements.Add(new Classement("joueur" + (_lesClassements.Count + 1), _score));
@@ -466,9 +469,9 @@ namespace SAE_DEV
             }
 
             else
-            {              
-                if (_dureeEnPause > 0.4 && _keyboardState.IsKeyDown(Keys.P))
-                {                 
+            {
+                if (_dureeEnPause > 0.4 && _keyboardState.IsKeyDown(Keys.P) && _estMort == false)
+                {
                     _estEntrainDeJouer = true;
                     _dureeEnPause = 0;
                     MouseState _mouseState = Mouse.GetState();
@@ -710,22 +713,25 @@ namespace SAE_DEV
 
                 foreach (Items Malus in _lesObjetsMalus)
                 {
-                    Rectangle rect2 = new Rectangle((int)Malus.Position.X, (int)Malus.Position.Y, TAILLE_ITEM, TAILLE_ITEM);
+                    Rectangle rect2 = new Rectangle((int)Malus.Position.X, (int)Malus.Position.Y, 100, 151);
                     if (rect1.Intersects(rect2))
                     {
 
-                        if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)))
+                        if (_keyboardState.IsKeyDown(Keys.Right) && !(_keyboardState.IsKeyDown(Keys.Left)) && _timerDureeMalus < 0.9f)
                         {
                             _keyPressed = Keys.Right;
+                            _effetMalus.Play(0.1f, 0, 0);
                         }
-                        else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)))
+                        else if (_keyboardState.IsKeyDown(Keys.Left) && !(_keyboardState.IsKeyDown(Keys.Right)) && _timerDureeMalus < 0.9f)
                         {
                             _keyPressed = Keys.Left;
+                            _effetMalus.Play(0.1f, 0, 0);
                         }
-                        _timerDureeMalus = 0;
                         
+                                           
                         break;
                     }
+                    _timerDureeMalus = 0;
                 }
 
 
