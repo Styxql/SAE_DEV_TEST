@@ -72,7 +72,7 @@ namespace SAE_DEV
         {
             _myGame.GraphicsDevice.Clear(Color.Black);
             _myGame.SpriteBatch.Begin();
-            _myGame.SpriteBatch.Draw(_settingsBackground, new Vector2(GraphicsDevice.Viewport.Width / 2 - (_myGame._graphics.PreferredBackBufferWidth / 2), GraphicsDevice.Viewport.Height / 2 - (_myGame._graphics.PreferredBackBufferHeight / 2)), Color.White);
+            _myGame.SpriteBatch.Draw(_settingsBackground,new Vector2(0,0),Color.White);
             if (_isHovered)
                 _myGame.SpriteBatch.Draw(_backPressed, _positionBack, Color.Red);
             else
