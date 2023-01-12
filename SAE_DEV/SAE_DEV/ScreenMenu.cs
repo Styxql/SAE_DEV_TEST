@@ -162,7 +162,7 @@ namespace SAE_DEV
 
                                 break;
                             default:
-                                //_audioIsPressed = false;
+                                _audioIsPressed = false;
                                 break;
                         }
                     }
