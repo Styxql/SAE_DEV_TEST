@@ -623,12 +623,12 @@ namespace SAE_DEV
             //x += rand.Next(0,150);//variation de positions dans les 4 voies
 
             float sens = 0;
-            int vitesse = 600;
+            int vitesse = 700;
 
             if (x < GraphicsDevice.Viewport.Width / 2)
             {
                 sens = (float)Math.PI;//rotation de 180 degrés
-                vitesse = 750;//vitesse de déplacement si voie de gauche
+                vitesse = 850;//vitesse de déplacement si voie de gauche
             }
             //else de le remettre à 0 ne sert à rien
             int _coef = (int)(_chrono / 100);
