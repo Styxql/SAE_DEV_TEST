@@ -370,7 +370,7 @@ namespace SAE_DEV
 
                 if (_keyboardState.IsKeyDown(Keys.K) && _delaiKlaxon > 1)
                 {
-                    _klaxon.Play(0.1f,0,0);
+                    _klaxon.Play(0.5f,0,0);
                     _delaiKlaxon = 0;
                 }
                 //Spawn d'un ennemie et timer          
@@ -460,7 +460,7 @@ namespace SAE_DEV
                 if (_pointDeVie <= 0 || _barreEssence <= 0)
                 {
                     _estMort = true;
-                    _estEntrainDeJouer = false;
+                    //_estEntrainDeJouer = false;
                     List<Classement> _lesClassements = Classement.ReadAll();
                     _lesClassements.Add(new Classement("joueur" + (_lesClassements.Count + 1), _score));
                     _lesClassements.Sort();
