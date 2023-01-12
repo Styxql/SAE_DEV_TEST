@@ -64,7 +64,6 @@ namespace SAE_DEV
 
                 _positionVoiture.X += _positionVoiture.X * deltaSeconds - VITESSE_VOITURE;
 
-
                 _barreChargement += 10 * deltaSeconds;
 
             }
