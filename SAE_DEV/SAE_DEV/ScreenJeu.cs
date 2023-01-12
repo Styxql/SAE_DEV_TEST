@@ -466,7 +466,7 @@ namespace SAE_DEV
                     _lesClassements.Sort();
                     Classement.WriteAll(_lesClassements);
                     _myGame.Etat = Game1.Etats.Lose;
-                    _myGame.LoadScreen(Game1.Etats.Lose);SS
+                    _myGame.LoadScreen(Game1.Etats.Lose);
                 }
             }
 
